@@ -3,32 +3,33 @@ using namespace std;
 
 int main()
 {
-    int half_rows = 7;
-    int center;
-    for (int i = 0; i < half_rows; i++)
+    int total_rows;
+    cin >> total_rows;
+    int center_row = (total_rows / 2) + 1;
+    for (int row = 0; row < center_row; row++)
     {
-        for (int j = 0; j <= i; j++)
+        for (int col = 0; col <= row; col++)
         {
-            if (j % 2 == 0)
+            if (col % 2 == 0)
                 cout << "1 ";
             else
                 cout << "0 ";
         }
-        for (int j = i; j < half_rows - 1; j++)
+        for (int col = row; col < center_row - 1; col++)
         {
             cout << "  ";
         }
-        for (int j = i + 1; j < half_rows - 1; j++)
+        for (int col = row + 1; col < center_row - 1; col++)
         {
             cout << "  ";
         }
-        for (int j = 0; j <= i; j++)
+        for (int col = 0; col <= row; col++)
         {
-            if (half_rows % 2 == 0)
+            if (center_row % 2 == 0)
             {
-                if (j % 2 == 0)
+                if (col % 2 == 0)
                 {
-                    if (i == half_rows - 1 && j == 0)
+                    if (row == center_row - 1 && col == 0)
                     {
                         continue;
                     }
@@ -42,9 +43,9 @@ int main()
             }
             else
             {
-                if (j % 2 == 0)
+                if (col % 2 == 0)
                 {
-                    if (i == half_rows - 1 && j == 0)
+                    if (row == center_row - 1 && col == 0)
                     {
                         continue;
                     }
@@ -59,35 +60,35 @@ int main()
         }
         cout << endl;
     }
-    for (int i = 0; i < half_rows - 1; i++)
+    for (int row = 0; row < center_row - 1; row++)
     {
-        for (int j = 0; j < half_rows - 1 - i; j++)
+        for (int col = 0; col < center_row - 1 - row; col++)
         {
-            if (j % 2 == 0)
+            if (col % 2 == 0)
                 cout << "1 ";
             else
                 cout << "0 ";
         }
-        for (int j = 0; j <= i; j++)
+        for (int col = 0; col <= row; col++)
         {
             cout << "  ";
         }
-        for (int j = 1; j <= i; j++)
+        for (int col = 1; col <= row; col++)
         {
             cout << "  ";
         }
-        for (int j = 0; j < half_rows - 1 - i; j++)
+        for (int col = 0; col < center_row - 1 - row; col++)
         {
-            if (half_rows % 2 == 0)
+            if (center_row % 2 == 0)
             {
-                if (j % 2 == 0)
+                if (col % 2 == 0)
                     cout << "0 ";
                 else
                     cout << "1 ";
             }
             else
             {
-                if (j % 2 == 0)
+                if (col % 2 == 0)
                     cout << "1 ";
                 else
                     cout << "0 ";
