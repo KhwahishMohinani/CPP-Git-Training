@@ -17,6 +17,6 @@ int main()
     }
     catch(const char *e)
     {
-        cout<<"Exception occurred";
+        cout<<"Exception occurred: "<<e<<endl;
     }
 }
