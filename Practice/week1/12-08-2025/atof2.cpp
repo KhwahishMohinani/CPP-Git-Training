@@ -84,7 +84,9 @@ double atof_func(string str)
 
 int main()
 {
-    string str = "6.54";
+    string str;
+    cout << "Enter the string: ";
+    cin >> str;
     double ans = atof_func(str);
     cout << ans << endl;
     return 0;
