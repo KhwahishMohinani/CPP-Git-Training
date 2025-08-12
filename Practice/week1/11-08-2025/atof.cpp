@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 double atof_func(string str)
@@ -6,6 +7,7 @@ double atof_func(string str)
     double num = 0.0;
     double result;
     double frac = 0.0;
+    double count_after_point = 0.0;
     double divisor = 10.0;
     bool isNegative = false;
     bool afterDecimal = false;
@@ -29,8 +31,8 @@ double atof_func(string str)
             }
             else
             {
-                frac = frac + digit / divisor;
-                divisor = divisor * 10;
+                frac = frac * 10 + digit;
+                count_after_point++;
             }
         }
         else
@@ -38,14 +40,17 @@ double atof_func(string str)
             cout << "Invalid Input";
         }
     }
+    frac = frac / (pow(10, count_after_point));
     result = num + frac;
+    if (isNegative)
+        result = -result;
     return result;
 }
 
 int main()
 {
-    string str = "3.086";
+    string str = "387569.086";
     double ans = atof_func(str);
-    cout << ans;
+    cout << ans << endl;
     return 0;
 }
