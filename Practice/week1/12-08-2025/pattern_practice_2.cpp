@@ -34,35 +34,21 @@ int main()
         }
         for (int col = 0; col <= row; col++)
         {
-            if (center_row % 2 == 0)
+            if (row == center_row && col == 0 && center_row % 2 == 0)
             {
-                if (col % 2 == 0)
-                {
-                    if (row == center_row && col == 0)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        cout << "1 ";
-                    }
-                }
-                else
-                    cout << "0 ";
+                continue;
+            }
+            if (col % 2 == 0)
+            {
+
+                cout << "1 ";
             }
             else
-            {
-                if (col % 2 == 0)
-                {
-                    cout << "1 ";
-                }
-                else
-                    cout << "0 ";
-            }
+                cout << "0 ";
         }
         cout << endl;
     }
-    for (int row = 0; row <= center_row; row++)
+    for (int row = 0; row < center_row; row++)
     {
         for (int col = 0; col < center_row - row; col++)
         {
@@ -91,20 +77,10 @@ int main()
         }
         for (int col = 0; col < center_row - row; col++)
         {
-            if (center_row % 2 == 0)
-            {
-                if (col % 2 == 0)
-                    cout << "1 ";
-                else
-                    cout << "0 ";
-            }
+            if (col % 2 == 0)
+                cout << "1 ";
             else
-            {
-                if (col % 2 == 0)
-                    cout << "1 ";
-                else
-                    cout << "0 ";
-            }
+                cout << "0 ";
         }
         cout << endl;
     }
