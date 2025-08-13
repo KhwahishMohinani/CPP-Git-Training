@@ -32,7 +32,7 @@ double atof_func(string str)
         {
             afterDecimal = true;
         }
-        else if (c == 'e')
+        else if (c == 'e' && inExponent == false)
         {
             inExponent = true;
             if (i + 1 < str.length() && (str[i + 1] == '-' || str[i + 1] == '+'))
