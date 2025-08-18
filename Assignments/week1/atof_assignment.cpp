@@ -16,6 +16,24 @@ void skipSpacesAndCheckSign(const char *str, int &index, bool &isNegative)
     }
 }
 
+bool checkSpecialValues(const char *str, int index, double &result)
+{
+    std::string lower = "";
+    for (int j = index; j < index + 3; j++)
+        lower += str[j];
+    if (lower == "inf")
+    {
+        result = INFINITY;
+        return true;
+    }
+    if (lower == "nan")
+    {
+        result = NAN;
+        return true;
+    }
+    return false;
+}
+
 double atof_func(const char *str)
 {
     double integerPart = 0.0;
@@ -33,22 +51,12 @@ double atof_func(const char *str)
 
     skipSpacesAndCheckSign(str, index, isNegative);
 
-    std::string lower = "";
-    for (int j = index; j < index + 3; j++)
-        lower += str[j];
-    if (lower == "inf")
+    if (checkSpecialValues(str, index, result))
     {
         if (isNegative)
-            return -INFINITY;
+            return -result;
         else
-            return INFINITY;
-    }
-    if (lower == "nan")
-    {
-        if (isNegative)
-            return -NAN;
-        else
-            return NAN;
+            return result;
     }
 
     while (str[index] != '\0')
