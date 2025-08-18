@@ -1,35 +1,40 @@
 #include <iostream>
 #include <cmath>
 #include <stdlib.h>
-using namespace std;
+
+void skipSpacesAndCheckSign(const char *str, int &index, bool &isNegative)
+{
+    while (str[index] != '\0' && str[index] == ' ')
+    {
+        index++;
+    }
+    if (str[index] != '\0' && (str[index] == '-' || str[index] == '+'))
+    {
+        if (str[index] == '-')
+            isNegative = true;
+        index++;
+    }
+}
 
 double atof_func(const char *str)
 {
-    double num = 0.0;
+    double integerPart = 0.0;
     double result;
-    double frac = 0.0;
-    double exponent = 0.0;
-    double count_after_point = 0.0;
+    double fractionalPart = 0.0;
+    double exponentValue = 0.0;
+    double decimalCount = 0.0;
     double divisor = 10.0;
     bool isNegative = false;
-    bool afterDecimal = false;
-    bool inExponent = false;
+    bool isAfterDecimal = false;
+    bool isInExponent = false;
     bool isNegExponent = false;
     bool hasDigits = false;
-    int i = 0;
-    while (str[i] != '\0' && str[i] == ' ')
-    {
-        i++;
-    }
-    if (str[i] != '\0' && (str[i] == '-' || str[i] == '+'))
-    {
-        if (str[i] == '-')
-            isNegative = true;
-        i++;
-    }
+    int index = 0;
 
-    string lower = "";
-    for (int j = i; j < i + 3; j++)
+    skipSpacesAndCheckSign(str, index, isNegative);
+
+    std::string lower = "";
+    for (int j = index; j < index + 3; j++)
         lower += str[j];
     if (lower == "inf")
     {
@@ -46,61 +51,61 @@ double atof_func(const char *str)
             return NAN;
     }
 
-    while (str[i] != '\0')
+    while (str[index] != '\0')
     {
-        char c = str[i];
-        if (afterDecimal == false && c == '.')
+        char c = str[index];
+        if (isAfterDecimal == false && c == '.')
         {
-            afterDecimal = true;
+            isAfterDecimal = true;
         }
-        else if ((c == 'e' || c == 'E') && inExponent == false)
+        else if ((c == 'e' || c == 'E') && isInExponent == false)
         {
-            inExponent = true;
-            if (str[i + 1] != '\0' && (str[i + 1] == '-' || str[i + 1] == '+'))
+            isInExponent = true;
+            if (str[index + 1] != '\0' && (str[index + 1] == '-' || str[index + 1] == '+'))
             {
-                if (str[i + 1] == '-')
+                if (str[index + 1] == '-')
                     isNegExponent = true;
-                i++;
+                index++;
             }
         }
         else if (c >= '0' && c <= '9')
         {
             hasDigits = true;
             int digit = c - '0';
-            if (inExponent == false)
+            if (isInExponent == false)
             {
-                if (afterDecimal == false)
+                if (isAfterDecimal == false)
                 {
-                    num = num * 10 + digit;
+                    integerPart = integerPart * 10 + digit;
                 }
                 else
                 {
-                    frac = frac * 10 + digit;
-                    count_after_point++;
+                    fractionalPart = fractionalPart * 10 + digit;
+                    decimalCount++;
                 }
             }
             else
             {
-                exponent = exponent * 10 + digit;
+                exponentValue = exponentValue * 10 + digit;
             }
         }
         else
         {
             break;
         }
-        i++;
+        index++;
     }
 
     if (hasDigits == false)
         return 0.0;
 
-    frac = frac / (pow(10, count_after_point));
-    result = num + frac;
-    if (inExponent)
+    fractionalPart = fractionalPart / (pow(10, decimalCount));
+    result = integerPart + fractionalPart;
+    if (isInExponent)
     {
         if (isNegExponent)
-            exponent = -exponent;
-        result = result * pow(10, exponent);
+            exponentValue = -exponentValue;
+        result = result * pow(10, exponentValue);
     }
     if (isNegative)
         result = -result;
@@ -110,12 +115,12 @@ double atof_func(const char *str)
 int main()
 {
     char input[100];
-    cout << "Enter the string: ";
-    cin >> input;
+    std::cout << "Enter the string: ";
+    std::cin >> input;
     const char *str = input;
     double ans = atof_func(str);
-    cout << ans << endl;
+    std::cout << ans << "\n";
     double result = atof(str);
-    cout << result << endl;
+    std::cout << result << "\n";
     return 1;
 }

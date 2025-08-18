@@ -1,26 +1,25 @@
 #include <iostream>
-using namespace std;
 
-int convertToDigit(string input)
+int convertToDigit(std::string input)
 {
-    int num = 0;
-    int size = input.length();
-    for (int i = 0; i < size; i++)
+    int number = 0;
+    int length = input.length();
+    for (int i = 0; i < length; i++)
     {
         if (input[i] >= '0' && input[i] <= '9')
         {
             int digit = input[i] - '0';
-            num = num * 10 + digit;
+            number = number * 10 + digit;
         }
         else
         {
             return -1;
         }
     }
-    return num;
+    return number;
 }
 
-void print_numbers(int row, int center_row, bool isUpperRight)
+void printNumbers(int row, int center_row, bool isUpperRight)
 {
     for (int col = 0; col <= row; col++)
     {
@@ -31,72 +30,73 @@ void print_numbers(int row, int center_row, bool isUpperRight)
         if (col % 2 == 0)
         {
 
-            cout << "1 ";
+            std::cout << "1 ";
         }
         else
-            cout << "0 ";
+            std::cout << "0 ";
     }
 }
 
-void print_spaces(int space)
+void printSpaces(int space)
 {
     for (int i = 0; i < space; i++)
     {
-        cout << "  ";
+        std::cout << "  ";
     }
 }
 
-void pattern(int center_row)
+void pattern(int centerRow)
 {
-    for (int row = 0; row <= center_row; row++)
+    for (int row = 0; row <= centerRow; row++)
     {
-        print_numbers(row, center_row, false);
+        printNumbers(row, centerRow, false);
 
-        print_spaces(center_row - row);
+        printSpaces(centerRow - row);
 
-        if (center_row % 2 == 0)
+        if (centerRow % 2 == 0)
         {
-            print_spaces(center_row - row - 1);
+            printSpaces(centerRow - row - 1);
         }
         else
         {
-            print_spaces(center_row - row);
+            printSpaces(centerRow - row);
         }
 
-        print_numbers(row, center_row, true);
+        printNumbers(row, centerRow, true);
 
-        cout << "\n";
+        std::cout << "\n";
     }
-    for (int row = 0; row < center_row; row++)
+    for (int row = 0; row < centerRow; row++)
     {
-        print_numbers(center_row - row - 1, center_row, false);
+        printNumbers(centerRow - row - 1, centerRow, false);
 
-        print_spaces(row + 1);
+        printSpaces(row + 1);
 
-        if (center_row % 2 == 0)
+        if (centerRow % 2 == 0)
         {
-            print_spaces(row);
+            printSpaces(row);
         }
         else
         {
-            print_spaces(row + 1);
+            printSpaces(row + 1);
         }
 
-        print_numbers(center_row - row - 1, center_row, false);
+        printNumbers(centerRow - row - 1, centerRow, false);
 
-        cout << "\n";
+        std::cout << "\n";
     }
 }
 
 int main()
 {
-    int center_row;
-    string input;
-    cin >> input;
-    center_row = convertToDigit(input);
-    if (center_row <= 0)
-        cout << "Invalid Input\n";
+    std::cout << "Enter the number of rows: ";
+    int centerRow;
+    std::string input;
+    std::cin >> input;
+    centerRow = convertToDigit(input);
+    if (centerRow <= 0)
+        std::cout << "Invalid Input\n";
     else
-        pattern(center_row);
+        pattern(centerRow);
     return 0;
 }
