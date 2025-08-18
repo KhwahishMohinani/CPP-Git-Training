@@ -2,12 +2,16 @@
 #include <cmath>
 #include <stdlib.h>
 
-void skipSpacesAndCheckSign(const char *str, int &index, bool &isNegative)
+void skipSpaces(const char *str, int &index)
 {
     while (str[index] != '\0' && str[index] == ' ')
     {
         index++;
     }
+}
+
+void checkSign(const char *str, int &index, bool &isNegative)
+{
     if (str[index] != '\0' && (str[index] == '-' || str[index] == '+'))
     {
         if (str[index] == '-')
@@ -49,7 +53,9 @@ double atof_func(const char *str)
     bool hasDigits = false;
     int index = 0;
 
-    skipSpacesAndCheckSign(str, index, isNegative);
+    skipSpaces(str, index);
+
+    checkSign(str, index, isNegative);
 
     if (checkSpecialValues(str, index, result))
     {
@@ -130,5 +136,5 @@ int main()
     std::cout << ans << "\n";
     double result = atof(str);
     std::cout << result << "\n";
-    return 1;
+    return 0;
 }
