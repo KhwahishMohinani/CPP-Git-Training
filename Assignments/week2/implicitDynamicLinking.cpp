@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <cfloat>
 #include "maths.h"
 
 bool getNumbers(double &num1, double &num2)
@@ -19,7 +20,7 @@ void getChoice(char &mathOperator)
     std::cin >> mathOperator;
 }
 
-double operation(double &num1, double &num2, char &mathOperator)
+double operation(double num1, double num2, char mathOperator)
 {
     double result;
     switch (mathOperator)
@@ -40,6 +41,7 @@ double operation(double &num1, double &num2, char &mathOperator)
         if (num2 == 0)
         {
             std::cout << "Cannot be divided by zero\n";
+            return DBL_MAX;
         }
         result = division(num1, num2);
         break;
@@ -49,8 +51,7 @@ double operation(double &num1, double &num2, char &mathOperator)
 
 void printResult(double &result)
 {
-    if (result != INFINITY && result != -INFINITY)
-        std::cout << result << "\n";
+    std::cout << result << "\n";
 }
 
 int main()
@@ -61,6 +62,8 @@ int main()
         return -1;
     getChoice(mathOperator);
     double result = operation(num1, num2, mathOperator);
+    if (result == DBL_MAX)
+        return -1;
     printResult(result);
     return 0;
 }
