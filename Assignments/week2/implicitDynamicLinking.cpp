@@ -1,0 +1,60 @@
+#include <iostream>
+#include <cmath>
+#include "maths.h"
+
+void getNumbers(double &num1, double &num2)
+{
+    std::cout << "Enter two numbers:\n";
+    std::cin >> num1 >> num2;
+}
+
+void getChoice(char &mathOperator)
+{
+    std::cout << "Enter the operator:\n";
+    std::cin >> mathOperator;
+}
+
+double operation(double &num1, double &num2, char &mathOperator)
+{
+    double result;
+    switch (mathOperator)
+    {
+    case '+':
+        result = addition(num1, num2);
+        break;
+
+    case '-':
+        result = subtraction(num1, num2);
+        break;
+
+    case '*':
+        result = multiplication(num1, num2);
+        break;
+
+    case '/':
+        if (num2 == 0)
+        {
+            std::cout << "Cannot be divided by zero\n";
+        }
+        result = division(num1, num2);
+        break;
+    }
+    return result;
+}
+
+void printResult(double &result)
+{
+    if (result != INFINITY && result != -INFINITY)
+        std::cout << result << "\n";
+}
+
+int main()
+{
+    double num1, num2;
+    char mathOperator;
+    getNumbers(num1, num2);
+    getChoice(mathOperator);
+    double result = operation(num1, num2, mathOperator);
+    printResult(result);
+    return 0;
+}
