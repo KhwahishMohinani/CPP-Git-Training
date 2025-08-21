@@ -110,8 +110,7 @@ double operation(double num1, double num2, char mathOperator)
 
 void printResult(double &result)
 {
-    if (result != INFINITY && result != -INFINITY)
-        std::cout << result << "\n";
+    std::cout << result << "\n";
 }
 
 int main()

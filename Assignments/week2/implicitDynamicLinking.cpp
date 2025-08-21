@@ -2,10 +2,15 @@
 #include <cmath>
 #include "maths.h"
 
-void getNumbers(double &num1, double &num2)
+bool getNumbers(double &num1, double &num2)
 {
     std::cout << "Enter two numbers:\n";
-    std::cin >> num1 >> num2;
+    if (!(std::cin >> num1 >> num2))
+    {
+        std::cerr << "Invalid input\n";
+        return false;
+    }
+    return true;
 }
 
 void getChoice(char &mathOperator)
@@ -52,7 +57,8 @@ int main()
 {
     double num1, num2;
     char mathOperator;
-    getNumbers(num1, num2);
+    if (!getNumbers(num1, num2))
+        return -1;
     getChoice(mathOperator);
     double result = operation(num1, num2, mathOperator);
     printResult(result);
