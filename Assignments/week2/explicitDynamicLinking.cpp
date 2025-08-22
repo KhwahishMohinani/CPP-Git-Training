@@ -3,6 +3,12 @@
 #include <cfloat>
 #include <dlfcn.h>
 
+struct OperationResult
+{
+    double value;
+    bool errorCode;
+};
+
 bool getNumbers(double &num1, double &num2)
 {
     std::cout << "Enter two numbers:\n";
@@ -20,16 +26,16 @@ void getChoice(char &mathOperator)
     std::cin >> mathOperator;
 }
 
-double operation(double num1, double num2, char mathOperator)
+OperationResult operation(double num1, double num2, char mathOperator)
 {
     void *handle = dlopen("./libmaths.so", RTLD_LAZY);
     if (!handle)
     {
         std::cerr << "Cannot load file " << dlerror() << "\n";
-        return DBL_MAX;
+        return {0.0, true};
     }
 
-    double result = DBL_MAX;
+    OperationResult result = {0.0, false};
     switch (mathOperator)
     {
     case '+':
@@ -42,9 +48,9 @@ double operation(double num1, double num2, char mathOperator)
         {
             std::cerr << "Cannot load symbol addition " << error << "\n";
             dlclose(handle);
-            return DBL_MAX;
+            return {0.0, true};
         }
-        result = addition(num1, num2);
+        result.value = addition(num1, num2);
         break;
     }
     case '-':
@@ -57,9 +63,9 @@ double operation(double num1, double num2, char mathOperator)
         {
             std::cerr << "Cannot load symbol subtraction " << error << "\n";
             dlclose(handle);
-            return DBL_MAX;
+            return {0.0, true};
         }
-        result = subtraction(num1, num2);
+        result.value = subtraction(num1, num2);
         break;
     }
     case '*':
@@ -72,9 +78,9 @@ double operation(double num1, double num2, char mathOperator)
         {
             std::cerr << "Cannot load symbol multiplication " << error << "\n";
             dlclose(handle);
-            return DBL_MAX;
+            return {0.0, true};
         }
-        result = multiplication(num1, num2);
+        result.value = multiplication(num1, num2);
         break;
     }
     case '/':
@@ -83,7 +89,7 @@ double operation(double num1, double num2, char mathOperator)
         {
             std::cout << "Cannot be divided by zero\n";
             dlclose(handle);
-            return DBL_MAX;
+            return {0.0, true};
         }
 
         typedef double (*division_t)(double, double);
@@ -94,21 +100,21 @@ double operation(double num1, double num2, char mathOperator)
         {
             std::cerr << "Cannot load symbol division " << error << "\n";
             dlclose(handle);
-            return DBL_MAX;
+            return {0.0, true};
         }
-        result = division(num1, num2);
+        result.value = division(num1, num2);
         break;
     }
     default:
         std::cerr << "Invalid operator\n";
         dlclose(handle);
-        return DBL_MAX;
+        return {0.0, true};
     }
     dlclose(handle);
     return result;
 }
 
-void printResult(double &result)
+void printResult(double result)
 {
     std::cout << result << "\n";
 }
@@ -120,9 +126,12 @@ int main()
     if (!getNumbers(num1, num2))
         return -1;
     getChoice(mathOperator);
-    double result = operation(num1, num2, mathOperator);
-    if (result == DBL_MAX)
+    OperationResult ans = operation(num1, num2, mathOperator);
+    if (ans.errorCode == true)
+    {
+        std::cerr << "Operation failed!\n";
         return -1;
-    printResult(result);
+    }
+    printResult(ans.value);
     return 0;
 }

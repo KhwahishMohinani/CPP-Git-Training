@@ -3,6 +3,12 @@
 #include <cfloat>
 #include "maths.h"
 
+struct OperationResult
+{
+    double value;
+    bool errorCode;
+};
+
 bool getNumbers(double &num1, double &num2)
 {
     std::cout << "Enter two numbers:\n";
@@ -20,31 +26,34 @@ void getChoice(char &mathOperator)
     std::cin >> mathOperator;
 }
 
-double operation(double num1, double num2, char mathOperator)
+OperationResult operation(double num1, double num2, char mathOperator)
 {
-    double result;
+    OperationResult result;
     switch (mathOperator)
     {
     case '+':
-        result = addition(num1, num2);
+        result.value = addition(num1, num2);
         break;
 
     case '-':
-        result = subtraction(num1, num2);
+        result.value = subtraction(num1, num2);
         break;
 
     case '*':
-        result = multiplication(num1, num2);
+        result.value = multiplication(num1, num2);
         break;
 
     case '/':
         if (num2 == 0)
         {
             std::cout << "Cannot be divided by zero\n";
-            return DBL_MAX;
+            return {0.0, true};
         }
-        result = division(num1, num2);
+        result.value = division(num1, num2);
         break;
+    default:
+        std::cerr << "Invalid operator\n";
+        return {0.0, true};
     }
     return result;
 }
@@ -61,9 +70,12 @@ int main()
     if (!getNumbers(num1, num2))
         return -1;
     getChoice(mathOperator);
-    double result = operation(num1, num2, mathOperator);
-    if (result == DBL_MAX)
+    OperationResult ans = operation(num1, num2, mathOperator);
+    if (ans.errorCode == true)
+    {
+        std::cerr << "Operation Failed";
         return -1;
-    printResult(result);
+    }
+    printResult(ans.value);
     return 0;
 }
