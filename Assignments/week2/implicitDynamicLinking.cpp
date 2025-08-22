@@ -28,7 +28,7 @@ void getChoice(char &mathOperator)
 
 OperationResult operation(double num1, double num2, char mathOperator)
 {
-    OperationResult result;
+    OperationResult result = {0.0, false};
     switch (mathOperator)
     {
     case '+':
@@ -46,7 +46,7 @@ OperationResult operation(double num1, double num2, char mathOperator)
     case '/':
         if (num2 == 0)
         {
-            std::cout << "Cannot be divided by zero\n";
+            std::cerr << "Cannot be divided by zero\n";
             return {0.0, true};
         }
         result.value = division(num1, num2);
@@ -73,7 +73,7 @@ int main()
     OperationResult ans = operation(num1, num2, mathOperator);
     if (ans.errorCode == true)
     {
-        std::cerr << "Operation Failed";
+        std::cerr << "Operation Failed\n";
         return -1;
     }
     printResult(ans.value);
