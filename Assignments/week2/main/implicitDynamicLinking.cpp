@@ -1,7 +1,9 @@
 #include <iostream>
 #include <cmath>
-#include <cfloat>
-#include "maths.h"
+#include "../include/addition.h"
+#include "../include/subtraction.h"
+#include "../include/multiplication.h"
+#include "../include/division.h"
 
 struct OperationResult
 {

@@ -1,6 +1,4 @@
 #include <iostream>
-#include <cmath>
-#include <cfloat>
 #include <dlfcn.h>
 
 struct OperationResult
@@ -28,7 +26,7 @@ void getChoice(char &mathOperator)
 
 OperationResult operation(double num1, double num2, char mathOperator)
 {
-    void *handle = dlopen("./libmaths.so", RTLD_LAZY);
+    void *handle = dlopen("./build/libmaths.so", RTLD_LAZY);
     if (!handle)
     {
         std::cerr << "Cannot load file " << dlerror() << "\n";
@@ -40,9 +38,7 @@ OperationResult operation(double num1, double num2, char mathOperator)
     {
     case '+':
     {
-        typedef double (*addition_t)(double, double);
-        addition_t addition = (addition_t)dlsym(handle, "addition");
-
+        double (*addition)(double, double) = (double (*)(double, double))dlsym(handle, "addition");
         const char *error = dlerror();
         if (error != NULL)
         {
@@ -55,8 +51,7 @@ OperationResult operation(double num1, double num2, char mathOperator)
     }
     case '-':
     {
-        typedef double (*subtraction_t)(double, double);
-        subtraction_t subtraction = (subtraction_t)dlsym(handle, "subtraction");
+        double (*subtraction)(double, double) = (double (*)(double, double))dlsym(handle, "subtraction");
 
         const char *error = dlerror();
         if (error != NULL)
@@ -70,8 +65,7 @@ OperationResult operation(double num1, double num2, char mathOperator)
     }
     case '*':
     {
-        typedef double (*multiplication_t)(double, double);
-        multiplication_t multiplication = (multiplication_t)dlsym(handle, "multiplication");
+        double (*multiplication)(double, double) = (double (*)(double, double))dlsym(handle, "multiplication");
 
         const char *error = dlerror();
         if (error != NULL)
@@ -92,8 +86,7 @@ OperationResult operation(double num1, double num2, char mathOperator)
             return {0.0, true};
         }
 
-        typedef double (*division_t)(double, double);
-        division_t division = (division_t)dlsym(handle, "division");
+        double (*division)(double, double) = (double (*)(double, double))dlsym(handle, "division");
 
         const char *error = dlerror();
         if (error != NULL)
