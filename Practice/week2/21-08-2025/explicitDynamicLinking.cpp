@@ -16,7 +16,7 @@ void callLibrary(int n)
         std::cerr << "Cannot load symbol 'fibonacci_series' " << dlerror() << "\n";
         return;
     }
-    std::cout << "The fibonacci series for the term " << n << " is :" << fibonacci(n) << "\n";
+    std::cout << "The fibonacci series for the term " << n << " is : " << fibonacci(n) << "\n";
 
     dlclose(handle);
 }
