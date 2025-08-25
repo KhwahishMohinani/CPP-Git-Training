@@ -1,4 +1,4 @@
-#include "../include/addition.h"
+#include "addition.h"
 
 extern "C" double addition(double num1, double num2)
 {

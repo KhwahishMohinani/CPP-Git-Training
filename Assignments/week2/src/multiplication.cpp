@@ -1,4 +1,4 @@
-#include "../include/multiplication.h"
+#include "multiplication.h"
 
 extern "C" double multiplication(double num1, double num2)
 {
