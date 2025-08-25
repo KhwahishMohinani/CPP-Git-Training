@@ -3,14 +3,14 @@
 
 int main()
 {
-    void *core = dlopen("./libcore.so", RTLD_LAZY | RTLD_GLOBAL);
+    void *core = dlopen("./libcore.so", 0);
     if (!core)
     {
         std::cout << "Cannot load core file " << dlerror() << "\n";
         dlclose(core);
         return 1;
     }
-    void *plugin = dlopen("./libplugin.so", RTLD_LAZY | RTLD_LOCAL);
+    void *plugin = dlopen("./libplugin.so", 0);
     if (!plugin)
     {
         std::cerr << "Cannot load plugin file " << dlerror() << '\n';
