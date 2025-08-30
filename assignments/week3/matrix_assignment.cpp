@@ -43,6 +43,15 @@ void printValues(int **matrix, int rows, int columns)
     }
 }
 
+int **prepareMatrix(int &rows, int &columns)
+{
+    getDimensions(rows, columns);
+    int **matrix = createMatrix(rows, columns);
+    getValues(matrix, rows, columns);
+    printValues(matrix, rows, columns);
+    return matrix;
+}
+
 void getOperator(char &opr)
 {
     std::cout << "Enter the Operation\n";
@@ -95,30 +104,9 @@ int **performMultiplication(int **matrix1, int **matrix2, int rows1, int columns
     return resultMatrix;
 }
 
-void deleteMatrix(int **matrix, int rows)
+int **executeOperation(char opr, int **matrix1, int **matrix2, int rows1, int columns1, int rows2, int columns2)
 {
-    for (int i = 0; i < rows; i++)
-    {
-        delete[] matrix[i];
-    }
-    delete[] matrix;
-}
-
-int main()
-{
-    int rows1, columns1, rows2, columns2;
-    char opr;
-    getDimensions(rows1, columns1);
-    int **matrix1 = createMatrix(rows1, columns1);
-    getValues(matrix1, rows1, columns1);
-    printValues(matrix1, rows1, columns1);
-    std::cout << "For second matrix\n";
-    getDimensions(rows2, columns2);
-    int **matrix2 = createMatrix(rows2, columns2);
-    getValues(matrix2, rows2, columns2);
-    printValues(matrix2, rows2, columns2);
-    getOperator(opr);
-    int **resultMatrix;
+    int **resultMatrix = nullptr;
     switch (opr)
     {
     case '+':
@@ -126,13 +114,11 @@ int main()
         if (!isValidForAddition(rows1, columns1, rows2, columns2))
         {
             std::cout << "Cannot perform addition\n";
-            deleteMatrix(matrix2, rows2);
-            deleteMatrix(matrix1, rows1);
-            return 1;
         }
-        resultMatrix = performAddition(matrix1, matrix2, rows1, columns1);
-        printValues(resultMatrix, rows1, columns1);
-        deleteMatrix(resultMatrix, rows1);
+        else
+        {
+            resultMatrix = performAddition(matrix1, matrix2, rows1, columns1);
+        }
         break;
     }
     case '*':
@@ -140,13 +126,11 @@ int main()
         if (!isValidForMultiplication(columns1, rows2))
         {
             std::cout << "Cannot perform multiplication\n";
-            deleteMatrix(matrix2, rows2);
-            deleteMatrix(matrix1, rows1);
-            return 1;
         }
-        resultMatrix = performMultiplication(matrix1, matrix2, rows1, columns1, columns2);
-        printValues(resultMatrix, rows1, columns2);
-        deleteMatrix(resultMatrix, rows1);
+        else
+        {
+            resultMatrix = performMultiplication(matrix1, matrix2, rows1, columns1, columns2);
+        }
         break;
     }
     default:
@@ -155,7 +139,40 @@ int main()
         break;
     }
     }
-    deleteMatrix(matrix2, rows2);
+    return resultMatrix;
+}
+
+void deleteMatrix(int **&matrix, int rows)
+{
+    for (int i = 0; i < rows; i++)
+    {
+        delete[] matrix[i];
+    }
+    delete[] matrix;
+    matrix = nullptr;
+}
+
+int main()
+{
+    int rows1, columns1, rows2, columns2;
+    char opr;
+    int **matrix1 = prepareMatrix(rows1, columns1);
+    std::cout << "For second matrix\n";
+    int **matrix2 = prepareMatrix(rows2, columns2);
+    getOperator(opr);
+    int **resultMatrix = executeOperation(opr, matrix1, matrix2, rows1, columns1, rows2, columns2);
+
+    if (resultMatrix)
+    {
+        if (opr == '+')
+            printValues(resultMatrix, rows1, columns1);
+        else if (opr == '*')
+            printValues(resultMatrix, rows1, columns2);
+
+        deleteMatrix(resultMatrix, rows1);
+    }
+
     deleteMatrix(matrix1, rows1);
+    deleteMatrix(matrix2, rows2);
     return 0;
 }
