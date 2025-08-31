@@ -1,5 +1,8 @@
 #include <iostream>
 #include "matrix.h"
+#include "input.h"
+#include "operations.h"
+#include "print.h"
 
 int main()
 {
