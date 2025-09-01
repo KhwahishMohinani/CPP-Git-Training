@@ -5,22 +5,38 @@
 
 int getValidInt()
 {
-    int value;
-    bool valid = false;
-    do
+    std::string input;
+    int number = -1;
+
+    while (true)
     {
-        if (std::cin >> value && value > 0)
+        std::cin >> input;
+        number = 0;
+        bool valid = true;
+
+        for (char ch : input)
         {
-            valid = true;
+            if (ch >= '0' && ch <= '9')
+            {
+                int digit = ch - '0';
+                number = number * 10 + digit;
+            }
+            else
+            {
+                valid = false;
+                break;
+            }
+        }
+
+        if (valid && number > 0)
+        {
+            return number;
         }
         else
         {
-            std::cout << "Invalid input. Please enter a positive integer.\n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid input. Please enter a positive integer: ";
         }
-    } while (!valid);
-    return value;
+    }
 }
 
 double getValidDouble()
