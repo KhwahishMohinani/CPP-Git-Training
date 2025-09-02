@@ -43,9 +43,9 @@ void performMultiplication(const Matrix &matrix1, const Matrix &matrix2, Matrix 
     }
 }
 
-Matrix executeOperation(char opr, const Matrix &matrix1, const Matrix &matrix2)
+Matrix *executeOperation(char opr, const Matrix &matrix1, const Matrix &matrix2)
 {
-    Matrix resultMatrix = {nullptr, 0, 0};
+    Matrix *resultMatrixPtr = new Matrix{nullptr, 0, 0};
     switch (opr)
     {
     case '+':
@@ -53,10 +53,11 @@ Matrix executeOperation(char opr, const Matrix &matrix1, const Matrix &matrix2)
         if (!isValidForAddition(matrix1, matrix2))
         {
             std::cout << "Cannot perform addition. Both matrices should have same dimensions\n";
+            resultMatrixPtr = nullptr;
         }
         else
         {
-            performAddition(matrix1, matrix2, resultMatrix);
+            performAddition(matrix1, matrix2, *resultMatrixPtr);
         }
         break;
     }
@@ -65,10 +66,11 @@ Matrix executeOperation(char opr, const Matrix &matrix1, const Matrix &matrix2)
         if (!isValidForMultiplication(matrix1, matrix2))
         {
             std::cout << "Cannot perform multiplication. Columns of first matrix should be equal to rows of second matrix\n";
+            resultMatrixPtr = nullptr;
         }
         else
         {
-            performMultiplication(matrix1, matrix2, resultMatrix);
+            performMultiplication(matrix1, matrix2, *resultMatrixPtr);
         }
         break;
     }
@@ -78,5 +80,5 @@ Matrix executeOperation(char opr, const Matrix &matrix1, const Matrix &matrix2)
         break;
     }
     }
-    return resultMatrix;
+    return resultMatrixPtr;
 }

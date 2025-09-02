@@ -10,18 +10,23 @@ int main()
     Matrix matrix1;
     prepareMatrix(matrix1);
     printValues(matrix1);
+
     std::cout << "For second matrix\n";
     Matrix matrix2;
     prepareMatrix(matrix2);
     printValues(matrix2);
-    getOperator(opr);
-    Matrix resultMatrix = executeOperation(opr, matrix1, matrix2);
 
-    if (resultMatrix.data != nullptr)
+    getOperator(opr);
+
+    Matrix *resultMatrixPtr = executeOperation(opr, matrix1, matrix2);
+
+    if (resultMatrixPtr != nullptr && resultMatrixPtr->data != nullptr)
     {
-        printValues(resultMatrix);
-        deleteMatrix(resultMatrix);
+        printValues(*resultMatrixPtr);
+        deleteMatrix(*resultMatrixPtr);
     }
+
+    delete (resultMatrixPtr);
 
     deleteMatrix(matrix1);
     deleteMatrix(matrix2);
