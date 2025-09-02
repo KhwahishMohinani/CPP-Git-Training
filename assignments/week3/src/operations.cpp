@@ -54,7 +54,7 @@ matrix executeOperation(char opr, const matrix &m1, const matrix &m2)
     {
         if (!isValidForAddition(m1, m2))
         {
-            std::cout << "Cannot perform addition\n";
+            std::cout << "Cannot perform addition. Both matrices should have same dimensions\n";
         }
         else
         {
@@ -66,7 +66,7 @@ matrix executeOperation(char opr, const matrix &m1, const matrix &m2)
     {
         if (!isValidForMultiplication(m1, m2))
         {
-            std::cout << "Cannot perform multiplication\n";
+            std::cout << "Cannot perform multiplication. Columns of first matrix should be equal to rows of second matrix\n";
         }
         else
         {
