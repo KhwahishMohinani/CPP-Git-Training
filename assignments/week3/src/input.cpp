@@ -94,9 +94,10 @@ void getOperator(char &opr)
         std::cout << "Enter the Operation\n";
         std::cout << "For Addition, enter '+'\n";
         std::cout << "For Multiplication, enter '*'\n";
+        std::cout << "To quit, enter 'q'\n";
         std::cin >> opr;
 
-        if (opr == '+' || opr == '*')
+        if (opr == '+' || opr == '*' || opr == 'q')
         {
             return;
         }

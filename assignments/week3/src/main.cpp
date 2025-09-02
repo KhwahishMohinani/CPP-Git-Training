@@ -16,17 +16,22 @@ int main()
     prepareMatrix(matrix2);
     printValues(matrix2);
 
-    getOperator(opr);
-
-    Matrix *resultMatrixPtr = executeOperation(opr, matrix1, matrix2);
-
-    if (resultMatrixPtr != nullptr && resultMatrixPtr->data != nullptr)
+    while (true)
     {
-        printValues(*resultMatrixPtr);
-        deleteMatrix(*resultMatrixPtr);
-    }
+        getOperator(opr);
+        if (opr == 'q' || opr == 'Q')
+            break;
 
-    delete (resultMatrixPtr);
+        Matrix *resultMatrixPtr = executeOperation(opr, matrix1, matrix2);
+
+        if (resultMatrixPtr != nullptr && resultMatrixPtr->data != nullptr)
+        {
+            printValues(*resultMatrixPtr);
+            deleteMatrix(*resultMatrixPtr);
+        }
+
+        delete (resultMatrixPtr);
+    }
 
     deleteMatrix(matrix1);
     deleteMatrix(matrix2);
