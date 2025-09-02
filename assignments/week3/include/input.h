@@ -5,8 +5,8 @@
 
 int getValidInt();
 void getDimensions(int &rows, int &columns);
-void getValues(matrix &m);
-matrix prepareMatrix();
+void getValues(Matrix &matrix);
+void prepareMatrix(Matrix &matrix);
 void getOperator(char &opr);
 
 #endif

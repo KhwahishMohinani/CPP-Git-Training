@@ -7,11 +7,15 @@
 int main()
 {
     char opr;
-    matrix m1 = prepareMatrix();
+    Matrix matrix1;
+    prepareMatrix(matrix1);
+    printValues(matrix1);
     std::cout << "For second matrix\n";
-    matrix m2 = prepareMatrix();
+    Matrix matrix2;
+    prepareMatrix(matrix2);
+    printValues(matrix2);
     getOperator(opr);
-    matrix resultMatrix = executeOperation(opr, m1, m2);
+    Matrix resultMatrix = executeOperation(opr, matrix1, matrix2);
 
     if (resultMatrix.data != nullptr)
     {
@@ -19,7 +23,7 @@ int main()
         deleteMatrix(resultMatrix);
     }
 
-    deleteMatrix(m1);
-    deleteMatrix(m2);
+    deleteMatrix(matrix1);
+    deleteMatrix(matrix2);
     return 0;
 }

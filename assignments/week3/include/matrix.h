@@ -1,14 +1,14 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
-struct matrix
+struct Matrix
 {
     double **data;
     int rows;
     int columns;
 };
 
-matrix createMatrix(int rows, int columns);
-void deleteMatrix(matrix &m);
+void createMatrix(int rows, int columns, Matrix &matrix);
+void deleteMatrix(Matrix &matrix);
 
 #endif

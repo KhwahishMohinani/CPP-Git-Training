@@ -3,10 +3,10 @@
 
 #include "matrix.h"
 
-bool isValidForAddition(const matrix &m1, const matrix &m2);
-bool isValidForMultiplication(const matrix &m1, const matrix &m2);
-matrix performAddition(const matrix &m1, const matrix &m2);
-matrix performMultiplication(const matrix &m1, const matrix &m2);
-matrix executeOperation(char opr, const matrix &m1, const matrix &m2);
+bool isValidForAddition(const Matrix &matrix1, const Matrix &matrix2);
+bool isValidForMultiplication(const Matrix &matrix1, const Matrix &matrix2);
+void performAddition(const Matrix &matrix1, const Matrix &matrix2, Matrix &resultMatrix);
+void performMultiplication(const Matrix &matrix1, const Matrix &matrix2, Matrix &resultMatrix);
+Matrix executeOperation(char opr, const Matrix &matrix1, const Matrix &matrix2);
 
 #endif

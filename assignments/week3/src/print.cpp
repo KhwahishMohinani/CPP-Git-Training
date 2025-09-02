@@ -1,14 +1,14 @@
 #include <iostream>
 #include "print.h"
 
-void printValues(const matrix &m)
+void printValues(const Matrix &matrix)
 {
     std::cout << "Matrix:\n";
-    for (int i = 0; i < m.rows; i++)
+    for (int i = 0; i < matrix.rows; i++)
     {
-        for (int j = 0; j < m.columns; j++)
+        for (int j = 0; j < matrix.columns; j++)
         {
-            std::cout << m.data[i][j] << "\t";
+            std::cout << matrix.data[i][j] << "\t";
         }
         std::cout << "\n";
     }

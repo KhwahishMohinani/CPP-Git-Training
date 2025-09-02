@@ -3,6 +3,6 @@
 
 #include "matrix.h"
 
-void printValues(const matrix &m);
+void printValues(const Matrix &matrix);
 
 #endif

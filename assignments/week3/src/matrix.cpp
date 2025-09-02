@@ -1,27 +1,25 @@
 #include <iostream>
 #include "matrix.h"
 
-matrix createMatrix(int rows, int columns)
+void createMatrix(int rows, int columns, Matrix &matrix)
 {
-    matrix m;
-    m.rows = rows;
-    m.columns = columns;
-    m.data = new double *[rows];
+    matrix.rows = rows;
+    matrix.columns = columns;
+    matrix.data = new double *[rows];
     for (int i = 0; i < rows; i++)
     {
-        m.data[i] = new double[columns];
+        matrix.data[i] = new double[columns];
     }
-    return m;
 }
 
-void deleteMatrix(matrix &m)
+void deleteMatrix(Matrix &matrix)
 {
-    for (int i = 0; i < m.rows; i++)
+    for (int i = 0; i < matrix.rows; i++)
     {
-        delete[] m.data[i];
+        delete[] matrix.data[i];
     }
-    delete[] m.data;
-    m.data = nullptr;
-    m.rows = 0;
-    m.columns = 0;
+    delete[] matrix.data;
+    matrix.data = nullptr;
+    matrix.rows = 0;
+    matrix.columns = 0;
 }

@@ -67,26 +67,24 @@ void getDimensions(int &rows, int &columns)
     columns = getValidInt();
 }
 
-void getValues(matrix &m)
+void getValues(Matrix &matrix)
 {
     std::cout << "Enter the values of the matrix\n";
-    for (int i = 0; i < m.rows; i++)
+    for (int i = 0; i < matrix.rows; i++)
     {
-        for (int j = 0; j < m.columns; j++)
+        for (int j = 0; j < matrix.columns; j++)
         {
-            m.data[i][j] = getValidDouble();
+            matrix.data[i][j] = getValidDouble();
         }
     }
 }
 
-matrix prepareMatrix()
+void prepareMatrix(Matrix &matrix)
 {
     int rows, columns;
     getDimensions(rows, columns);
-    matrix m = createMatrix(rows, columns);
-    getValues(m);
-    printValues(m);
-    return m;
+    createMatrix(rows, columns, matrix);
+    getValues(matrix);
 }
 
 void getOperator(char &opr)

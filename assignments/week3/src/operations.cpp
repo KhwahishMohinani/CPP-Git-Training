@@ -1,76 +1,74 @@
 #include <iostream>
 #include "operations.h"
 
-bool isValidForAddition(const matrix &m1, const matrix &m2)
+bool isValidForAddition(const Matrix &matrix1, const Matrix &matrix2)
 {
-    if (m1.rows == m2.rows && m1.columns == m2.columns)
+    if (matrix1.rows == matrix2.rows && matrix1.columns == matrix2.columns)
         return true;
     return false;
 }
 
-bool isValidForMultiplication(const matrix &m1, const matrix &m2)
+bool isValidForMultiplication(const Matrix &matrix1, const Matrix &matrix2)
 {
-    if (m1.columns == m2.rows)
+    if (matrix1.columns == matrix2.rows)
         return true;
     return false;
 }
 
-matrix performAddition(const matrix &m1, const matrix &m2)
+void performAddition(const Matrix &matrix1, const Matrix &matrix2, Matrix &resultMatrix)
 {
-    matrix resultMatrix = createMatrix(m1.rows, m1.columns);
-    for (int i = 0; i < m1.rows; i++)
+    createMatrix(matrix1.rows, matrix1.columns, resultMatrix);
+    for (int i = 0; i < matrix1.rows; i++)
     {
-        for (int j = 0; j < m1.columns; j++)
+        for (int j = 0; j < matrix1.columns; j++)
         {
-            resultMatrix.data[i][j] = m1.data[i][j] + m2.data[i][j];
+            resultMatrix.data[i][j] = matrix1.data[i][j] + matrix2.data[i][j];
         }
     }
-    return resultMatrix;
 }
 
-matrix performMultiplication(const matrix &m1, const matrix &m2)
+void performMultiplication(const Matrix &matrix1, const Matrix &matrix2, Matrix &resultMatrix)
 {
-    matrix resultMatrix = createMatrix(m1.rows, m2.columns);
-    for (int i = 0; i < m1.rows; i++)
+    createMatrix(matrix1.rows, matrix2.columns, resultMatrix);
+    for (int i = 0; i < matrix1.rows; i++)
     {
-        for (int j = 0; j < m2.columns; j++)
+        for (int j = 0; j < matrix2.columns; j++)
         {
             resultMatrix.data[i][j] = 0;
-            for (int k = 0; k < m1.columns; k++)
+            for (int k = 0; k < matrix1.columns; k++)
             {
-                resultMatrix.data[i][j] += m1.data[i][k] * m2.data[k][j];
+                resultMatrix.data[i][j] += matrix1.data[i][k] * matrix2.data[k][j];
             }
         }
     }
-    return resultMatrix;
 }
 
-matrix executeOperation(char opr, const matrix &m1, const matrix &m2)
+Matrix executeOperation(char opr, const Matrix &matrix1, const Matrix &matrix2)
 {
-    matrix resultMatrix = {nullptr, 0, 0};
+    Matrix resultMatrix = {nullptr, 0, 0};
     switch (opr)
     {
     case '+':
     {
-        if (!isValidForAddition(m1, m2))
+        if (!isValidForAddition(matrix1, matrix2))
         {
             std::cout << "Cannot perform addition. Both matrices should have same dimensions\n";
         }
         else
         {
-            resultMatrix = performAddition(m1, m2);
+            performAddition(matrix1, matrix2, resultMatrix);
         }
         break;
     }
     case '*':
     {
-        if (!isValidForMultiplication(m1, m2))
+        if (!isValidForMultiplication(matrix1, matrix2))
         {
             std::cout << "Cannot perform multiplication. Columns of first matrix should be equal to rows of second matrix\n";
         }
         else
         {
-            resultMatrix = performMultiplication(m1, m2);
+            performMultiplication(matrix1, matrix2, resultMatrix);
         }
         break;
     }
