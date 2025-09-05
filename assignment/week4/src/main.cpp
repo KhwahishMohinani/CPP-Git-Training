@@ -1,7 +1,7 @@
 #include <iostream>
-#include "matrix.h"
+#include "../include/matrix.h"
 
-void getDimensions(int &rows, int &columns)
+void inputDimensions(int &rows, int &columns)
 {
     std::cout << "Enter the number of rows: ";
     std::cin >> rows;
@@ -9,7 +9,7 @@ void getDimensions(int &rows, int &columns)
     std::cin >> columns;
 }
 
-void getOperator(char &operator)
+void inputOperator(char &opr)
 {
     while (true)
     {
@@ -19,7 +19,7 @@ void getOperator(char &operator)
         std::cout << "To quit, enter 'q'\n";
         std::cin >> opr;
 
-        if (operator== '+' || operator== '*' || operator== 'q')
+        if (opr == '+' || opr == '*' || opr == 'q')
         {
             return;
         }
@@ -30,24 +30,61 @@ void getOperator(char &operator)
     }
 }
 
+bool isValidForAddition(const Matrix &matrix1, const Matrix &matrix2)
+{
+    return (matrix1.getRows() == matrix2.getRows() && matrix1.getColumns() == matrix2.getColumns());
+}
+
+bool isValidForMultiplication(const Matrix &matrix1, const Matrix &matrix2)
+{
+    return (matrix1.getColumns() == matrix2.getRows());
+}
+
 int main()
 {
     int rows, columns;
 
-    std::cout << "For first matrix\n" getDimensions(rows, columns);
+    std::cout << "For first matrix\n";
+    inputDimensions(rows, columns);
     Matrix matrix1(rows, columns);
+    matrix1.setValues();
     matrix1.printValues();
 
-    std::cout << "For second matrix\n" getDimensions(rows, columns);
+    std::cout << "For second matrix\n";
+    inputDimensions(rows, columns);
     Matrix matrix2(rows, columns);
+    matrix2.setValues();
     matrix2.printValues();
 
-    char operator;
-    getOperator(operator);
-    switch (operator)
+    char opr;
+    inputOperator(opr);
+    switch (opr)
     {
     case '+':
-        Matrix.performAddition(matrix1, matrix2);
+    {
+        if (isValidForAddition(matrix1, matrix2))
+        {
+            Matrix resultMatrix = matrix1 + matrix2;
+            resultMatrix.printValues();
+        }
+        else
+        {
+            std::cout << "Cannot perform addition. Both matrices should have same dimensions\n";
+        }
+        break;
+    }
     case '*':
+    {
+        if (isValidForMultiplication(matrix1, matrix2))
+        {
+            Matrix resultMatrix = matrix1 * matrix2;
+            resultMatrix.printValues();
+        }
+        else
+        {
+            "Cannot perform multiplication. Columns of first matrix should be equal to rows of second matrix\n";
+        }
+        break;
+    }
     }
 }
