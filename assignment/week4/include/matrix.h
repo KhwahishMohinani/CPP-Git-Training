@@ -14,8 +14,8 @@ public:
     void printValues();
     int getRows() const;
     int getColumns() const;
-    Matrix operator+(const Matrix &matrix2);
-    Matrix operator*(const Matrix &matrix2);
+    Matrix *operator+(const Matrix &matrix2);
+    Matrix *operator*(const Matrix &matrix2);
     ~Matrix();
 };
 

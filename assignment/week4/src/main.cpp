@@ -1,12 +1,42 @@
 #include <iostream>
 #include "../include/matrix.h"
+#include "../include/validity.h"
 
 void inputDimensions(int &rows, int &columns)
 {
+    Validity validity;
+    std::string input;
+    int value;
+
     std::cout << "Enter the number of rows: ";
-    std::cin >> rows;
+    while (true)
+    {
+        std::cin >> input;
+        if (validity.isValidInt(input, value))
+        {
+            rows = value;
+            break;
+        }
+        else
+        {
+            std::cout << "Invalid input. Please enter a positive integer: ";
+        }
+    }
+
     std::cout << "Enter the number of columns: ";
-    std::cin >> columns;
+    while (true)
+    {
+        std::cin >> input;
+        if (validity.isValidInt(input, value))
+        {
+            columns = value;
+            break;
+        }
+        else
+        {
+            std::cout << "Invalid input. Please enter a positive integer: ";
+        }
+    }
 }
 
 void inputOperator(char &opr)
@@ -30,16 +60,6 @@ void inputOperator(char &opr)
     }
 }
 
-bool isValidForAddition(const Matrix &matrix1, const Matrix &matrix2)
-{
-    return (matrix1.getRows() == matrix2.getRows() && matrix1.getColumns() == matrix2.getColumns());
-}
-
-bool isValidForMultiplication(const Matrix &matrix1, const Matrix &matrix2)
-{
-    return (matrix1.getColumns() == matrix2.getRows());
-}
-
 int main()
 {
     int rows, columns;
@@ -56,35 +76,31 @@ int main()
     matrix2.setValues();
     matrix2.printValues();
 
-    char opr;
-    inputOperator(opr);
-    switch (opr)
+    Matrix *resultMatrixPtr;
+    while (true)
     {
-    case '+':
-    {
-        if (isValidForAddition(matrix1, matrix2))
+        char opr;
+        inputOperator(opr);
+        if (opr == 'q' || opr == 'Q')
+            break;
+
+        switch (opr)
         {
-            Matrix resultMatrix = matrix1 + matrix2;
-            resultMatrix.printValues();
-        }
-        else
+        case '+':
         {
-            std::cout << "Cannot perform addition. Both matrices should have same dimensions\n";
+            resultMatrixPtr = matrix1 + matrix2;
+            break;
         }
-        break;
+        case '*':
+        {
+            resultMatrixPtr = matrix1 * matrix2;
+            break;
+        }
+        }
+        if (resultMatrixPtr != nullptr)
+        {
+            resultMatrixPtr->printValues();
+        }
     }
-    case '*':
-    {
-        if (isValidForMultiplication(matrix1, matrix2))
-        {
-            Matrix resultMatrix = matrix1 * matrix2;
-            resultMatrix.printValues();
-        }
-        else
-        {
-            "Cannot perform multiplication. Columns of first matrix should be equal to rows of second matrix\n";
-        }
-        break;
-    }
-    }
+    delete resultMatrixPtr;
 }

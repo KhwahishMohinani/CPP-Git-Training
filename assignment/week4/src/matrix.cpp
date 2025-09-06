@@ -15,12 +15,18 @@ Matrix::Matrix(int rows, int columns)
 
 void Matrix::setValues()
 {
+    Validity validity;
+    double value;
     std::cout << "Enter the values of the matrix\n";
     for (int i = 0; i < m_rows; i++)
     {
         for (int j = 0; j < m_columns; j++)
         {
-            std::cin >> m_data[i][j];
+            while (!validity.isValidDouble(value))
+            {
+                std::cout << "Invalid input. Please enter a valid number: ";
+            }
+            m_data[i][j] = value;
         }
     }
 }
@@ -48,8 +54,9 @@ int Matrix::getColumns() const
     return m_columns;
 }
 
-Matrix Matrix::operator+(const Matrix &matrix2)
+Matrix *Matrix::operator+(const Matrix &matrix2)
 {
+    Matrix *resultMatrixPtr = nullptr;
     Validity validity;
     if (!validity.isValidForAddition(*this, matrix2))
     {
@@ -57,20 +64,21 @@ Matrix Matrix::operator+(const Matrix &matrix2)
     }
     else
     {
-        Matrix resultMatrix(m_rows, m_columns);
+        resultMatrixPtr = new Matrix(m_rows, m_columns);
         for (int i = 0; i < m_rows; i++)
         {
             for (int j = 0; j < m_columns; j++)
             {
-                resultMatrix.m_data[i][j] = m_data[i][j] + matrix2.m_data[i][j];
+                resultMatrixPtr->m_data[i][j] = m_data[i][j] + matrix2.m_data[i][j];
             }
         }
-        return resultMatrix;
     }
+    return resultMatrixPtr;
 }
 
-Matrix Matrix::operator*(const Matrix &matrix2)
+Matrix *Matrix::operator*(const Matrix &matrix2)
 {
+    Matrix *resultMatrixPtr = nullptr;
     Validity validity;
     if (!validity.isValidForMultiplication(*this, matrix2))
     {
@@ -78,20 +86,20 @@ Matrix Matrix::operator*(const Matrix &matrix2)
     }
     else
     {
-        Matrix resultMatrix(m_rows, matrix2.m_columns);
+        resultMatrixPtr = new Matrix(m_rows, matrix2.m_columns);
         for (int i = 0; i < m_rows; i++)
         {
             for (int j = 0; j < matrix2.m_columns; j++)
             {
-                resultMatrix.m_data[i][j] = 0;
+                resultMatrixPtr->m_data[i][j] = 0;
                 for (int k = 0; k < m_columns; k++)
                 {
-                    resultMatrix.m_data[i][j] += m_data[i][k] * matrix2.m_data[k][j];
+                    resultMatrixPtr->m_data[i][j] += m_data[i][k] * matrix2.m_data[k][j];
                 }
             }
         }
-        return resultMatrix;
     }
+    return resultMatrixPtr;
 }
 
 Matrix::~Matrix()
