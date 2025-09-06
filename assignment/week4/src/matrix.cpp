@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../include/matrix.h"
-#include "../include/validity.h"
+#include "matrix.h"
+#include "validity.h"
 
 Matrix::Matrix(int rows, int columns)
 {

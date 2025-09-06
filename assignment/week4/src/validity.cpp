@@ -1,7 +1,7 @@
 #include <iostream>
 #include <limits>
-#include "../include/matrix.h"
-#include "../include/validity.h"
+#include "matrix.h"
+#include "validity.h"
 
 bool Validity::isValidForAddition(const Matrix &matrix1, const Matrix &matrix2)
 {
