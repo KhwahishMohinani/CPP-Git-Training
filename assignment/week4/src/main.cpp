@@ -43,7 +43,8 @@ int main()
         if (resultMatrixPtr != nullptr)
         {
             resultMatrixPtr->printValues();
+            delete resultMatrixPtr;
+            resultMatrixPtr = nullptr;
         }
     }
-    delete resultMatrixPtr;
 }

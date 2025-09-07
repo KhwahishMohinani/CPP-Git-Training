@@ -49,7 +49,7 @@ void inputOperator(char &opr)
         std::cout << "To quit, enter 'q'\n";
         std::cin >> opr;
 
-        if (opr == '+' || opr == '*' || opr == 'q')
+        if (opr == '+' || opr == '*' || opr == 'q' || opr == 'Q')
         {
             return;
         }
