@@ -19,7 +19,7 @@ int main()
     matrix2.setValues();
     matrix2.printValues();
 
-    Matrix *resultMatrixPtr;
+    Matrix *resultMatrixPtr = nullptr;
     while (true)
     {
         char opr;
