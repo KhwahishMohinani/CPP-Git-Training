@@ -4,14 +4,14 @@
 class Matrix
 {
 private:
-    int m_rows;
-    int m_columns;
-    double **m_data;
+    int rows;
+    int columns;
+    double **data;
 
 public:
     Matrix(int rows, int columns);
-    void setValues();
-    void printValues();
+    void setElements();
+    void getElements();
     int getRows() const;
     int getColumns() const;
     Matrix *operator+(const Matrix &matrix2);

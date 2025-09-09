@@ -10,14 +10,14 @@ int main()
     std::cout << "For first matrix\n";
     inputDimensions(rows, columns);
     Matrix matrix1(rows, columns);
-    matrix1.setValues();
-    matrix1.printValues();
+    matrix1.setElements();
+    matrix1.getElements();
 
     std::cout << "For second matrix\n";
     inputDimensions(rows, columns);
     Matrix matrix2(rows, columns);
-    matrix2.setValues();
-    matrix2.printValues();
+    matrix2.setElements();
+    matrix2.getElements();
 
     Matrix *resultMatrixPtr = nullptr;
     while (true)
@@ -42,7 +42,7 @@ int main()
         }
         if (resultMatrixPtr != nullptr)
         {
-            resultMatrixPtr->printValues();
+            resultMatrixPtr->getElements();
             delete resultMatrixPtr;
             resultMatrixPtr = nullptr;
         }
