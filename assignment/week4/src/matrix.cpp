@@ -15,14 +15,13 @@ Matrix::Matrix(int rows, int columns)
 
 void Matrix::setElements()
 {
-    Validity validity;
     double value;
     std::cout << "Enter the values of the matrix\n";
     for (int i = 0; i < rows; i++)
     {
         for (int j = 0; j < columns; j++)
         {
-            while (!validity.isValidDouble(value))
+            while (!isValidDouble(value))
             {
                 std::cout << "Invalid input. Please enter a valid number: ";
             }
@@ -54,12 +53,12 @@ int Matrix::getColumns() const
     return columns;
 }
 
-bool isValidForAddition(const Matrix &matrix1, const Matrix &matrix2)
+bool Matrix::isValidForAddition(const Matrix &matrix1, const Matrix &matrix2)
 {
     return (matrix1.getRows() == matrix2.getRows() && matrix1.getColumns() == matrix2.getColumns());
 }
 
-bool isValidForMultiplication(const Matrix &matrix1, const Matrix &matrix2)
+bool Matrix::isValidForMultiplication(const Matrix &matrix1, const Matrix &matrix2)
 {
     return (matrix1.getColumns() == matrix2.getRows());
 }

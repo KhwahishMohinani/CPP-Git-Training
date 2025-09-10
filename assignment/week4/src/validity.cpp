@@ -1,54 +1,51 @@
 #include <iostream>
 #include <limits>
-#include "matrix.h"
 #include "validity.h"
 
-bool Validity::isValidForAddition(const Matrix &matrix1, const Matrix &matrix2)
+bool isValidDouble(double &value)
 {
-    return (matrix1.getRows() == matrix2.getRows() && matrix1.getColumns() == matrix2.getColumns());
-}
-
-bool Validity::isValidForMultiplication(const Matrix &matrix1, const Matrix &matrix2)
-{
-    return (matrix1.getColumns() == matrix2.getRows());
-}
-
-bool Validity::isValidDouble(double &value)
-{
+    bool isValid = true;
     std::cin >> value;
 
     if (std::cin.fail())
     {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        return false;
+        isValid = false;
     }
-    return true;
+    return isValid;
 }
 
-bool Validity::isValidInt(const std::string &input, int &value)
+bool isValidInt(const std::string &input, int &value)
 {
+    bool isValid = true;
     if (input.empty())
-        return false;
-
-    int number = 0;
-    for (char ch : input)
+        isValid = false;
+    else
     {
-        if (ch >= '0' && ch <= '9')
+        int number = 0;
+        for (char ch : input)
         {
-            int digit = ch - '0';
-            number = number * 10 + digit;
+            if (ch >= '0' && ch <= '9')
+            {
+                int digit = ch - '0';
+                number = number * 10 + digit;
+            }
+            else
+            {
+                isValid = false;
+                break;
+            }
+        }
+
+        if (isValid && number > 0)
+        {
+            value = number;
         }
         else
         {
-            return false;
+            isValid = false;
         }
     }
-
-    if (number > 0)
-    {
-        value = number;
-        return true;
-    }
-    return false;
+    return isValid;
 }
