@@ -1,6 +1,6 @@
 #include <iostream>
 #include "matrix.h"
-#include "validity.h"
+#include "InputHandler.h"
 
 void inputDimensions(int &rows, int &columns)
 {

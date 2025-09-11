@@ -1,6 +1,6 @@
 #include <iostream>
 #include <limits>
-#include "validity.h"
+#include "InputHandler.h"
 
 bool isValidDouble(double &value)
 {

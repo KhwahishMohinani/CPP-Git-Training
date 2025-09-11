@@ -1,6 +1,6 @@
 #include <iostream>
 #include "matrix.h"
-#include "validity.h"
+#include "InputHandler.h"
 
 Matrix::Matrix(int rows, int columns)
 {
@@ -53,20 +53,10 @@ int Matrix::getColumns() const
     return columns;
 }
 
-bool Matrix::isValidForAddition(const Matrix &matrix1, const Matrix &matrix2)
-{
-    return (matrix1.getRows() == matrix2.getRows() && matrix1.getColumns() == matrix2.getColumns());
-}
-
-bool Matrix::isValidForMultiplication(const Matrix &matrix1, const Matrix &matrix2)
-{
-    return (matrix1.getColumns() == matrix2.getRows());
-}
-
 Matrix *Matrix::operator+(const Matrix &matrix2)
 {
     Matrix *resultMatrixPtr = nullptr;
-    if (!isValidForAddition(*this, matrix2))
+    if (this->rows != matrix2.getRows() && this->columns != matrix2.getColumns())
     {
         std::cout << "Cannot perform addition. Both matrices should have same dimensions\n";
     }
@@ -87,7 +77,7 @@ Matrix *Matrix::operator+(const Matrix &matrix2)
 Matrix *Matrix::operator*(const Matrix &matrix2)
 {
     Matrix *resultMatrixPtr = nullptr;
-    if (!isValidForMultiplication(*this, matrix2))
+    if (this->columns != matrix2.getRows())
     {
         std::cout << "Cannot perform multiplication. Columns of first matrix should be equal to rows of second matrix\n";
     }
