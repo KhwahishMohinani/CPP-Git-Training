@@ -2,7 +2,7 @@
 #include <limits>
 #include "InputHandler.h"
 
-bool isValidDouble(double &value)
+bool InputHandler::isValidDouble(double &value)
 {
     bool isValid = true;
     std::cin >> value;
@@ -16,7 +16,7 @@ bool isValidDouble(double &value)
     return isValid;
 }
 
-bool isValidInt(const std::string &input, int &value)
+bool InputHandler::isValidInt(const std::string &input, int &value)
 {
     bool isValid = true;
     if (input.empty())

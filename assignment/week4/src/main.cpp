@@ -7,12 +7,13 @@ void inputDimensions(int &rows, int &columns)
 
     std::string input;
     int value;
+    InputHandler inputHandler;
 
     std::cout << "Enter the number of rows: ";
     while (true)
     {
         std::cin >> input;
-        if (isValidInt(input, value))
+        if (inputHandler.isValidInt(input, value))
         {
             rows = value;
             break;
@@ -27,7 +28,7 @@ void inputDimensions(int &rows, int &columns)
     while (true)
     {
         std::cin >> input;
-        if (isValidInt(input, value))
+        if (inputHandler.isValidInt(input, value))
         {
             columns = value;
             break;

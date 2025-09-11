@@ -3,7 +3,11 @@
 
 #include <string>
 
-bool isValidDouble(double &value);
-bool isValidInt(const std::string &input, int &value);
+class InputHandler
+{
+public:
+    bool isValidDouble(double &value);
+    bool isValidInt(const std::string &input, int &value);
+};
 
 #endif

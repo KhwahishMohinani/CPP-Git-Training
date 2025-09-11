@@ -16,12 +16,13 @@ Matrix::Matrix(int rows, int columns)
 void Matrix::setElements()
 {
     double value;
+    InputHandler inputHandler;
     std::cout << "Enter the values of the matrix\n";
     for (int i = 0; i < rows; i++)
     {
         for (int j = 0; j < columns; j++)
         {
-            while (!isValidDouble(value))
+            while (!inputHandler.isValidDouble(value))
             {
                 std::cout << "Invalid input. Please enter a valid number: ";
             }
@@ -56,7 +57,7 @@ int Matrix::getColumns() const
 Matrix *Matrix::operator+(const Matrix &matrix2)
 {
     Matrix *resultMatrixPtr = nullptr;
-    if (this->rows != matrix2.getRows() && this->columns != matrix2.getColumns())
+    if (this->rows != matrix2.getRows() || this->columns != matrix2.getColumns())
     {
         std::cout << "Cannot perform addition. Both matrices should have same dimensions\n";
     }
