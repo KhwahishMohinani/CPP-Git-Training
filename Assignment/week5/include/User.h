@@ -2,6 +2,7 @@
 #define USER_H
 
 class IBank;
+class IAccount;
 
 class User
 {
@@ -11,16 +12,16 @@ private:
     std::string type;
 
 public:
-    // void signUp();
     User *login(IBank &bank);
-    /*void logout();
-    void showUserDetails();*/
     void setUserId(int);
     void setPassword(std::string);
     void setType(std::string);
     int getUserId();
     std::string getPassword();
     std::string getType();
+    virtual void showMenu(IBank &bank);
+    virtual void deposit(IAccount *account, double amount);
+    virtual void withdraw(IAccount *account, double amount);
 };
 
 #endif

@@ -1,4 +1,6 @@
+#include <iostream>
 #include "../include/Account.h"
+#include "../include/Transaction.h"
 
 Account::Account(int accountNumber, std::string accountType, int customerId)
 {
@@ -43,4 +45,57 @@ std::string Account::getAccountType()
 int Account::getCustomerId()
 {
     return customerId;
+}
+
+void Account::addBalance(double amount)
+{
+    balance += amount;
+    addTransaction("deposit", amount);
+}
+
+void Account::subtractBalance(double amount)
+{
+    if (amount > balance)
+    {
+        std::cout << "Insufficient balance\n";
+    }
+    balance -= amount;
+    addTransaction("withdraw", amount);
+}
+
+void Account::addTransaction(std::string type, double amount)
+{
+    if (transactionsCount < MAX_TRANSACTIONS)
+    {
+        transactions[transactionsCount++] = new Transaction(transactionsCount, accountNumber, type, amount);
+    }
+}
+
+void Account::showMiniStatement()
+{
+    int start = 0;
+    if (transactionsCount > 5)
+    {
+        start = transactionsCount - 5;
+    }
+    std::cout << "Mini Statement(Last 5 transactions):\n";
+    for (int i = start; i < transactionsCount; i++)
+    {
+        std::cout << "Transaction Id: " << transactions[i]->getTransactionId() << "\n";
+        std::cout << "Account Number: " << transactions[i]->getAccountNumber() << "\n";
+        std::cout << "Transaction type: " << transactions[i]->getType() << "\n";
+        std::cout << "Amount: " << transactions[i]->getAmount() << "\n";
+    }
+}
+
+void Account::showBankStatement()
+{
+    std::cout << "Bank Statement:\n";
+    for (int i = 0; i < transactionsCount; i++)
+    {
+        std::cout << "Transaction Id: " << transactions[i]->getTransactionId() << "\n";
+        std::cout << "Account Number: " << transactions[i]->getAccountNumber() << "\n";
+        std::cout << "Transaction type: " << transactions[i]->getType() << "\n";
+        std::cout << "Amount: " << transactions[i]->getAmount() << "\n";
+    }
 }

@@ -11,6 +11,7 @@ class Account : public IAccount
 {
 private:
     Transaction *transactions[MAX_TRANSACTIONS];
+    int transactionsCount = 0;
 
 public:
     Account(int accountNumber, std::string accountType, int customerId);
@@ -26,6 +27,11 @@ public:
     double getBalance();
     std::string getAccountType();
     int getCustomerId();
+    void addBalance(double amount);
+    void subtractBalance(double amount);
+    void addTransaction(std::string type, double amount);
+    void showBankStatement();
+    void showMiniStatement();
 };
 
 #endif

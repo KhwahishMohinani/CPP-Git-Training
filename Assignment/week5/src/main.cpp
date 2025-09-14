@@ -1,39 +1,8 @@
 #include <iostream>
 #include "../include/IBank.h"
 #include "../include/Bank.h"
+#include "../include/IAccount.h"
 #include "../include/User.h"
-
-void showCustomerMenu(IBank &bank, User *loggedIn)
-{
-    int choice;
-    do
-    {
-        std::cout << "1. Create new Account\n2. Access Existing Account\n3. Logout\n";
-        std::cout << "Enter your choice: ";
-        std::cin >> choice;
-        switch (choice)
-        {
-        case 1:
-            bank.addAccount(loggedIn);
-            break;
-        case 2:
-            std::cout << "Enter Account number: ";
-            long accountNumber;
-            std::cin >> accountNumber;
-            break;
-        case 3:
-            std::cout << "Logging out\n";
-            break;
-        default:
-            std::cout << "Invalid choice. Try again\n";
-            break;
-        }
-    } while (choice != 3);
-}
-
-void showAdminMenu()
-{
-}
 
 int main()
 {
@@ -62,11 +31,11 @@ int main()
                 type = loggedIn->getType();
                 if (type == "customer")
                 {
-                    showCustomerMenu(*iBankPtr, loggedIn);
+                    loggedIn->showMenu(*iBankPtr);
                 }
                 else if (type == "admin")
                 {
-                    showAdminMenu();
+                    loggedIn->showMenu(*iBankPtr);
                 }
             }
             else

@@ -2,6 +2,7 @@
 #include "../include/Bank.h"
 #include "../include/Customer.h"
 #include "../include/Admin.h"
+#include "../include/IAccount.h"
 #include "../include/Account.h"
 
 int Bank::usersCount = 0;
@@ -87,4 +88,94 @@ void Bank::addAccount(User *loggedIn)
     std::cout << "Account created successfully!\n";
 
     std::cout << "Your Account Number is: " << accountsCount << "\n";
+}
+
+void Bank::removeAccount(IAccount *account)
+{
+    for (int i = 0; i < accountsCount; i++)
+    {
+        if (accounts[i] == account)
+        {
+            delete accounts[i];
+
+            for (int j = i; j < accountsCount - 1; j++)
+            {
+                accounts[j] = accounts[j + 1];
+            }
+            accounts[accountsCount - 1] = nullptr;
+            accountsCount--;
+
+            std::cout << "Account removed successfully!\n";
+            break;
+        }
+    }
+}
+
+IAccount *Bank::getAccount(long accountNumber, int customerId)
+{
+    for (int i = 0; i < accountsCount; i++)
+    {
+        if (accounts[i]->getAccountNumber() == accountNumber &&
+            accounts[i]->getCustomerId() == customerId)
+        {
+            return accounts[i];
+        }
+    }
+    return nullptr;
+}
+
+IAccount *Bank::getAccountByAccountNumber(long accountNumber)
+{
+    for (int i = 0; i < accountsCount; i++)
+    {
+        if (accounts[i]->getAccountNumber() == accountNumber)
+        {
+            return accounts[i];
+        }
+    }
+    return nullptr;
+}
+
+void Bank::removeUser()
+{
+    std::cout << "Enter User ID to remove: ";
+    int id;
+    std::cin >> id;
+
+    bool found = false;
+    for (int i = 0; i < usersCount; i++)
+    {
+        if (users[i] && users[i]->getUserId() == id)
+        {
+            delete users[i];
+            for (int j = i; j < usersCount - 1; j++)
+            {
+                users[j] = users[j + 1];
+            }
+            users[usersCount - 1] = nullptr;
+            usersCount--;
+            std::cout << "User removed successfully!\n";
+            found = true;
+            break;
+        }
+    }
+    if (!found)
+    {
+        std::cout << "User not found!\n";
+    }
+}
+
+void Bank::showAllAccounts()
+{
+    if (accountsCount == 0)
+    {
+        std::cout << "No accounts available!\n";
+        return;
+    }
+    for (int i = 0; i < accountsCount; i++)
+    {
+        std::cout << "Account " << accounts[i]->getAccountNumber()
+                  << " | Type: " << accounts[i]->getAccountType()
+                  << " | Balance: " << accounts[i]->getBalance() << "\n";
+    }
 }

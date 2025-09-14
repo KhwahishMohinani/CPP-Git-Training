@@ -3,18 +3,22 @@
 
 #include <string>
 #include "User.h"
+#include "IBank.h"
+
+class IBank;
+class IAccount;
 
 class Admin : public User
 {
 public:
     Admin(int userId, std::string password, std::string type);
-    /*createAccount();
-    closeAccount();
-    showAccounts();
+    void showMenu(IBank &bank);
+    void createAccount(IBank &bank);
+    void closeAccount(IBank &bank, IAccount *account);
+    /*showAccounts();
     createUser();
     deleteUser();
-    displayMiniStatement();
-    displayBankStatement();*/
+    */
 };
 
 #endif

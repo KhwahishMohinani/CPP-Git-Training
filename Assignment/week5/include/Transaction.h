@@ -12,7 +12,11 @@ private:
     int amount;
 
 public:
-    // getTransactionDetails();
+    Transaction(int transactionId, long accountNumber, std::string type, int amount);
+    int getTransactionId();
+    long getAccountNumber();
+    std::string getType();
+    int getAmount();
 };
 
 #endif

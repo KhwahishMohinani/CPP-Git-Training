@@ -4,6 +4,7 @@
 #include <string>
 
 class User;
+class IAccount;
 
 class IBank
 {
@@ -13,13 +14,16 @@ private:
     std::string address;
 
 public:
-    // virtual void getBankDetails();
     virtual void addAccount(User *loggedIn) = 0;
-    /*virtual void removeAccount() = 0;
-    virtual void showAccount() = 0;*/
+    virtual void removeAccount(IAccount *account) = 0;
     virtual void addUser(std::string type) = 0;
-    // virtual void removeUser() = 0;
     virtual User *findUserByCredentials(int id, const std::string &password) = 0;
+    virtual IAccount *getAccount(long accountNumber, int customerId) = 0;
+    virtual IAccount *getAccountByAccountNumber(long accountNumber) = 0;
+    virtual void removeUser() = 0;
+    virtual void showAllAccounts() = 0;
+
+    virtual ~IBank() = default;
 };
 
 #endif
