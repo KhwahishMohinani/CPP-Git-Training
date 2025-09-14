@@ -55,10 +55,6 @@ void Account::addBalance(double amount)
 
 void Account::subtractBalance(double amount)
 {
-    if (amount > balance)
-    {
-        std::cout << "Insufficient balance\n";
-    }
     balance -= amount;
     addTransaction("withdraw", amount);
 }
@@ -67,7 +63,8 @@ void Account::addTransaction(std::string type, double amount)
 {
     if (transactionsCount < MAX_TRANSACTIONS)
     {
-        transactions[transactionsCount++] = new Transaction(transactionsCount, accountNumber, type, amount);
+        transactions[transactionsCount] = new Transaction(transactionsCount + 1, accountNumber, type, amount);
+        transactionsCount++;
     }
 }
 
@@ -81,10 +78,10 @@ void Account::showMiniStatement()
     std::cout << "Mini Statement(Last 5 transactions):\n";
     for (int i = start; i < transactionsCount; i++)
     {
-        std::cout << "Transaction Id: " << transactions[i]->getTransactionId() << "\n";
-        std::cout << "Account Number: " << transactions[i]->getAccountNumber() << "\n";
-        std::cout << "Transaction type: " << transactions[i]->getType() << "\n";
-        std::cout << "Amount: " << transactions[i]->getAmount() << "\n";
+        std::cout << "Transaction Id: " << transactions[i]->getTransactionId();
+        std::cout << " | Account Number: " << transactions[i]->getAccountNumber();
+        std::cout << " | Transaction type: " << transactions[i]->getType();
+        std::cout << " | Amount: " << transactions[i]->getAmount() << "\n";
     }
 }
 
@@ -93,9 +90,9 @@ void Account::showBankStatement()
     std::cout << "Bank Statement:\n";
     for (int i = 0; i < transactionsCount; i++)
     {
-        std::cout << "Transaction Id: " << transactions[i]->getTransactionId() << "\n";
-        std::cout << "Account Number: " << transactions[i]->getAccountNumber() << "\n";
-        std::cout << "Transaction type: " << transactions[i]->getType() << "\n";
-        std::cout << "Amount: " << transactions[i]->getAmount() << "\n";
+        std::cout << "Transaction Id: " << transactions[i]->getTransactionId();
+        std::cout << " | Account Number: " << transactions[i]->getAccountNumber();
+        std::cout << " | Transaction type: " << transactions[i]->getType();
+        std::cout << " | Amount: " << transactions[i]->getAmount() << "\n";
     }
 }

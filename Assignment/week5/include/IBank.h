@@ -14,9 +14,10 @@ private:
     std::string address;
 
 public:
-    virtual void addAccount(User *loggedIn) = 0;
+    virtual void addAccount(User *loggedInUser) = 0;
     virtual void removeAccount(IAccount *account) = 0;
-    virtual void addUser(std::string type) = 0;
+    virtual void addUser() = 0;
+    virtual User *findUserById(int id) = 0;
     virtual User *findUserByCredentials(int id, const std::string &password) = 0;
     virtual IAccount *getAccount(long accountNumber, int customerId) = 0;
     virtual IAccount *getAccountByAccountNumber(long accountNumber) = 0;

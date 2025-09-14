@@ -15,10 +15,6 @@ private:
 
 public:
     Account(int accountNumber, std::string accountType, int customerId);
-    /*getAccountDetails();
-    addBalance();
-    subtractBalance();
-    getTransaction();*/
     void setAccountNumber(long accountNumber);
     void setBalance(double balance);
     void setAccountType(std::string accountType);

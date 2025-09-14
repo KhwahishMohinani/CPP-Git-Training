@@ -19,13 +19,14 @@ private:
     static int adminsCount;
 
 public:
-    void addAccount(User *loggedIn) override;
+    void addAccount(User *loggedInUser) override;
     void removeAccount(IAccount *account) override;
-    void addUser(std::string type) override;
+    void addUser() override;
     int getUsersCount();
     int getAccountsCount();
     int getCustomercount();
     User **getUsers();
+    User *findUserById(int id);
     User *findUserByCredentials(int id, const std::string &password) override;
     IAccount *getAccount(long accountNumber, int customerId) override;
     IAccount *getAccountByAccountNumber(long accountNumber) override;

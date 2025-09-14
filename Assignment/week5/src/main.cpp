@@ -3,49 +3,59 @@
 #include "../include/Bank.h"
 #include "../include/IAccount.h"
 #include "../include/User.h"
+#include "../include/InputHandler.h"
 
 int main()
 {
     User user;
     IBank *iBankPtr = new Bank();
-    std::string type;
-
-    while (true)
+    InputHandler inputHandler;
+    int choice, value;
+    std::string input;
+    do
     {
         std::cout << "1. Signup\n2. Login\n3. Exit\n";
         std::cout << "Enter your choice: ";
-        int choice;
-        std::cin >> choice;
-        if (choice == 1)
+        std::cin >> input;
+        if (inputHandler.isValidInt(input, value))
         {
-            std::cout << "Signup as (customer/admin): ";
-            std::cin >> type;
-            iBankPtr->addUser(type);
-        }
-        else if (choice == 2)
-        {
-            User *loggedIn = user.login(*iBankPtr);
-            if (loggedIn)
+            choice = value;
+            switch (choice)
             {
-                std::cout << "Login successful!\n";
-                type = loggedIn->getType();
-                if (type == "customer")
-                {
-                    loggedIn->showMenu(*iBankPtr);
-                }
-                else if (type == "admin")
-                {
-                    loggedIn->showMenu(*iBankPtr);
-                }
+            case 1:
+            {
+                iBankPtr->addUser();
+                break;
             }
-            else
+            case 2:
             {
-                std::cout << "Login failed!\n";
+                User *loggedInUser = user.login(*iBankPtr);
+                if (loggedInUser)
+                {
+                    std::cout << "Login successful!\n";
+                    loggedInUser->showMenu(*iBankPtr);
+                }
+                else
+                {
+                    std::cout << "Login failed!\n";
+                }
+                break;
+            }
+            case 3:
+            {
+                std::cout << "Exiting\n";
+                break;
+            }
+            default:
+            {
+                std::cout << "Invalid choice\n";
+                break;
+            }
             }
         }
         else
         {
-            break;
+            std::cout << "Please enter the correct number\n";
         }
-    }
+    } while (choice != 3);
 }

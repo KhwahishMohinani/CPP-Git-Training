@@ -14,11 +14,10 @@ public:
     Admin(int userId, std::string password, std::string type);
     void showMenu(IBank &bank);
     void createAccount(IBank &bank);
-    void closeAccount(IBank &bank, IAccount *account);
-    /*showAccounts();
-    createUser();
-    deleteUser();
-    */
+    void closeAccount(IBank &bank);
+    void createUser(IBank &bank);
+    void deleteUser(IBank &bank);
+    void displayAllAccounts(IBank &bank);
 };
 
 #endif

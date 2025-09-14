@@ -4,16 +4,29 @@
 #include "../include/Bank.h"
 #include "../include/Account.h"
 #include "../include/Authentication.h"
+#include "../include/InputHandler.h"
 
 User *User::login(IBank &bank)
 {
-    int id;
-    std::string pass;
-    int index = -1;
+    InputHandler inputHandler;
+    int id, value;
+    std::string pass, input;
     User *loggedInUser = nullptr;
 
-    std::cout << "Enter user id: ";
-    std::cin >> id;
+    while (true)
+    {
+        std::cout << "Enter user id: ";
+        std::cin >> input;
+        if (inputHandler.isValidInt(input, value))
+        {
+            id = value;
+            break;
+        }
+        else
+        {
+            std::cout << "Please enter the correct id\n";
+        }
+    }
     std::cout << "Enter password: ";
     std::cin >> pass;
     Authentication authentication;
