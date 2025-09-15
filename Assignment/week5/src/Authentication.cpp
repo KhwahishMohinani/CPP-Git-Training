@@ -1,5 +1,5 @@
-#include "../include/IBank.h"
-#include "../include/Authentication.h"
+#include "IBank.h"
+#include "Authentication.h"
 
 User *Authentication::login(IBank &bank, int id, std::string pass)
 {

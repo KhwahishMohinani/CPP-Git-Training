@@ -13,25 +13,25 @@ class Bank : public IBank
 private:
     IAccount *accounts[MAX_ACCOUNTS];
     User *users[MAX_USERS];
-    static int accountsCount;
-    static int usersCount;
-    static int customersCount;
-    static int adminsCount;
+    int accountsCount = 0;
+    int usersCount = 0;
+    int customersCount = 0;
+    int adminsCount = 0;
 
 public:
-    void addAccount(User *loggedInUser) override;
-    void removeAccount(IAccount *account) override;
-    void addUser() override;
     int getUsersCount();
     int getAccountsCount();
     int getCustomercount();
+    void addAccount(User loggedInUser);
+    void removeAccount(IAccount *account);
+    void addUser();
     User **getUsers();
     User *findUserById(int id);
-    User *findUserByCredentials(int id, const std::string &password) override;
-    IAccount *getAccount(long accountNumber, int customerId) override;
-    IAccount *getAccountByAccountNumber(long accountNumber) override;
-    void removeUser() override;
-    void showAllAccounts() override;
+    User *findUserByCredentials(int id, const std::string &password);
+    IAccount *getAccount(long accountNumber, int customerId);
+    IAccount *getAccountByAccountNumber(long accountNumber);
+    void removeUser();
+    void showAllAccounts();
 };
 
 #endif

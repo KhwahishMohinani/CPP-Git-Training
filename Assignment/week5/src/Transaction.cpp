@@ -1,4 +1,4 @@
-#include "../include/Transaction.h"
+#include "Transaction.h"
 
 Transaction::Transaction(int transactionId, long accountNumber, std::string type, int amount)
 {

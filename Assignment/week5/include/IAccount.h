@@ -18,12 +18,12 @@ public:
     virtual void setCustomerId(int customerId) = 0;
     virtual long getAccountNumber() = 0;
     virtual double getBalance() = 0;
+    virtual int getTransactionsCount() = 0;
     virtual std::string getAccountType() = 0;
     virtual int getCustomerId() = 0;
     virtual void addBalance(double amount) = 0;
     virtual void subtractBalance(double amount) = 0;
-    virtual void showMiniStatement() = 0;
-    virtual void showBankStatement() = 0;
+    virtual void getTransactions(int start) = 0;
     virtual ~IAccount() {};
 };
 

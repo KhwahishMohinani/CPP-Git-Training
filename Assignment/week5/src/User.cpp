@@ -1,10 +1,10 @@
 #include <iostream>
-#include "../include/User.h"
-#include "../include/IBank.h"
-#include "../include/Bank.h"
-#include "../include/Account.h"
-#include "../include/Authentication.h"
-#include "../include/InputHandler.h"
+#include "User.h"
+#include "IBank.h"
+#include "Bank.h"
+#include "Account.h"
+#include "Authentication.h"
+#include "InputHandler.h"
 
 User *User::login(IBank &bank)
 {
@@ -63,16 +63,8 @@ int User::getUserId()
 {
     return userId;
 }
-void User::deposit(IAccount *account, double amount)
-{
-    std::cout << "Not allowed!\n";
-}
-void User::withdraw(IAccount *account, double amount)
-{
-    std::cout << "Not allowed!\n";
-}
 
-void User::showMenu(IBank &bank)
+void User::signUp(IBank &bank)
 {
-    std::cout << "Generic User has no menu.\n";
+    bank.addUser();
 }

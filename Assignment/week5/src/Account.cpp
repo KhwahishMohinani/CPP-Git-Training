@@ -1,13 +1,13 @@
 #include <iostream>
-#include "../include/Account.h"
-#include "../include/Transaction.h"
+#include "Account.h"
+#include "Transaction.h"
 
 Account::Account(int accountNumber, std::string accountType, int customerId)
 {
-    setAccountNumber(accountNumber);
-    setBalance(0);
-    setAccountType(accountType);
-    setCustomerId(customerId);
+    this->accountNumber = accountNumber;
+    this->balance = 0;
+    this->accountType = accountType;
+    this->customerId = customerId;
     for (int i = 0; i < MAX_TRANSACTIONS; i++)
     {
         transactions[i] = nullptr;
@@ -68,27 +68,14 @@ void Account::addTransaction(std::string type, double amount)
     }
 }
 
-void Account::showMiniStatement()
+int Account::getTransactionsCount()
 {
-    int start = 0;
-    if (transactionsCount > 5)
-    {
-        start = transactionsCount - 5;
-    }
-    std::cout << "Mini Statement(Last 5 transactions):\n";
-    for (int i = start; i < transactionsCount; i++)
-    {
-        std::cout << "Transaction Id: " << transactions[i]->getTransactionId();
-        std::cout << " | Account Number: " << transactions[i]->getAccountNumber();
-        std::cout << " | Transaction type: " << transactions[i]->getType();
-        std::cout << " | Amount: " << transactions[i]->getAmount() << "\n";
-    }
+    return transactionsCount;
 }
 
-void Account::showBankStatement()
+void Account::getTransactions(int start)
 {
-    std::cout << "Bank Statement:\n";
-    for (int i = 0; i < transactionsCount; i++)
+    for (int i = start; i < transactionsCount; i++)
     {
         std::cout << "Transaction Id: " << transactions[i]->getTransactionId();
         std::cout << " | Account Number: " << transactions[i]->getAccountNumber();

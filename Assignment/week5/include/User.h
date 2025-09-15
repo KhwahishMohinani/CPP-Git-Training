@@ -12,6 +12,7 @@ private:
     std::string type;
 
 public:
+    void signUp(IBank &bank);
     User *login(IBank &bank);
     void setUserId(int);
     void setPassword(std::string);
@@ -19,9 +20,7 @@ public:
     int getUserId();
     std::string getPassword();
     std::string getType();
-    virtual void showMenu(IBank &bank);
-    virtual void deposit(IAccount *account, double amount);
-    virtual void withdraw(IAccount *account, double amount);
+    virtual ~User() = default;
 };
 
 #endif

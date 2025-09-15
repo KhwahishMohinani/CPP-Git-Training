@@ -1,15 +1,10 @@
 #include <iostream>
-#include "../include/Bank.h"
-#include "../include/Customer.h"
-#include "../include/Admin.h"
-#include "../include/IAccount.h"
-#include "../include/Account.h"
-#include "../include/InputHandler.h"
-
-int Bank::usersCount = 0;
-int Bank::accountsCount = 0;
-int Bank::customersCount = 0;
-int Bank::adminsCount = 0;
+#include "Bank.h"
+#include "Customer.h"
+#include "Admin.h"
+#include "IAccount.h"
+#include "Account.h"
+#include "InputHandler.h"
 
 int Bank::getUsersCount()
 {
@@ -129,12 +124,12 @@ User *Bank::findUserByCredentials(int id, const std::string &password)
     return user;
 }
 
-void Bank::addAccount(User *loggedInUser)
+void Bank::addAccount(User loggedInUser)
 {
     std::cout << "Enter the account type (current/savings): ";
     std::string accountType;
     std::cin >> accountType;
-    accounts[accountsCount] = new Account(accountsCount + 1, accountType, loggedInUser->getUserId());
+    accounts[accountsCount] = new Account(accountsCount + 1, accountType, loggedInUser.getUserId());
     accountsCount++;
     std::cout << "Account created successfully!\n";
 

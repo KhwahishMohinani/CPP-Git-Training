@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../include/Admin.h"
-#include "../include/InputHandler.h"
+#include "Admin.h"
+#include "InputHandler.h"
 
 Admin::Admin(int userId, std::string password, std::string type)
 {
@@ -27,7 +27,7 @@ void Admin::createAccount(IBank &bank)
     }
     else
     {
-        bank.addAccount(user);
+        bank.addAccount(*user);
     }
 }
 
@@ -57,51 +57,6 @@ void Admin::closeAccount(IBank &bank)
     {
         bank.removeAccount(account);
     }
-}
-
-void Admin::showMenu(IBank &bank)
-{
-    InputHandler inputHandler;
-    int choice, value;
-    std::string input;
-    do
-    {
-        std::cout << "1. Create Account\n2. Close Account\n3. Create User\n4. Delete User\n5. Show all accounts\n6. Logout\n";
-        std::cout << "Enter your choice: ";
-        std::cin >> input;
-        if (inputHandler.isValidInt(input, value))
-        {
-            choice = value;
-
-            switch (choice)
-            {
-            case 1:
-                createAccount(bank);
-                break;
-            case 2:
-                closeAccount(bank);
-                break;
-            case 3:
-                createUser(bank);
-                break;
-            case 4:
-                deleteUser(bank);
-                break;
-            case 5:
-                displayAllAccounts(bank);
-                break;
-            case 6:
-                std::cout << "Logging out\n";
-                break;
-            default:
-                std::cout << "Invalid choice!\n";
-            }
-        }
-        else
-        {
-            std::cout << "Please enter the correct number\n";
-        }
-    } while (choice != 6);
 }
 
 void Admin::createUser(IBank &bank)

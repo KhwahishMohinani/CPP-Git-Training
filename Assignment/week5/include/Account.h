@@ -21,13 +21,13 @@ public:
     void setCustomerId(int customerId);
     long getAccountNumber();
     double getBalance();
+    int getTransactionsCount();
     std::string getAccountType();
     int getCustomerId();
     void addBalance(double amount);
     void subtractBalance(double amount);
     void addTransaction(std::string type, double amount);
-    void showBankStatement();
-    void showMiniStatement();
+    void getTransactions(int start);
 };
 
 #endif

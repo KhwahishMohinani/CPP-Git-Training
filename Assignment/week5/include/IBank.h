@@ -14,7 +14,7 @@ private:
     std::string address;
 
 public:
-    virtual void addAccount(User *loggedInUser) = 0;
+    virtual void addAccount(User loggedInUser) = 0;
     virtual void removeAccount(IAccount *account) = 0;
     virtual void addUser() = 0;
     virtual User *findUserById(int id) = 0;
