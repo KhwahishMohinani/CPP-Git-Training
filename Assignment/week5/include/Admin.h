@@ -3,20 +3,27 @@
 
 #include <string>
 #include "User.h"
-#include "IBank.h"
 
 class IBank;
 class IAccount;
+class Customer;
 
 class Admin : public User
 {
+    IBank &bank;
+
 public:
-    Admin(int userId, std::string password, std::string type);
-    void createAccount(IBank &bank);
-    void closeAccount(IBank &bank);
-    void createUser(IBank &bank);
-    void deleteUser(IBank &bank);
-    void displayAllAccounts(IBank &bank);
+    Admin(std::string name, int userId, std::string password, std::string type, IBank &bank);
+    Customer **fetchAllCustomers();
+    int fetchCustomersCount();
+    IAccount **fetchAllAccounts();
+    int fetchAccountsCount();
+    Customer *searchCustomerById(int id);
+    void deleteCustomerById(int id);
+    IAccount *fetchAccount(int accountNumber, int customerId);
+    void deleteAccount(IAccount *account);
+    Customer *createCustomer(std::string name, std::string password);
+    IAccount *createAccount(Customer &customer, std::string accountType);
 };
 
 #endif

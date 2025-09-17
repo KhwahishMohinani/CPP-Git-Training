@@ -14,22 +14,6 @@ Account::Account(int accountNumber, std::string accountType, int customerId)
     }
 }
 
-void Account::setAccountNumber(long accountNumber)
-{
-    this->accountNumber = accountNumber;
-}
-void Account::setBalance(double balance)
-{
-    this->balance = balance;
-}
-void Account::setAccountType(std::string accountType)
-{
-    this->accountType = accountType;
-}
-void Account::setCustomerId(int customerId)
-{
-    this->customerId = customerId;
-}
 long Account::getAccountNumber()
 {
     return accountNumber;
@@ -45,6 +29,11 @@ std::string Account::getAccountType()
 int Account::getCustomerId()
 {
     return customerId;
+}
+
+int Account::getTransactionsCount()
+{
+    return transactionsCount;
 }
 
 void Account::addBalance(double amount)
@@ -68,18 +57,7 @@ void Account::addTransaction(std::string type, double amount)
     }
 }
 
-int Account::getTransactionsCount()
+Transaction **Account::getTransactions()
 {
-    return transactionsCount;
-}
-
-void Account::getTransactions(int start)
-{
-    for (int i = start; i < transactionsCount; i++)
-    {
-        std::cout << "Transaction Id: " << transactions[i]->getTransactionId();
-        std::cout << " | Account Number: " << transactions[i]->getAccountNumber();
-        std::cout << " | Transaction type: " << transactions[i]->getType();
-        std::cout << " | Amount: " << transactions[i]->getAmount() << "\n";
-    }
+    return transactions;
 }

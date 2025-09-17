@@ -8,16 +8,8 @@ class IAccount;
 
 class Customer : public User
 {
-private:
-    std::string name;
-    int contact;
-
 public:
-    Customer(std::string name, int contact, int userId, std::string password, std::string type);
-    void deposit(IAccount *account, double amount);
-    void withdraw(IAccount *account, double amount);
-    void showMiniStatement(IAccount *account);
-    void showBankStatement(IAccount *account);
+    Customer(std::string name, int userId, std::string password, std::string type);
 };
 
 #endif

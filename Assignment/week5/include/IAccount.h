@@ -3,6 +3,8 @@
 
 #include <string>
 
+class Transaction;
+
 class IAccount
 {
 protected:
@@ -12,19 +14,14 @@ protected:
     int customerId;
 
 public:
-    virtual void setAccountNumber(long accountNumber) = 0;
-    virtual void setBalance(double balance) = 0;
-    virtual void setAccountType(std::string accountType) = 0;
-    virtual void setCustomerId(int customerId) = 0;
     virtual long getAccountNumber() = 0;
     virtual double getBalance() = 0;
-    virtual int getTransactionsCount() = 0;
     virtual std::string getAccountType() = 0;
     virtual int getCustomerId() = 0;
+    virtual int getTransactionsCount() = 0;
     virtual void addBalance(double amount) = 0;
     virtual void subtractBalance(double amount) = 0;
-    virtual void getTransactions(int start) = 0;
-    virtual ~IAccount() {};
+    virtual Transaction **getTransactions() = 0;
 };
 
 #endif

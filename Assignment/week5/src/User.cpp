@@ -1,37 +1,12 @@
 #include <iostream>
 #include "User.h"
-#include "IBank.h"
-#include "Bank.h"
-#include "Account.h"
-#include "Authentication.h"
-#include "InputHandler.h"
 
-User *User::login(IBank &bank)
+User::User(std::string name, int userId, std::string password, std::string type)
 {
-    InputHandler inputHandler;
-    int id, value;
-    std::string pass, input;
-    User *loggedInUser = nullptr;
-
-    while (true)
-    {
-        std::cout << "Enter user id: ";
-        std::cin >> input;
-        if (inputHandler.isValidInt(input, value))
-        {
-            id = value;
-            break;
-        }
-        else
-        {
-            std::cout << "Please enter the correct id\n";
-        }
-    }
-    std::cout << "Enter password: ";
-    std::cin >> pass;
-    Authentication authentication;
-    loggedInUser = authentication.login(bank, id, pass);
-    return loggedInUser;
+    this->name = name;
+    this->userId = userId;
+    this->password = password;
+    this->type = type;
 }
 
 void User::setUserId(int userId)
@@ -49,6 +24,11 @@ void User::setType(std::string type)
     this->type = type;
 }
 
+void User::setName(std::string name)
+{
+    this->name = name;
+}
+
 std::string User::getType()
 {
     return type;
@@ -64,7 +44,7 @@ int User::getUserId()
     return userId;
 }
 
-void User::signUp(IBank &bank)
+std::string User::getName()
 {
-    bank.addUser();
+    return name;
 }

@@ -6,9 +6,11 @@
 #include "Account.h"
 #include "InputHandler.h"
 
-int Bank::getUsersCount()
+Bank::Bank()
 {
-    return usersCount;
+    admins[adminsCount++] = new Admin("Red", 1, "admin123", "admin", *this);
+    admins[adminsCount++] = new Admin("Blue", 2, "admin234", "admin", *this);
+    admins[adminsCount++] = new Admin("Green", 3, "admin345", "admin", *this);
 }
 
 int Bank::getAccountsCount()
@@ -16,124 +18,64 @@ int Bank::getAccountsCount()
     return accountsCount;
 }
 
-int Bank::getCustomercount()
+int Bank::getCustomersCount()
 {
     return customersCount;
 }
 
-User **Bank::getUsers()
+Customer *Bank::addCustomer(std::string &name, std::string &password)
 {
-    return users;
+    if (customersCount >= MAX_CUSTOMERS)
+        return nullptr;
+
+    int customerId = customersCount + 1;
+    customers[customersCount] = new Customer(name, customerId, password, "customer");
+    customersCount++;
+
+    return customers[customersCount - 1];
 }
 
-void Bank::addUser()
+Customer *Bank::findCustomerById(int id)
 {
-    InputHandler inputHandler;
-    std::string input;
-    int type, value;
-    while (true)
+    Customer *customer = nullptr;
+    for (int i = 0; i < customersCount; i++)
     {
-        std::cout << "Signup as \n1. Customer\n2. Admin\n";
-        std::cout << "Enter your choice: ";
-        std::cin >> input;
-
-        if (inputHandler.isValidInt(input, value) && (value == 1 || value == 2))
+        if (customers[i]->getUserId() == id)
         {
-            type = value;
-            break;
-        }
-        else
-        {
-            std::cout << "Invalid input! Please enter 1 for Customer or 2 for Admin.\n";
+            customer = customers[i];
         }
     }
-    switch (type)
-    {
-    case 1:
-    {
-        std::string password, name, email;
-        int contact, value;
-        std::string input;
-        std::cout << "Enter Password: ";
-        std::cin >> password;
-        std::cout << "Enter Name: ";
-        std::cin >> name;
-        while (true)
-        {
-            std::cout << "Enter Contact: ";
-            std::cin >> input;
-            if (inputHandler.isValidInt(input, value))
-            {
-                contact = value;
-                break;
-            }
-            else
-                std::cout << "Please enter the correct number\n";
-        }
-        users[usersCount] = new Customer(name, contact, usersCount + 1, password, "customer");
-        usersCount++;
-        std::cout << "Customer created successfully!\n";
-        std::cout << "Your customer id is: " << usersCount << "\n";
-        break;
-    }
-    case 2:
-    {
-        std::string password;
-        std::cout << "Enter Password: ";
-        std::cin >> password;
-        users[usersCount] = new Admin(usersCount + 1, password, "admin");
-        usersCount++;
-        std::cout << "Admin created successfully!\n";
-        std::cout << "Your admin id is: " << usersCount << "\n";
-        break;
-    }
-    default:
-    {
-        std::cout << "Incorrect type\n";
-    }
-    }
+    return customer;
 }
 
-User *Bank::findUserById(int id)
+Customer *Bank::findCustomerByCredentials(int id, const std::string &password)
 {
-    for (int i = 0; i < usersCount; i++)
+    Customer *customer = nullptr;
+    for (int i = 0; i < customersCount; i++)
     {
-        if (users[i]->getUserId() == id)
-        {
-            return users[i];
-        }
-    }
-    return nullptr;
-}
-
-User *Bank::findUserByCredentials(int id, const std::string &password)
-{
-    User *user = nullptr;
-    for (int i = 0; i < usersCount; i++)
-    {
-        user = users[i];
-        if (user && user->getUserId() == id && user->getPassword() == password)
+        customer = customers[i];
+        if (customer && customer->getUserId() == id && customer->getPassword() == password)
         {
             break;
         }
         else
         {
-            user = nullptr;
+            customer = nullptr;
         }
     }
-    return user;
+    return customer;
 }
 
-void Bank::addAccount(User loggedInUser)
+IAccount *Bank::addAccount(Customer &customer, const std::string &accountType)
 {
-    std::cout << "Enter the account type (current/savings): ";
-    std::string accountType;
-    std::cin >> accountType;
-    accounts[accountsCount] = new Account(accountsCount + 1, accountType, loggedInUser.getUserId());
+    if (accountsCount >= MAX_ACCOUNTS)
+        return nullptr;
+
+    int accountId = accountsCount + 1;
+    accounts[accountsCount] = new Account(accountId, accountType, customer.getUserId());
     accountsCount++;
-    std::cout << "Account created successfully!\n";
 
-    std::cout << "Your Account Number is: " << accountsCount << "\n";
+    return accounts[accountsCount - 1];
 }
 
 void Bank::removeAccount(IAccount *account)
@@ -150,11 +92,59 @@ void Bank::removeAccount(IAccount *account)
             }
             accounts[accountsCount - 1] = nullptr;
             accountsCount--;
+        }
+    }
+}
 
-            std::cout << "Account removed successfully!\n";
+void Bank::removeCustomerById(int id)
+{
+    for (int i = 0; i < customersCount; i++)
+    {
+        if (customers[i] && customers[i]->getUserId() == id)
+        {
+            Customer *customer = customers[i];
+            int j = 0;
+            while (j < accountsCount)
+            {
+                if (accounts[j] && accounts[j]->getCustomerId() == id)
+                {
+                    delete accounts[j];
+
+                    for (int k = j; k < accountsCount - 1; k++)
+                    {
+                        accounts[k] = accounts[k + 1];
+                    }
+                    accounts[accountsCount - 1] = nullptr;
+                    accountsCount--;
+                }
+                else
+                {
+                    j++;
+                }
+            }
+
+            delete customer;
+
+            for (int j = i; j < customersCount - 1; j++)
+            {
+                customers[j] = customers[j + 1];
+            }
+            customers[customersCount - 1] = nullptr;
+            customersCount--;
+
             break;
         }
     }
+}
+
+Customer **Bank::getAllCustomers()
+{
+    return customers;
+}
+
+IAccount **Bank::getAllAccounts()
+{
+    return accounts;
 }
 
 IAccount *Bank::getAccount(long accountNumber, int customerId)
@@ -172,71 +162,20 @@ IAccount *Bank::getAccount(long accountNumber, int customerId)
     return account;
 }
 
-IAccount *Bank::getAccountByAccountNumber(long accountNumber)
+Admin *Bank::findAdminByCredentials(int id, const std::string &password)
 {
-    for (int i = 0; i < accountsCount; i++)
+    Admin *admin = nullptr;
+    for (int i = 0; i < adminsCount; i++)
     {
-        if (accounts[i]->getAccountNumber() == accountNumber)
+        admin = admins[i];
+        if (admin && admin->getUserId() == id && admin->getPassword() == password)
         {
-            return accounts[i];
-        }
-    }
-    return nullptr;
-}
-
-void Bank::removeUser()
-{
-    InputHandler inputHandler;
-    std::cout << "Enter User ID to remove: ";
-    int id, value;
-    std::string input;
-    while (true)
-    {
-        std::cin >> input;
-        if (inputHandler.isValidInt(input, value))
-        {
-            id = value;
             break;
         }
         else
         {
-            std::cout << "Please enter the correct id\n";
+            admin = nullptr;
         }
     }
-    bool found = false;
-    for (int i = 0; i < usersCount; i++)
-    {
-        if (users[i] && users[i]->getUserId() == id)
-        {
-            delete users[i];
-            for (int j = i; j < usersCount - 1; j++)
-            {
-                users[j] = users[j + 1];
-            }
-            users[usersCount - 1] = nullptr;
-            usersCount--;
-            std::cout << "User removed successfully!\n";
-            found = true;
-            break;
-        }
-    }
-    if (!found)
-    {
-        std::cout << "User not found!\n";
-    }
-}
-
-void Bank::showAllAccounts()
-{
-    if (accountsCount == 0)
-    {
-        std::cout << "No accounts available!\n";
-        return;
-    }
-    for (int i = 0; i < accountsCount; i++)
-    {
-        std::cout << "Account " << accounts[i]->getAccountNumber();
-        std::cout << " | Type: " << accounts[i]->getAccountType();
-        std::cout << " | Balance: " << accounts[i]->getBalance() << "\n";
-    }
+    return admin;
 }

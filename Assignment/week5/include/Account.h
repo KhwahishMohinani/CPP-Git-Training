@@ -15,10 +15,6 @@ private:
 
 public:
     Account(int accountNumber, std::string accountType, int customerId);
-    void setAccountNumber(long accountNumber);
-    void setBalance(double balance);
-    void setAccountType(std::string accountType);
-    void setCustomerId(int customerId);
     long getAccountNumber();
     double getBalance();
     int getTransactionsCount();
@@ -27,7 +23,7 @@ public:
     void addBalance(double amount);
     void subtractBalance(double amount);
     void addTransaction(std::string type, double amount);
-    void getTransactions(int start);
+    Transaction **getTransactions();
 };
 
 #endif

@@ -1,75 +1,60 @@
 #include <iostream>
 #include "Admin.h"
 #include "InputHandler.h"
+#include "Customer.h"
+#include "IBank.h"
 
-Admin::Admin(int userId, std::string password, std::string type)
+Admin::Admin(std::string name, int userId, std::string password, std::string type, IBank &bank)
+    : User(name, userId, password, type), bank(bank)
 {
-    setUserId(userId);
-    setPassword(password);
-    setType(type);
 }
 
-void Admin::createAccount(IBank &bank)
+Customer **Admin::fetchAllCustomers()
 {
-    int customerId;
-    std::cout << "Enter Customer ID to create an account for: ";
-    std::cin >> customerId;
-
-    User *user = bank.findUserById(customerId);
-
-    if (user == nullptr)
-    {
-        std::cout << "Error: No user found with ID " << customerId << "\n";
-    }
-    else if (user->getType() != "customer")
-    {
-        std::cout << "Error: User with ID " << customerId << " is not a customer!\n";
-    }
-    else
-    {
-        bank.addAccount(*user);
-    }
+    return bank.getAllCustomers();
 }
 
-void Admin::closeAccount(IBank &bank)
+int Admin::fetchCustomersCount()
 {
-    InputHandler inputHandler;
-    std::string input;
-    long accountNumber, longValue;
-    std::cout << "Enter Account number: ";
-    while (true)
-    {
-        std::cin >> input;
-        if (inputHandler.isValidLong(input, longValue))
-        {
-            accountNumber = longValue;
-            break;
-        }
-        else
-        {
-            std::cout << "Please enter the correct account number\n";
-        }
-    }
-    IAccount *account = bank.getAccountByAccountNumber(accountNumber);
-    if (!account)
-        std::cout << "Account not found\n";
-    else
-    {
-        bank.removeAccount(account);
-    }
+    return bank.getCustomersCount();
 }
 
-void Admin::createUser(IBank &bank)
+IAccount **Admin::fetchAllAccounts()
 {
-    bank.addUser();
+    return bank.getAllAccounts();
 }
 
-void Admin::deleteUser(IBank &bank)
+int Admin::fetchAccountsCount()
 {
-    bank.removeUser();
+    return bank.getAccountsCount();
 }
 
-void Admin::displayAllAccounts(IBank &bank)
+Customer *Admin::searchCustomerById(int id)
 {
-    bank.showAllAccounts();
+    return bank.findCustomerById(id);
+}
+
+void Admin::deleteCustomerById(int id)
+{
+    bank.removeCustomerById(id);
+}
+
+IAccount *Admin::fetchAccount(int accountNumber, int customerId)
+{
+    return bank.getAccount(accountNumber, customerId);
+}
+
+void Admin::deleteAccount(IAccount *account)
+{
+    bank.removeAccount(account);
+}
+
+Customer *Admin::createCustomer(std::string name, std::string password)
+{
+    return bank.addCustomer(name, password);
+}
+
+IAccount *Admin::createAccount(Customer &customer, std::string accountType)
+{
+    return bank.addAccount(customer, accountType);
 }
