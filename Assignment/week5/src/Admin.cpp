@@ -2,6 +2,8 @@
 #include "Admin.h"
 #include "InputHandler.h"
 #include "Customer.h"
+#include "IAccount.h"
+#include "AccountRequest.h"
 #include "IBank.h"
 
 Admin::Admin(std::string name, int userId, std::string password, std::string type, IBank &bank)
@@ -34,11 +36,6 @@ Customer *Admin::searchCustomerById(int id)
     return bank.findCustomerById(id);
 }
 
-void Admin::deleteCustomerById(int id)
-{
-    bank.removeCustomerById(id);
-}
-
 IAccount *Admin::fetchAccount(int accountNumber, int customerId)
 {
     return bank.getAccount(accountNumber, customerId);
@@ -49,12 +46,27 @@ void Admin::deleteAccount(IAccount *account)
     bank.removeAccount(account);
 }
 
-Customer *Admin::createCustomer(std::string name, std::string password)
+IAccount *Admin::createAccount(Customer &customer, double balance, std::string accountType)
 {
-    return bank.addCustomer(name, password);
+    return bank.addAccount(customer, balance, accountType);
 }
 
-IAccount *Admin::createAccount(Customer &customer, std::string accountType)
+void Admin::handleRequests()
 {
-    return bank.addAccount(customer, accountType);
+    AccountRequest **requests = bank.getAllRequests();
+    for (int i = 0; i < bank.getRequestCount(); i++)
+    {
+        AccountRequest *request = requests[i];
+        int customerId = request->customerId;
+        double balance = request->initialBalance;
+        std::string type = request->type;
+
+        Customer *customer = bank.findCustomerById(customerId);
+        if (customer)
+        {
+            IAccount *account = bank.addAccount(*customer, balance, type);
+        }
+    }
+
+    bank.clearRequests();
 }

@@ -7,11 +7,6 @@ class Transaction;
 
 class IAccount
 {
-protected:
-    long accountNumber;
-    double balance;
-    std::string accountType;
-    int customerId;
 
 public:
     virtual long getAccountNumber() = 0;
@@ -22,6 +17,7 @@ public:
     virtual void addBalance(double amount) = 0;
     virtual void subtractBalance(double amount) = 0;
     virtual Transaction **getTransactions() = 0;
+    virtual ~IAccount() {};
 };
 
 #endif

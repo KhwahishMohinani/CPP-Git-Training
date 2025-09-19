@@ -16,7 +16,7 @@ int main()
         {
         case 1:
         {
-            menuForAddCustomer(*bank);
+            signupMenu(*bank);
             break;
         }
         case 2:

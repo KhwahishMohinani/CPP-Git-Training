@@ -2,12 +2,9 @@
 #include "Account.h"
 #include "Transaction.h"
 
-Account::Account(int accountNumber, std::string accountType, int customerId)
+Account::Account(int accountNumber, double balance, std::string accountType, int customerId)
+    : accountNumber(accountNumber), balance(balance), accountType(accountType), customerId(customerId)
 {
-    this->accountNumber = accountNumber;
-    this->balance = 0;
-    this->accountType = accountType;
-    this->customerId = customerId;
     for (int i = 0; i < MAX_TRANSACTIONS; i++)
     {
         transactions[i] = nullptr;

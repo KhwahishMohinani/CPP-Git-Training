@@ -10,11 +10,15 @@ class Transaction;
 class Account : public IAccount
 {
 private:
+    long accountNumber;
+    double balance;
+    std::string accountType;
+    int customerId;
     Transaction *transactions[MAX_TRANSACTIONS];
     int transactionsCount = 0;
 
 public:
-    Account(int accountNumber, std::string accountType, int customerId);
+    Account(int accountNumber, double balance, std::string accountType, int customerId);
     long getAccountNumber();
     double getBalance();
     int getTransactionsCount();

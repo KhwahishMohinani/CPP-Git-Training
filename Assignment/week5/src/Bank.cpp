@@ -4,9 +4,11 @@
 #include "Admin.h"
 #include "IAccount.h"
 #include "Account.h"
+#include "AccountRequest.h"
 #include "InputHandler.h"
 
 Bank::Bank()
+    : bankId(1), bankName("My Bank")
 {
     admins[adminsCount++] = new Admin("Red", 1, "admin123", "admin", *this);
     admins[adminsCount++] = new Admin("Blue", 2, "admin234", "admin", *this);
@@ -66,13 +68,13 @@ Customer *Bank::findCustomerByCredentials(int id, const std::string &password)
     return customer;
 }
 
-IAccount *Bank::addAccount(Customer &customer, const std::string &accountType)
+IAccount *Bank::addAccount(Customer &customer, double balance, const std::string &accountType)
 {
     if (accountsCount >= MAX_ACCOUNTS)
         return nullptr;
 
     int accountId = accountsCount + 1;
-    accounts[accountsCount] = new Account(accountId, accountType, customer.getUserId());
+    accounts[accountsCount] = new Account(accountId, balance, accountType, customer.getUserId());
     accountsCount++;
 
     return accounts[accountsCount - 1];
@@ -137,6 +139,24 @@ void Bank::removeCustomerById(int id)
     }
 }
 
+IAccount **Bank::getAccountsByCustomerId(int customerId, int &accountCount)
+{
+    IAccount **customerAccounts = new IAccount *[accountsCount];
+    int customerAccountsCount = 0;
+
+    for (int i = 0; i < accountsCount; i++)
+    {
+        if (accounts[i] && accounts[i]->getCustomerId() == customerId)
+        {
+            customerAccounts[customerAccountsCount] = accounts[i];
+            customerAccountsCount++;
+        }
+    }
+
+    accountCount = customerAccountsCount;
+    return customerAccounts;
+}
+
 Customer **Bank::getAllCustomers()
 {
     return customers;
@@ -178,4 +198,80 @@ Admin *Bank::findAdminByCredentials(int id, const std::string &password)
         }
     }
     return admin;
+}
+
+bool Bank::deposit(long accountNumber, int customerId, double amount)
+{
+    bool success = false;
+    IAccount *account = getAccount(accountNumber, customerId);
+    if (account)
+    {
+        account->addBalance(amount);
+        success = true;
+    }
+    return success;
+}
+
+bool Bank::withdraw(long accountNumber, int customerId, double amount)
+{
+    bool success = false;
+    IAccount *account = getAccount(accountNumber, customerId);
+    if (account && account->getBalance() > amount)
+    {
+        account->subtractBalance(amount);
+        success = true;
+    }
+    return success;
+}
+
+double Bank::getAccountBalance(long accountNumber, int customerId)
+{
+    IAccount *account = getAccount(accountNumber, customerId);
+    return account->getBalance();
+}
+
+Transaction **Bank::getAccountTransactions(long accountNumber, int customerId)
+{
+    IAccount *account = getAccount(accountNumber, customerId);
+
+    return account->getTransactions();
+}
+
+int Bank::getAccountTransactionsCount(long accountNumber, int customerId)
+{
+    int accountTransactionsCount = 0;
+    IAccount *account = getAccount(accountNumber, customerId);
+    accountTransactionsCount = account->getTransactionsCount();
+    return accountTransactionsCount;
+}
+
+bool Bank::addAccountRequest(int customerId, double balance, std::string type)
+{
+    bool success = false;
+    if (requestsCount < MAX_REQUESTS)
+    {
+        requests[requestsCount++] = new AccountRequest(customerId, balance, type);
+        success = true;
+    }
+    return success;
+}
+
+AccountRequest **Bank::getAllRequests()
+{
+    return requests;
+}
+
+int Bank::getRequestCount()
+{
+    return requestsCount;
+}
+
+void Bank::clearRequests()
+{
+    for (int i = 0; i < requestsCount; i++)
+    {
+        delete requests[i];
+        requests[i] = nullptr;
+    }
+    requestsCount = 0;
 }

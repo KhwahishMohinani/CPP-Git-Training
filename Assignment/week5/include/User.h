@@ -5,22 +5,18 @@
 
 class User
 {
-private:
+protected:
+    std::string name;
     int userId;
     std::string password;
-    std::string type;
-    std::string name;
+    std::string userType;
 
 public:
     User(std::string name, int userId, std::string password, std::string type);
-    void setUserId(int);
-    void setPassword(std::string);
-    void setType(std::string);
-    void setName(std::string);
-    int getUserId();
-    std::string getPassword();
-    std::string getType();
-    std::string getName();
+    int getUserId() const;
+    std::string getPassword() const;
+    std::string getUserType() const;
+    std::string getName() const;
 };
 
 #endif

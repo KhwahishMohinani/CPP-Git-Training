@@ -1,50 +1,27 @@
 #include <iostream>
 #include "User.h"
 
-User::User(std::string name, int userId, std::string password, std::string type)
+User::User(std::string name, int userId, std::string password, std::string userType)
+    : name(name), userId(userId), password(password), userType(userType)
 {
-    this->name = name;
-    this->userId = userId;
-    this->password = password;
-    this->type = type;
 }
 
-void User::setUserId(int userId)
+std::string User::getUserType() const
 {
-    this->userId = userId;
+    return userType;
 }
 
-void User::setPassword(std::string password)
-{
-    this->password = password;
-}
-
-void User::setType(std::string type)
-{
-    this->type = type;
-}
-
-void User::setName(std::string name)
-{
-    this->name = name;
-}
-
-std::string User::getType()
-{
-    return type;
-}
-
-std::string User::getPassword()
+std::string User::getPassword() const
 {
     return password;
 }
 
-int User::getUserId()
+int User::getUserId() const
 {
     return userId;
 }
 
-std::string User::getName()
+std::string User::getName() const
 {
     return name;
 }

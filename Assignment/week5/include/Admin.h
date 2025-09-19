@@ -23,7 +23,8 @@ public:
     IAccount *fetchAccount(int accountNumber, int customerId);
     void deleteAccount(IAccount *account);
     Customer *createCustomer(std::string name, std::string password);
-    IAccount *createAccount(Customer &customer, std::string accountType);
+    IAccount *createAccount(Customer &customer, double balance, std::string accountType);
+    void handleRequests();
 };
 
 #endif

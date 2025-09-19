@@ -1,11 +1,8 @@
 #include "Transaction.h"
 
 Transaction::Transaction(int transactionId, long accountNumber, std::string type, int amount)
+    : transactionId(transactionId), accountNumber(accountNumber), type(type), amount(amount)
 {
-    this->transactionId = transactionId;
-    this->accountNumber = accountNumber;
-    this->type = type;
-    this->amount = amount;
 }
 
 long Transaction::getAccountNumber()

@@ -9,7 +9,7 @@ class IAccount;
 class Customer : public User
 {
 public:
-    Customer(std::string name, int userId, std::string password, std::string type);
+    Customer(std::string name, int userId, std::string password, std::string userType);
 };
 
 #endif
