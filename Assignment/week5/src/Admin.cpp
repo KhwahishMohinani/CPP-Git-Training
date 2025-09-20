@@ -3,7 +3,7 @@
 #include "InputHandler.h"
 #include "Customer.h"
 #include "IAccount.h"
-#include "AccountRequest.h"
+#include "structs.h"
 #include "IBank.h"
 
 Admin::Admin(std::string name, int userId, std::string password, std::string type, IBank &bank)
@@ -33,40 +33,46 @@ int Admin::fetchAccountsCount()
 
 Customer *Admin::searchCustomerById(int id)
 {
-    return bank.findCustomerById(id);
+    return bank.getCustomerById(id);
 }
 
-IAccount *Admin::fetchAccount(int accountNumber, int customerId)
+bool Admin::deleteAccount(long accountNumber, int customerId)
 {
-    return bank.getAccount(accountNumber, customerId);
+    return (bank.removeAccount(accountNumber, customerId));
 }
 
-void Admin::deleteAccount(IAccount *account)
+int Admin::createAccount(Customer &customer, double balance, std::string &accountType)
 {
-    bank.removeAccount(account);
+    IAccount *account = bank.addAccount(customer, balance, accountType);
+    return account ? account->getAccountNumber() : -1;
 }
 
-IAccount *Admin::createAccount(Customer &customer, double balance, std::string accountType)
+void Admin::deleteCustomer(int customerId)
 {
-    return bank.addAccount(customer, balance, accountType);
+    bank.removeCustomerById(customerId);
 }
 
-void Admin::handleRequests()
+int Admin::handleRequests()
 {
+    int createdCount = 0;
+
     AccountRequest **requests = bank.getAllRequests();
     for (int i = 0; i < bank.getRequestCount(); i++)
     {
         AccountRequest *request = requests[i];
         int customerId = request->customerId;
         double balance = request->initialBalance;
-        std::string type = request->type;
+        std::string accountType = request->accountType;
 
-        Customer *customer = bank.findCustomerById(customerId);
+        Customer *customer = bank.getCustomerById(customerId);
         if (customer)
         {
-            IAccount *account = bank.addAccount(*customer, balance, type);
+            IAccount *account = bank.addAccount(*customer, balance, accountType);
+            if (account)
+                createdCount++;
         }
     }
 
     bank.clearRequests();
+    return createdCount;
 }

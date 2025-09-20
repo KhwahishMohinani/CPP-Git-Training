@@ -17,24 +17,26 @@ private:
     IAccount *accounts[MAX_ACCOUNTS];
     AccountRequest *requests[MAX_REQUESTS];
     int adminsCount = 0;
-    int accountsCount = 0;
-    int customersCount = 0;
-    int requestsCount = 0;
+    int accountsCount = 0, nextAdminId = 1;
+    int customersCount = 0, nextCustomerId = 1;
+    ;
+    int requestsCount = 0, nextAccountId = 1;
 
 public:
     Bank();
     int getAccountsCount();
     int getCustomersCount();
     IAccount *addAccount(Customer &customer, double balance, const std::string &accountType);
-    void removeAccount(IAccount *account);
+    bool removeAccount(long accountNumber, int customerId);
     IAccount *getAccount(long accountNumber, int customerId);
     IAccount **getAllAccounts();
     Customer *addCustomer(std::string &name, std::string &password);
-    Customer *findCustomerById(int id);
-    Customer *findCustomerByCredentials(int id, const std::string &password);
-    Admin *findAdminByCredentials(int id, const std::string &password);
-    void removeCustomerById(int id);
+    Customer *getCustomerById(int id);
+    Customer *getCustomerByCredentials(int id, const std::string &password);
+    Admin *getAdminByCredentials(int id, const std::string &password);
     Customer **getAllCustomers();
+    void removeAccountsByCustomerId(int customerId);
+    void removeCustomerById(int id);
     bool deposit(long accountNumber, int customerId, double amount);
     bool withdraw(long accountNumber, int customerId, double amount);
     Transaction **getAccountTransactions(long accountNumber, int userId);

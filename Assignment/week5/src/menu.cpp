@@ -6,6 +6,7 @@
 #include "IAccount.h"
 #include "Transaction.h"
 #include "InputHandler.h"
+#include "constants.h"
 
 int getValidInt(const std::string &prompt, InputHandler &inputHandler)
 {
@@ -19,7 +20,7 @@ int getValidInt(const std::string &prompt, InputHandler &inputHandler)
         {
             return value;
         }
-        std::cout << "Invalid input. Please enter a number.\n";
+        std::cout << INVALID_INPUT;
     }
 }
 
@@ -35,7 +36,7 @@ long getValidLong(const std::string &prompt, InputHandler &inputHandler)
         {
             return value;
         }
-        std::cout << "Invalid input. Please enter a valid number.\n";
+        std::cout << INVALID_LONG;
     }
 }
 
@@ -49,14 +50,14 @@ double getValidDouble(const std::string &prompt, InputHandler &inputHandler)
         {
             return value;
         }
-        std::cout << "Invalid input. Please enter a valid amount.\n";
+        std::cout << INVALID_DOUBLE;
     }
 }
 
 void inputCredentials(int &id, std::string &password, InputHandler &inputHandler)
 {
-    id = getValidInt("Enter user id: ", inputHandler);
-    std::cout << "Enter password: ";
+    id = getValidInt(ENTER_USER_ID, inputHandler);
+    std::cout << ENTER_PASSWORD;
     std::cin >> password;
 }
 
@@ -65,50 +66,50 @@ void loginMenu(IBank &bank, InputHandler &inputHandler)
     int id;
     std::string password;
     inputCredentials(id, password, inputHandler);
-    Customer *customer = bank.findCustomerByCredentials(id, password);
-    Admin *admin = bank.findAdminByCredentials(id, password);
+    Customer *customer = bank.getCustomerByCredentials(id, password);
+    Admin *admin = bank.getAdminByCredentials(id, password);
     if (customer)
     {
-        std::cout << "Login successful\n";
+        std::cout << LOGIN_SUCCESS;
         showCustomerMenu(bank, *customer, inputHandler);
     }
     else if (admin)
     {
-        std::cout << "Login successful\n";
+        std::cout << LOGIN_SUCCESS;
         showAdminMenu(bank, *admin, inputHandler);
     }
     else
     {
-        std::cout << "Invalid credentials.\n";
+        std::cout << LOGIN_FAILED;
     }
 }
 
 void depositMenu(IBank &bank, long accountNumber, Customer &customer)
 {
     InputHandler inputHandler;
-    double amount = getValidDouble("Enter amount to deposit: ", inputHandler);
+    double amount = getValidDouble(ENTER_AMOUNT_DEPOSIT, inputHandler);
     if (bank.deposit(accountNumber, customer.getUserId(), amount))
     {
-        std::cout << "Deposited " << amount << " succesfully" << "\n";
+        std::cout << DEPOSIT_SUCCESS << amount << SUCCESS;
     }
     else
     {
-        std::cout << "You don't own this account\n";
+        std::cout << DEPOSIT_FAILED;
     }
 }
 
 void withdrawMenu(IBank &bank, long accountNumber, Customer &customer)
 {
     InputHandler inputHandler;
-    double amount = getValidDouble("Enter amount to withdraw: ", inputHandler);
+    double amount = getValidDouble(ENTER_AMOUNT_WITHDRAW, inputHandler);
 
     if (bank.withdraw(accountNumber, customer.getUserId(), amount))
     {
-        std::cout << "Withdrawn " << amount << " successfully\n";
+        std::cout << WITHDRAW_SUCCESS << amount << SUCCESS;
     }
     else
     {
-        std::cout << "Insufficient balance\n";
+        std::cout << WITHDRAW_FAILED;
     }
 }
 
@@ -119,15 +120,15 @@ void showCustomerAccounts(IBank &bank, Customer &customer, InputHandler inputHan
 
     if (accountCount == 0)
     {
-        std::cout << "No accounts found for Customer ID: " << customer.getUserId() << "\n";
+        std::cout << NO_ACCOUNTS_FOUND << customer.getUserId() << "\n";
     }
     else
     {
         for (int i = 0; i < accountCount; i++)
         {
-            std::cout << "Account No: " << accounts[i]->getAccountNumber()
-                      << " | Balance: " << accounts[i]->getBalance()
-                      << " | Type: " << accounts[i]->getAccountType() << "\n";
+            std::cout << ACCOUNT_NUMBER_LABEL << accounts[i]->getAccountNumber()
+                      << BALANCE_LABEL << accounts[i]->getBalance()
+                      << ACCOUNT_TYPE_LABEL << accounts[i]->getAccountType() << "\n";
         }
         delete[] accounts;
     }
@@ -137,10 +138,10 @@ void showTransactions(int start, Transaction **transactions, int transactionsCou
 {
     for (int i = start; i < transactionsCount; i++)
     {
-        std::cout << "Transaction Id: " << transactions[i]->getTransactionId();
-        std::cout << " | Account Number: " << transactions[i]->getAccountNumber();
-        std::cout << " | Transaction type: " << transactions[i]->getType();
-        std::cout << " | Amount: " << transactions[i]->getAmount() << "\n";
+        std::cout << TRANSACTION_ID_LABEL << transactions[i]->getTransactionId();
+        std::cout << TRANSACTION_ACCOUNT_NUMBER_LABEL << transactions[i]->getAccountNumber();
+        std::cout << TRANSACTION_TYPE_LABEL << transactions[i]->getType();
+        std::cout << TRANSACTION_AMOUNT_LABEL << transactions[i]->getAmount() << "\n";
     }
 }
 
@@ -150,7 +151,7 @@ void showMiniStatement(IBank &bank, long accountNumber, Customer &customer)
     int transactionsCount = bank.getAccountTransactionsCount(accountNumber, customer.getUserId());
     if (transactionsCount == 0)
     {
-        std::cout << "No transactions yet\n";
+        std::cout << NO_TRANSACTIONS;
     }
     else
     {
@@ -158,14 +159,14 @@ void showMiniStatement(IBank &bank, long accountNumber, Customer &customer)
         {
             start = transactionsCount - 5;
         }
-        std::cout << "Mini Statement(Last 5 transactions):\n";
+        std::cout << MINI_STATEMENT;
         showTransactions(start, bank.getAccountTransactions(accountNumber, customer.getUserId()), transactionsCount);
     }
 }
 
 void showBalance(IBank &bank, long accountNumber, Customer &customer)
 {
-    std::cout << "Balance: " << bank.getAccountBalance(accountNumber, customer.getUserId()) << "\n";
+    std::cout << BALANCE << bank.getAccountBalance(accountNumber, customer.getUserId()) << "\n";
 }
 
 void showBankStatement(IBank &bank, long accountNumber, Customer &customer)
@@ -173,11 +174,11 @@ void showBankStatement(IBank &bank, long accountNumber, Customer &customer)
     int transactionsCount = bank.getAccountTransactionsCount(accountNumber, customer.getUserId());
     if (transactionsCount == 0)
     {
-        std::cout << "No transactions yet\n";
+        std::cout << NO_TRANSACTIONS;
     }
     else
     {
-        std::cout << "Bank Statement:\n";
+        std::cout << BANK_STATEMENT;
         showTransactions(0, bank.getAccountTransactions(accountNumber, customer.getUserId()), transactionsCount);
     }
 }
@@ -188,7 +189,7 @@ void handleAccountMenu(IBank &bank, int accountNumber, Customer &customer)
     int choice;
     do
     {
-        choice = getValidInt("1. Deposit money\n2. Withdraw money\n3. Mini statement\n4. Bank statement\n5. Show Balance \n6. Back\nEnter choice: ", inputHandler);
+        choice = getValidInt(ACCOUNT_MENU, inputHandler);
         switch (choice)
         {
         case 1:
@@ -207,10 +208,10 @@ void handleAccountMenu(IBank &bank, int accountNumber, Customer &customer)
             showBalance(bank, accountNumber, customer);
             break;
         case 6:
-            std::cout << "Returning...\n";
+            std::cout << RETURNING;
             break;
         default:
-            std::cout << "Invalid choice!\n";
+            std::cout << INVALID_CHOICE;
             break;
         }
     } while (choice != 6);
@@ -221,7 +222,7 @@ void showCustomerMenu(IBank &bank, Customer &customer, InputHandler &inputHandle
     int choice;
     do
     {
-        choice = getValidInt("1. Create Account\n2. Access Account\n3. Show my accounts\n4. Logout\nEnter choice: ", inputHandler);
+        choice = getValidInt(CUSTOMER_MENU, inputHandler);
         switch (choice)
         {
         case 1:
@@ -229,11 +230,11 @@ void showCustomerMenu(IBank &bank, Customer &customer, InputHandler &inputHandle
             break;
         case 2:
         {
-            long accountNumber = getValidLong("Enter Account number: ", inputHandler);
+            long accountNumber = getValidLong(ENTER_ACCOUNT_NUMBER, inputHandler);
             if (bank.getAccount(accountNumber, customer.getUserId()))
                 handleAccountMenu(bank, accountNumber, customer);
             else
-                std::cout << "Account not found.\n";
+                std::cout << ACCOUNT_NOT_FOUND;
             break;
         }
         case 3:
@@ -243,12 +244,12 @@ void showCustomerMenu(IBank &bank, Customer &customer, InputHandler &inputHandle
         }
         case 4:
         {
-            std::cout << "Logging out...\n";
+            std::cout << LOGGING_OUT;
             break;
         }
         default:
         {
-            std::cout << "Invalid choice!\n";
+            std::cout << INVALID_CHOICE;
         }
         }
     } while (choice != 4);
@@ -257,16 +258,16 @@ void showCustomerMenu(IBank &bank, Customer &customer, InputHandler &inputHandle
 void AccountCreationRequestMenu(IBank &bank, Customer &customer, InputHandler &inputHandler)
 {
     std::string type;
-    std::cout << "Enter the account type (current/savings): ";
+    std::cout << ENTER_ACCOUNT_TYPE;
     std::cin >> type;
-    double balance = getValidDouble("Enter initial balance: ", inputHandler);
+    double balance = getValidDouble(ENTER_INITIAL_BALANCE, inputHandler);
     if (bank.addAccountRequest(customer.getUserId(), balance, type))
     {
-        std::cout << "Request sent successfully!\n";
+        std::cout << REQUEST_SENT;
     }
     else
     {
-        std::cout << "Request queue is full!\n";
+        std::cout << REQUEST_FAILED;
     }
 }
 
@@ -275,41 +276,41 @@ void menuForAddAccount(Admin &admin, InputHandler &inputHandler, int customerId)
     Customer *customer = admin.searchCustomerById(customerId);
     if (!customer)
     {
-        std::cout << "Customer not found\n";
+        std::cout << CUSTOMER_NOT_FOUND;
         return;
     }
 
-    std::cout << "Enter the account type (current/savings): ";
+    std::cout << ENTER_ACCOUNT_TYPE;
     std::string accountType;
     std::cin >> accountType;
 
-    double balance = getValidDouble("Enter the inital balance: ", inputHandler);
+    double balance = getValidDouble(ENTER_INITIAL_BALANCE, inputHandler);
 
-    IAccount *newAccount = admin.createAccount(*customer, balance, accountType);
-    if (newAccount)
+    int accountId = admin.createAccount(*customer, balance, accountType);
+    if (accountId != -1)
     {
-        std::cout << "Account created successfully!\n";
-        std::cout << "Account Number for " << customerId << " is: " << newAccount->getAccountNumber() << "\n";
+        std::cout << ACCOUNT_CREATED;
+        std::cout << ACCOUNT_NUMBER_FOR_LABEL << customerId << IS_LABEL << accountId << "\n";
     }
     else
     {
-        std::cout << "Failed to create account (max limit reached)\n";
+        std::cout << ACCOUNT_FAILED;
     }
 }
 
 void readUserDetailsInput(std::string &password, std::string &name)
 {
-    std::cout << "Enter Password: ";
+    std::cout << ENTER_PASSWORD;
     std::cin >> password;
 
-    std::cout << "Enter Name: ";
+    std::cout << ENTER_NAME;
     std::cin >> name;
 }
 
 void printCustomerCreated(Customer *customer)
 {
-    std::cout << "Customer created successfully!\n";
-    std::cout << "Your Customer ID is: " << customer->getUserId() << "\n";
+    std::cout << CUSTOMER_CREATED;
+    std::cout << YOUR_CUSTOMER_ID << customer->getUserId() << "\n";
 }
 
 void signupMenu(IBank &bank)
@@ -322,42 +323,59 @@ void signupMenu(IBank &bank)
 
 void menuForRemoveAccount(Admin &admin, InputHandler &inputHandler)
 {
-    int customerId = getValidInt("Enter Customer ID: ", inputHandler);
+    int customerId = getValidInt(ENTER_CUSTOMER_ID, inputHandler);
     Customer *customer = admin.searchCustomerById(customerId);
     if (!customer)
     {
-        std::cout << "Customer not found.\n";
+        std::cout << CUSTOMER_NOT_FOUND;
         return;
     }
 
-    long accountNumber = getValidLong("Enter Account Number: ", inputHandler);
+    long accountNumber = getValidLong(ENTER_ACCOUNT_NUMBER, inputHandler);
 
-    IAccount *account = admin.fetchAccount(accountNumber, customerId);
-    if (!account)
+    if (!admin.deleteAccount(accountNumber, customerId))
     {
-        std::cout << "Account not found or does not belong to this customer.\n";
-        return;
+        std::cout << ACCOUNT_NOT_FOUND;
     }
+    else
+    {
+        std::cout << ACCOUNT_REMOVED;
+    }
+}
 
-    admin.deleteAccount(account);
-    std::cout << "Account removed successfully!\n";
+void menuForRemoveCustomer(IBank &bank, Admin &admin, InputHandler &inputHandler)
+{
+    int id = getValidInt(ENTER_CUSTOMER_ID_REMOVE, inputHandler);
+
+    int beforeCount = bank.getCustomersCount();
+    admin.deleteCustomer(id);
+    int afterCount = bank.getCustomersCount();
+
+    if (beforeCount == afterCount)
+    {
+        std::cout << CUSTOMER_WITH_ID_PREFIX << id << CUSTOMER_WITH_ID_NOT_FOUND_SUFFIX;
+    }
+    else
+    {
+        std::cout << CUSTOMER_WITH_ID_PREFIX << id << CUSTOMER_WITH_ID_REMOVED_SUFFIX;
+    }
 }
 
 void showAllAccounts(Admin &admin)
 {
     if (admin.fetchAccountsCount() == 0)
     {
-        std::cout << "No accounts yet\n";
+        std::cout << NO_ACCOUNTS;
     }
     else
     {
         IAccount **accounts = admin.fetchAllAccounts();
         for (int i = 0; i < admin.fetchAccountsCount(); i++)
         {
-            std::cout << "Account Number: " << accounts[i]->getAccountNumber();
-            std::cout << " | Balance: " << accounts[i]->getBalance();
-            std::cout << " | Customer Id: " << accounts[i]->getCustomerId();
-            std::cout << " | Account Type: " << accounts[i]->getAccountType() << "\n";
+            std::cout << ACCOUNT_NUMBER_LABEL << accounts[i]->getAccountNumber();
+            std::cout << BALANCE_LABEL << accounts[i]->getBalance();
+            std::cout << ACCOUNT_OWNER_ID_LABEL << accounts[i]->getCustomerId();
+            std::cout << ACCOUNT_TYPE_LABEL << accounts[i]->getAccountType() << "\n";
         }
     }
 }
@@ -366,17 +384,17 @@ void showAllCustomers(Admin &admin)
 {
     if (admin.fetchCustomersCount() == 0)
     {
-        std::cout << "No accounts yet";
+        std::cout << NO_CUSTOMERS;
     }
     else
     {
         Customer **customers = admin.fetchAllCustomers();
         for (int i = 0; i < admin.fetchCustomersCount(); i++)
         {
-            if (customers[i]->getUserType() == "customer")
+            if (customers[i]->getUserType() == CUSTOMER)
             {
-                std::cout << "Customer id: " << customers[i]->getUserId();
-                std::cout << " | Name: " << customers[i]->getName() << "\n";
+                std::cout << CUSTOMER_ID_LABEL << customers[i]->getUserId();
+                std::cout << NAME_LABEL << customers[i]->getName() << "\n";
             }
         }
     }
@@ -387,12 +405,20 @@ void handleAccountRequestMenu(IBank &bank, Admin &admin)
     int requestCount = bank.getRequestCount();
     if (requestCount == 0)
     {
-        std::cout << "No pending account requests\n";
+        std::cout << NO_REQUESTS;
     }
     else
     {
-        admin.handleRequests();
-        std::cout << "Accepted all requests. Accounts created\n";
+        int createdCount = admin.handleRequests();
+        if (createdCount > 0)
+        {
+            std::cout << REQUESTS_PROCESSED << requestCount
+                      << CREATED_ACCOUNT << createdCount << ".\n";
+        }
+        else
+        {
+            std::cout << REQUESTS_FAILED;
+        }
     }
 }
 
@@ -401,32 +427,49 @@ void showAdminMenu(IBank &bank, Admin &admin, InputHandler &inputHandler)
     int choice;
     do
     {
-        choice = getValidInt("1. Create Account\n2. Close Account\n3. Show All Customers\n4. Show all accounts\n5. Process account requests\n6. Logout\nEnter choice: ", inputHandler);
+        choice = getValidInt(ADMIN_MENU, inputHandler);
         switch (choice)
         {
         case 1:
         {
-            int customerId = getValidInt("Enter Customer ID: ", inputHandler);
+            int customerId = getValidInt(ENTER_CUSTOMER_ID, inputHandler);
             menuForAddAccount(admin, inputHandler, customerId);
             break;
         }
         case 2:
+        {
             menuForRemoveAccount(admin, inputHandler);
             break;
+        }
         case 3:
+        {
             showAllCustomers(admin);
             break;
+        }
         case 4:
+        {
             showAllAccounts(admin);
             break;
+        }
         case 5:
+        {
+            menuForRemoveCustomer(bank, admin, inputHandler);
+            break;
+        }
+        case 6:
+        {
             handleAccountRequestMenu(bank, admin);
             break;
-        case 6:
-            std::cout << "Logging out...\n";
-            break;
-        default:
-            std::cout << "Invalid choice!\n";
         }
-    } while (choice != 6);
+        case 7:
+        {
+            std::cout << LOGGING_OUT;
+            break;
+        }
+        default:
+        {
+            std::cout << INVALID_CHOICE;
+        }
+        }
+    } while (choice != 7);
 }

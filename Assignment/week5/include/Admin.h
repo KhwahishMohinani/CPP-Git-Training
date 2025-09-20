@@ -19,12 +19,10 @@ public:
     IAccount **fetchAllAccounts();
     int fetchAccountsCount();
     Customer *searchCustomerById(int id);
-    void deleteCustomerById(int id);
-    IAccount *fetchAccount(int accountNumber, int customerId);
-    void deleteAccount(IAccount *account);
-    Customer *createCustomer(std::string name, std::string password);
-    IAccount *createAccount(Customer &customer, double balance, std::string accountType);
-    void handleRequests();
+    void deleteCustomer(int customerId);
+    bool deleteAccount(long accountNumber, int customerId);
+    int createAccount(Customer &customer, double balance, std::string &accountType);
+    int handleRequests();
 };
 
 #endif
