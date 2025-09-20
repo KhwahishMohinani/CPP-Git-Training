@@ -19,15 +19,16 @@ private:
 
 public:
     Account(int accountNumber, double balance, std::string accountType, int customerId);
-    long getAccountNumber();
-    double getBalance();
-    int getTransactionsCount();
-    std::string getAccountType();
-    int getCustomerId();
+    long getAccountNumber() const;
+    double getBalance() const;
+    int getTransactionsCount() const;
+    std::string getAccountType() const;
+    int getCustomerId() const;
     void addBalance(double amount);
     void subtractBalance(double amount);
     void addTransaction(std::string type, double amount);
     Transaction **getTransactions();
+    ~Account();
 };
 
 #endif

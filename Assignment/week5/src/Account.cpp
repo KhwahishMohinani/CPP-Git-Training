@@ -11,24 +11,24 @@ Account::Account(int accountNumber, double balance, std::string accountType, int
     }
 }
 
-long Account::getAccountNumber()
+long Account::getAccountNumber() const
 {
     return accountNumber;
 }
-double Account::getBalance()
+double Account::getBalance() const
 {
     return balance;
 }
-std::string Account::getAccountType()
+std::string Account::getAccountType() const
 {
     return accountType;
 }
-int Account::getCustomerId()
+int Account::getCustomerId() const
 {
     return customerId;
 }
 
-int Account::getTransactionsCount()
+int Account::getTransactionsCount() const
 {
     return transactionsCount;
 }
@@ -57,4 +57,13 @@ void Account::addTransaction(std::string type, double amount)
 Transaction **Account::getTransactions()
 {
     return transactions;
+}
+
+Account::~Account()
+{
+    for (int i = 0; i < transactionsCount; i++)
+    {
+        delete transactions[i];
+        transactions[i] = nullptr;
+    }
 }

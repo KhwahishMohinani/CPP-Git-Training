@@ -23,9 +23,10 @@ private:
     int requestsCount = 0, nextAccountId = 1;
 
 public:
-    Bank();
-    int getAccountsCount();
-    int getCustomersCount();
+    Bank(int bankId, std::string bankName, std::string adminName, std::string adminPassword);
+    int getAccountsCount() const;
+    int getCustomersCount() const;
+    int getRequestCount() const;
     IAccount *addAccount(Customer &customer, double balance, const std::string &accountType);
     bool removeAccount(long accountNumber, int customerId);
     IAccount *getAccount(long accountNumber, int customerId);
@@ -44,9 +45,9 @@ public:
     double getAccountBalance(long accountNumber, int customerId);
     bool addAccountRequest(int customerId, double balance, std::string type);
     AccountRequest **getAllRequests();
-    int getRequestCount();
     IAccount **getAccountsByCustomerId(int customerId, int &accountCount);
     void clearRequests();
+    ~Bank();
 };
 
 #endif

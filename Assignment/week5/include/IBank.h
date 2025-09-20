@@ -12,8 +12,8 @@ struct AccountRequest;
 class IBank
 {
 public:
-    virtual int getAccountsCount() = 0;
-    virtual int getCustomersCount() = 0;
+    virtual int getAccountsCount() const = 0;
+    virtual int getCustomersCount() const = 0;
     virtual IAccount *addAccount(Customer &customer, double balance, const std::string &accountType) = 0;
     virtual bool removeAccount(long accountNumber, int customerId) = 0;
     virtual IAccount *getAccount(long accountNumber, int customerId) = 0;
@@ -32,7 +32,7 @@ public:
     virtual double getAccountBalance(long accountNumber, int customerId) = 0;
     virtual bool addAccountRequest(int customerId, double balance, std::string type) = 0;
     virtual AccountRequest **getAllRequests() = 0;
-    virtual int getRequestCount() = 0;
+    virtual int getRequestCount() const = 0;
     virtual void clearRequests() = 0;
     virtual IAccount **getAccountsByCustomerId(int customerId, int &accountCount) = 0;
     virtual ~IBank() {};

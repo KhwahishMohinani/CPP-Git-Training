@@ -15,4 +15,10 @@ struct AccountRequest
     }
 };
 
+struct DefaultAdmin
+{
+    std::string name;
+    std::string password;
+};
+
 #endif

@@ -290,7 +290,7 @@ void menuForAddAccount(Admin &admin, InputHandler &inputHandler, int customerId)
     if (accountId != -1)
     {
         std::cout << ACCOUNT_CREATED;
-        std::cout << ACCOUNT_NUMBER_FOR_LABEL << customerId << IS_LABEL << accountId << "\n";
+        std::cout << ACCOUNT_NUMBER_CUSTOMER_ID << customerId << IS_LABEL << accountId << "\n";
     }
     else
     {

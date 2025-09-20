@@ -1,6 +1,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include "structs.h"
+
 const char ENTER_USER_ID[] = "Enter user id: ";
 const char ENTER_PASSWORD[] = "Enter password: ";
 const char ENTER_NAME[] = "Enter name: ";
@@ -45,6 +47,8 @@ const char NO_CUSTOMERS[] = "No customers yet\n";
 const char NO_REQUESTS[] = "No pending account requests\n";
 const char REQUESTS_PROCESSED[] = "Processed requests: ";
 const char REQUESTS_FAILED[] = "No accounts created. All requests failed.\n";
+const char USER_MENU[] =
+    "1. Signup\n2. Login\n3. Exit\nEnter your choice: ";
 const char CUSTOMER_MENU[] =
     "1. Create Account\n2. Access Account\n3. Show my accounts\n4. Logout\nEnter choice: ";
 const char ACCOUNT_MENU[] =
@@ -53,13 +57,14 @@ const char ADMIN_MENU[] =
     "1. Create Account\n2. Close Account\n3. Show All Customers\n4. Show all accounts\n5. Remove Customer\n6. Process account requests\n7. Logout\nEnter choice: ";
 const char CUSTOMER[] = "customer";
 const char BALANCE[] = "Balance: ";
+const char ADMIN[] = "admin";
 const char CUSTOMER_ID_LABEL[] = "Customer id: ";
 const char NAME_LABEL[] = " | Name: ";
 const char ACCOUNT_NUMBER_LABEL[] = "Account Number: ";
 const char BALANCE_LABEL[] = " | Balance: ";
 const char ACCOUNT_OWNER_ID_LABEL[] = " | Customer Id: ";
 const char ACCOUNT_TYPE_LABEL[] = " | Account Type: ";
-const char ACCOUNT_NUMBER_FOR_LABEL[] = "Account Number for ";
+const char ACCOUNT_NUMBER_CUSTOMER_ID[] = "Account Number for customer ID ";
 const char IS_LABEL[] = " is: ";
 const char TRANSACTION_ID_LABEL[] = "Transaction Id: ";
 const char TRANSACTION_ACCOUNT_NUMBER_LABEL[] = " | Account Number: ";
@@ -70,5 +75,11 @@ const char TYPE_LABEL[] = " | Type: ";
 const char CUSTOMER_WITH_ID_PREFIX[] = "Customer with ID ";
 const char CUSTOMER_WITH_ID_NOT_FOUND_SUFFIX[] = " not found.\n";
 const char CUSTOMER_WITH_ID_REMOVED_SUFFIX[] = " removed successfully\n";
+
+const DefaultAdmin DEFAULT_ADMINS[] = {
+    {"Admin1", "admin123"},
+    {"Admin2", "admin234"},
+    {"Admin3", "admin345"}};
+const int DEFAULT_ADMIN_COUNT = sizeof(DEFAULT_ADMINS) / sizeof(DefaultAdmin);
 
 #endif

@@ -8,34 +8,39 @@
 #include "InputHandler.h"
 #include "constants.h"
 
-Bank::Bank()
-    : bankId(1), bankName("My Bank")
+Bank::Bank(int bankId, std::string bankName, std::string adminName, std::string adminPassword)
+    : bankId(bankId), bankName(bankName)
 {
-    admins[adminsCount++] = new Admin("Admin1", nextAdminId++, "admin123", "admin", *this);
-    admins[adminsCount++] = new Admin("Admin2", nextAdminId++, "admin234", "admin", *this);
-    admins[adminsCount++] = new Admin("Admin3", nextAdminId++, "admin345", "admin", *this);
+    for (int i = 0; i < DEFAULT_ADMIN_COUNT; i++)
+    {
+        admins[adminsCount++] = new Admin(DEFAULT_ADMINS[i].name, nextAdminId++, DEFAULT_ADMINS[i].password, ADMIN, *this);
+    }
+
+    admins[adminsCount++] = new Admin(adminName, nextAdminId++, adminPassword, "admin", *this);
 }
 
-int Bank::getAccountsCount()
+int Bank::getAccountsCount() const
 {
     return accountsCount;
 }
 
-int Bank::getCustomersCount()
+int Bank::getCustomersCount() const
 {
     return customersCount;
 }
 
 Customer *Bank::addCustomer(std::string &name, std::string &password)
 {
-    if (customersCount >= MAX_CUSTOMERS)
-        return nullptr;
+    Customer *newCustomer = nullptr;
 
-    int customerId = nextCustomerId++;
-    customers[customersCount] = new Customer(name, customerId, password, CUSTOMER);
-    customersCount++;
+    if (customersCount < MAX_CUSTOMERS)
+    {
+        int customerId = nextCustomerId++;
+        newCustomer = new Customer(name, customerId, password, CUSTOMER);
+        customers[customersCount++] = newCustomer;
+    }
 
-    return customers[customersCount - 1];
+    return newCustomer;
 }
 
 Customer *Bank::getCustomerById(int id)
@@ -71,14 +76,16 @@ Customer *Bank::getCustomerByCredentials(int id, const std::string &password)
 
 IAccount *Bank::addAccount(Customer &customer, double balance, const std::string &accountType)
 {
-    if (accountsCount >= MAX_ACCOUNTS)
-        return nullptr;
+    Account *newAccount = nullptr;
 
-    int accountId = nextAccountId++;
-    accounts[accountsCount] = new Account(accountId, balance, accountType, customer.getUserId());
-    accountsCount++;
+    if (accountsCount < MAX_ACCOUNTS)
+    {
+        int accountId = nextAccountId++;
+        newAccount = new Account(accountId, balance, accountType, customer.getUserId());
+        accounts[accountsCount++] = newAccount;
+    }
 
-    return accounts[accountsCount - 1];
+    return newAccount;
 }
 
 bool Bank::removeAccount(long accountNumber, int customerId)
@@ -270,7 +277,7 @@ AccountRequest **Bank::getAllRequests()
     return requests;
 }
 
-int Bank::getRequestCount()
+int Bank::getRequestCount() const
 {
     return requestsCount;
 }
@@ -283,4 +290,16 @@ void Bank::clearRequests()
         requests[i] = nullptr;
     }
     requestsCount = 0;
+}
+
+Bank::~Bank()
+{
+    for (int i = 0; i < accountsCount; i++)
+        delete accounts[i];
+    for (int i = 0; i < customersCount; i++)
+        delete customers[i];
+    for (int i = 0; i < adminsCount; i++)
+        delete admins[i];
+    for (int i = 0; i < requestsCount; i++)
+        delete requests[i];
 }

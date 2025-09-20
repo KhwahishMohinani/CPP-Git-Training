@@ -3,15 +3,16 @@
 #include "Bank.h"
 #include "InputHandler.h"
 #include "menu.h"
+#include "constants.h"
 
 int main()
 {
-    IBank *bank = new Bank();
+    IBank *bank = new Bank(1, "MyBank", "Admin4", "admin123");
     InputHandler inputHandler;
     int choice;
     do
     {
-        choice = getValidInt("1. Signup\n2. Login\n3. Exit\nEnter your choice: ", inputHandler);
+        choice = getValidInt(USER_MENU, inputHandler);
         switch (choice)
         {
         case 1:

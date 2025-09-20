@@ -9,11 +9,11 @@ class IAccount
 {
 
 public:
-    virtual long getAccountNumber() = 0;
-    virtual double getBalance() = 0;
-    virtual std::string getAccountType() = 0;
-    virtual int getCustomerId() = 0;
-    virtual int getTransactionsCount() = 0;
+    virtual long getAccountNumber() const = 0;
+    virtual double getBalance() const = 0;
+    virtual std::string getAccountType() const = 0;
+    virtual int getCustomerId() const = 0;
+    virtual int getTransactionsCount() const = 0;
     virtual void addBalance(double amount) = 0;
     virtual void subtractBalance(double amount) = 0;
     virtual Transaction **getTransactions() = 0;
