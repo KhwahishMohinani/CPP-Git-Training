@@ -50,6 +50,7 @@ const char CREATED_ACCOUNT[] = ". Created accounts: ";
 const char ACCOUNT_CREATED[] = "Account created successfully!\n";
 const char ACCOUNT_FAILED[] = "Failed to create account (max limit reached)\n";
 const char CUSTOMER_CREATED[] = "Customer created successfully!\n";
+const char CUSTOMER_CREATION_FAILED[] = "Cannot create new customer: maximum customer limit reached.\n";
 const char YOUR_CUSTOMER_ID[] = "Your customer ID is: ";
 const char ACCOUNT_REMOVED[] = "Account removed successfully!\n";
 const char ACCOUNT_NOT_FOUND[] = "Account not found\n";

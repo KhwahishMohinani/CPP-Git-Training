@@ -351,7 +351,14 @@ void signupMenu(IBank &bank)
     std::string password, name;
     readUserDetailsInput(password, name);
     Customer *newCustomer = bank.addCustomer(name, password);
-    printCustomerCreated(newCustomer);
+    if (newCustomer)
+    {
+        printCustomerCreated(newCustomer);
+    }
+    else
+    {
+        std::cout << CUSTOMER_CREATION_FAILED;
+    }
 }
 
 void menuForRemoveAccount(Admin &admin, InputHandler &inputHandler)
@@ -424,11 +431,8 @@ void showAllCustomers(Admin &admin)
         Customer **customers = admin.fetchAllCustomers();
         for (int i = 0; i < admin.fetchCustomersCount(); i++)
         {
-            if (customers[i]->getUserType() == CUSTOMER)
-            {
-                std::cout << CUSTOMER_ID_LABEL << customers[i]->getUserId();
-                std::cout << NAME_LABEL << customers[i]->getName() << "\n";
-            }
+            std::cout << CUSTOMER_ID_LABEL << customers[i]->getUserId();
+            std::cout << NAME_LABEL << customers[i]->getName() << "\n";
         }
     }
 }
