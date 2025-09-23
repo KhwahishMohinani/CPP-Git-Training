@@ -12,7 +12,7 @@ private:
     int amount;
 
 public:
-    Transaction(int transactionId, long accountNumber, std::string type, double amount);
+    Transaction(int transactionId, long accountNumber, const std::string &type, double amount);
     int getTransactionId() const;
     long getAccountNumber() const;
     std::string getType() const;

@@ -12,7 +12,7 @@ protected:
     std::string userType;
 
 public:
-    User(std::string name, int userId, std::string password, std::string type);
+    User(const std::string &name, int userId, const std::string &password, const std::string &type);
     int getUserId() const;
     std::string getPassword() const;
     std::string getUserType() const;

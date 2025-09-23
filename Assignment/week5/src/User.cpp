@@ -1,7 +1,7 @@
 #include <iostream>
 #include "User.h"
 
-User::User(std::string name, int userId, std::string password, std::string userType)
+User::User(const std::string &name, int userId, const std::string &password, const std::string &userType)
     : name(name), userId(userId), password(password), userType(userType)
 {
 }

@@ -3,12 +3,23 @@
 
 #include "structs.h"
 
+const int MAX_TRANSACTIONS = 100;
+const int MAX_CUSTOMERS = 100;
+const int MAX_ADMINS = 100;
+const int MAX_ACCOUNTS = 100;
+const int MAX_REQUESTS = 100;
+const int ACCOUNT_NOT_FOUND_CODE = 0;
+const int WITHDRAW_SUCCESS_CODE = 1;
+const int DEPOSIT_SUCCESS_CODE = 1;
+const int TRANSACTION_LIMIT_EXCEEDED = 2;
+const int INSUFFICIENT_BALANCE_CODE = 3;
+
 const char ENTER_USER_ID[] = "Enter user id: ";
 const char ENTER_PASSWORD[] = "Enter password: ";
 const char ENTER_NAME[] = "Enter name: ";
 const char ENTER_AMOUNT_DEPOSIT[] = "Enter amount to deposit: ";
 const char ENTER_AMOUNT_WITHDRAW[] = "Enter amount to withdraw: ";
-const char ENTER_ACCOUNT_TYPE[] = "Enter the account type (current/savings): ";
+const char ENTER_ACCOUNT_TYPE[] = "Enter the account type\n1. Current\n2. Savings\nEnter your choice: ";
 const char ENTER_INITIAL_BALANCE[] = "Enter the initial balance: ";
 const char ENTER_CUSTOMER_ID[] = "Enter Customer ID: ";
 const char ENTER_ACCOUNT_NUMBER[] = "Enter Account number: ";
@@ -21,9 +32,11 @@ const char LOGIN_SUCCESS[] = "Login successful\n";
 const char LOGIN_FAILED[] = "Invalid credentials.\n";
 const char DEPOSIT_SUCCESS[] = "Deposited ";
 const char SUCCESS[] = " successfully\n";
-const char DEPOSIT_FAILED[] = "You don't own this account\n";
+const char DEPOSIT_FAILED[] = "Deposit Failed\n";
 const char WITHDRAW_SUCCESS[] = "Withdrawn ";
-const char WITHDRAW_FAILED[] = "Insufficient balance\n";
+const char INSUFFICIENT_BALANCE[] = "Insufficient balance\n";
+const char WITHDRAW_FAILED[] = "Withdraw failed\n";
+const char TRANSACTION_LIMIT_EXCEED[] = "Transaction limit exceeded";
 const char NO_ACCOUNTS_FOUND[] = "No accounts found for Customer ID: ";
 const char NO_TRANSACTIONS[] = "No transactions yet\n";
 const char MINI_STATEMENT[] = "Mini Statement(Last 5 transactions):\n";
@@ -46,6 +59,7 @@ const char NO_ACCOUNTS[] = "No accounts yet\n";
 const char NO_CUSTOMERS[] = "No customers yet\n";
 const char NO_REQUESTS[] = "No pending account requests\n";
 const char REQUESTS_PROCESSED[] = "Processed requests: ";
+const char FAILED_REQUESTS[] = ", Failed: ";
 const char REQUESTS_FAILED[] = "No accounts created. All requests failed.\n";
 const char USER_MENU[] =
     "1. Signup\n2. Login\n3. Exit\nEnter your choice: ";

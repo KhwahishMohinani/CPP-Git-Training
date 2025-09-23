@@ -16,7 +16,7 @@ int getValidInt(const std::string &prompt, InputHandler &inputHandler)
     {
         std::cout << prompt;
         std::cin >> input;
-        if (inputHandler.isValidInt(input, value))
+        if (inputHandler.isValidInt(input, value) && value >= 0)
         {
             return value;
         }
@@ -32,7 +32,7 @@ long getValidLong(const std::string &prompt, InputHandler &inputHandler)
     {
         std::cout << prompt;
         std::cin >> input;
-        if (inputHandler.isValidLong(input, value))
+        if (inputHandler.isValidLong(input, value) && value >= 0)
         {
             return value;
         }
@@ -46,7 +46,7 @@ double getValidDouble(const std::string &prompt, InputHandler &inputHandler)
     while (true)
     {
         std::cout << prompt;
-        if (inputHandler.isValidDouble(value))
+        if (inputHandler.isValidDouble(value) && value >= 0)
         {
             return value;
         }
@@ -88,12 +88,18 @@ void depositMenu(IBank &bank, long accountNumber, Customer &customer)
 {
     InputHandler inputHandler;
     double amount = getValidDouble(ENTER_AMOUNT_DEPOSIT, inputHandler);
-    if (bank.deposit(accountNumber, customer.getUserId(), amount))
+    int errorCode = bank.deposit(accountNumber, customer.getUserId(), amount);
+    if (errorCode == 1)
     {
         std::cout << DEPOSIT_SUCCESS << amount << SUCCESS;
     }
+    else if (errorCode == 0)
+    {
+        std::cout << ACCOUNT_NOT_FOUND;
+    }
     else
     {
+        std::cout << TRANSACTION_LIMIT_EXCEED;
         std::cout << DEPOSIT_FAILED;
     }
 }
@@ -102,13 +108,24 @@ void withdrawMenu(IBank &bank, long accountNumber, Customer &customer)
 {
     InputHandler inputHandler;
     double amount = getValidDouble(ENTER_AMOUNT_WITHDRAW, inputHandler);
+    int errorCode = bank.withdraw(accountNumber, customer.getUserId(), amount);
 
-    if (bank.withdraw(accountNumber, customer.getUserId(), amount))
+    if (errorCode == 1)
     {
         std::cout << WITHDRAW_SUCCESS << amount << SUCCESS;
     }
+    else if (errorCode == 0)
+    {
+        std::cout << ACCOUNT_NOT_FOUND;
+    }
+    else if (errorCode == 2)
+    {
+        std::cout << TRANSACTION_LIMIT_EXCEED;
+        std::cout << WITHDRAW_FAILED;
+    }
     else
     {
+        std::cout << INSUFFICIENT_BALANCE;
         std::cout << WITHDRAW_FAILED;
     }
 }
@@ -257,11 +274,20 @@ void showCustomerMenu(IBank &bank, Customer &customer, InputHandler &inputHandle
 
 void AccountCreationRequestMenu(IBank &bank, Customer &customer, InputHandler &inputHandler)
 {
-    std::string type;
-    std::cout << ENTER_ACCOUNT_TYPE;
-    std::cin >> type;
+    int type;
+    while (true)
+    {
+        type = getValidInt(ENTER_ACCOUNT_TYPE, inputHandler);
+        if (type == 1 || type == 2)
+            break;
+        std::cout << INVALID_CHOICE;
+    }
+
+    std::string accountType = (type == 1) ? "current" : "savings";
+
     double balance = getValidDouble(ENTER_INITIAL_BALANCE, inputHandler);
-    if (bank.addAccountRequest(customer.getUserId(), balance, type))
+
+    if (bank.addAccountRequest(customer.getUserId(), balance, accountType))
     {
         std::cout << REQUEST_SENT;
     }
@@ -280,9 +306,16 @@ void menuForAddAccount(Admin &admin, InputHandler &inputHandler, int customerId)
         return;
     }
 
-    std::cout << ENTER_ACCOUNT_TYPE;
-    std::string accountType;
-    std::cin >> accountType;
+    int type;
+    while (true)
+    {
+        type = getValidInt(ENTER_ACCOUNT_TYPE, inputHandler);
+        if (type == 1 || type == 2)
+            break;
+        std::cout << INVALID_CHOICE;
+    }
+
+    std::string accountType = (type == 1) ? "current" : "savings";
 
     double balance = getValidDouble(ENTER_INITIAL_BALANCE, inputHandler);
 
@@ -409,11 +442,12 @@ void handleAccountRequestMenu(IBank &bank, Admin &admin)
     }
     else
     {
-        int createdCount = admin.handleRequests();
-        if (createdCount > 0)
+        RequestResult result = admin.handleRequests();
+        if (result.createdCount > 0)
         {
-            std::cout << REQUESTS_PROCESSED << requestCount
-                      << CREATED_ACCOUNT << createdCount << ".\n";
+            std::cout << REQUESTS_PROCESSED << result.processedCount
+                      << CREATED_ACCOUNT << result.createdCount
+                      << FAILED_REQUESTS << result.failedCount << "\n";
         }
         else
         {

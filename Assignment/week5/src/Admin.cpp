@@ -6,7 +6,7 @@
 #include "structs.h"
 #include "IBank.h"
 
-Admin::Admin(std::string name, int userId, std::string password, std::string type, IBank &bank)
+Admin::Admin(const std::string &name, int userId, const std::string &password, const std::string &type, IBank &bank)
     : User(name, userId, password, type), bank(bank)
 {
 }
@@ -41,7 +41,7 @@ bool Admin::deleteAccount(long accountNumber, int customerId)
     return (bank.removeAccount(accountNumber, customerId));
 }
 
-int Admin::createAccount(Customer &customer, double balance, std::string &accountType)
+int Admin::createAccount(Customer &customer, double balance, const std::string &accountType)
 {
     IAccount *account = bank.addAccount(customer, balance, accountType);
     return account ? account->getAccountNumber() : -1;
@@ -52,27 +52,42 @@ void Admin::deleteCustomer(int customerId)
     bank.removeCustomerById(customerId);
 }
 
-int Admin::handleRequests()
+RequestResult Admin::handleRequests()
 {
-    int createdCount = 0;
+    RequestResult result{0, 0, 0};
 
     AccountRequest **requests = bank.getAllRequests();
-    for (int i = 0; i < bank.getRequestCount(); i++)
+    int totalRequests = bank.getRequestCount();
+
+    for (int i = 0; i < totalRequests; i++)
     {
         AccountRequest *request = requests[i];
-        int customerId = request->customerId;
-        double balance = request->initialBalance;
-        std::string accountType = request->accountType;
-
-        Customer *customer = bank.getCustomerById(customerId);
-        if (customer)
+        if (!request)
         {
-            IAccount *account = bank.addAccount(*customer, balance, accountType);
-            if (account)
-                createdCount++;
+            result.failedCount++;
+            continue;
+        }
+
+        result.processedCount++;
+
+        Customer *customer = bank.getCustomerById(request->customerId);
+        if (!customer)
+        {
+            result.failedCount++;
+            continue;
+        }
+
+        IAccount *account = bank.addAccount(*customer, request->initialBalance, request->accountType);
+        if (account)
+        {
+            result.createdCount++;
+        }
+        else
+        {
+            result.failedCount++;
         }
     }
 
     bank.clearRequests();
-    return createdCount;
+    return result;
 }

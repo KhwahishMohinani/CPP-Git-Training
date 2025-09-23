@@ -2,8 +2,7 @@
 #define ACCOUNT_H
 
 #include "IAccount.h"
-
-#define MAX_TRANSACTIONS 100
+#include "constants.h"
 
 class Transaction;
 
@@ -15,18 +14,18 @@ private:
     std::string accountType;
     int customerId;
     Transaction *transactions[MAX_TRANSACTIONS];
-    int transactionsCount = 0;
+    int transactionsCount;
 
 public:
-    Account(int accountNumber, double balance, std::string accountType, int customerId);
+    Account(int accountNumber, double balance, const std::string &accountType, int customerId);
     long getAccountNumber() const;
     double getBalance() const;
     int getTransactionsCount() const;
     std::string getAccountType() const;
     int getCustomerId() const;
-    void addBalance(double amount);
-    void subtractBalance(double amount);
-    void addTransaction(std::string type, double amount);
+    bool addBalance(double amount);
+    bool subtractBalance(double amount);
+    bool addTransaction(const std::string &type, double amount);
     Transaction **getTransactions();
     ~Account();
 };

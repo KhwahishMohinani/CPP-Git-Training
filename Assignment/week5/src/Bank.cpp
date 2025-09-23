@@ -8,8 +8,16 @@
 #include "InputHandler.h"
 #include "constants.h"
 
-Bank::Bank(int bankId, std::string bankName, std::string adminName, std::string adminPassword)
-    : bankId(bankId), bankName(bankName)
+Bank::Bank(int bankId, const std::string &bankName, const std::string &adminName, const std::string &adminPassword)
+    : bankId(bankId),
+      bankName(bankName),
+      adminsCount(0),
+      accountsCount(0),
+      nextAdminId(1),
+      customersCount(0),
+      nextCustomerId(1),
+      requestsCount(0),
+      nextAccountId(1)
 {
     for (int i = 0; i < DEFAULT_ADMIN_COUNT; i++)
     {
@@ -29,7 +37,7 @@ int Bank::getCustomersCount() const
     return customersCount;
 }
 
-Customer *Bank::addCustomer(std::string &name, std::string &password)
+Customer *Bank::addCustomer(const std::string &name, const std::string &password)
 {
     Customer *newCustomer = nullptr;
 
@@ -51,6 +59,7 @@ Customer *Bank::getCustomerById(int id)
         if (customers[i]->getUserId() == id)
         {
             customer = customers[i];
+            break;
         }
     }
     return customer;
@@ -58,18 +67,10 @@ Customer *Bank::getCustomerById(int id)
 
 Customer *Bank::getCustomerByCredentials(int id, const std::string &password)
 {
-    Customer *customer = nullptr;
-    for (int i = 0; i < customersCount; i++)
+    Customer *customer = getCustomerById(id);
+    if (!customer || customer->getPassword() != password)
     {
-        customer = customers[i];
-        if (customer && customer->getUserId() == id && customer->getPassword() == password)
-        {
-            break;
-        }
-        else
-        {
-            customer = nullptr;
-        }
+        customer = nullptr;
     }
     return customer;
 }
@@ -216,28 +217,55 @@ Admin *Bank::getAdminByCredentials(int id, const std::string &password)
     return admin;
 }
 
-bool Bank::deposit(long accountNumber, int customerId, double amount)
+int Bank::deposit(long accountNumber, int customerId, double amount)
 {
-    bool success = false;
+    int errorCode;
     IAccount *account = getAccount(accountNumber, customerId);
     if (account)
     {
-        account->addBalance(amount);
-        success = true;
+        if (account->addBalance(amount))
+        {
+            errorCode = DEPOSIT_SUCCESS_CODE;
+        }
+        else
+        {
+            errorCode = TRANSACTION_LIMIT_EXCEEDED;
+        }
     }
-    return success;
+    else
+    {
+        errorCode = ACCOUNT_NOT_FOUND_CODE;
+    }
+    return errorCode;
 }
 
-bool Bank::withdraw(long accountNumber, int customerId, double amount)
+int Bank::withdraw(long accountNumber, int customerId, double amount)
 {
-    bool success = false;
+    int errorCode;
     IAccount *account = getAccount(accountNumber, customerId);
-    if (account && account->getBalance() > amount)
+    if (account)
     {
-        account->subtractBalance(amount);
-        success = true;
+        if (account->getBalance() >= amount)
+        {
+            if (account->subtractBalance(amount))
+            {
+                errorCode = WITHDRAW_SUCCESS_CODE;
+            }
+            else
+            {
+                errorCode = TRANSACTION_LIMIT_EXCEEDED;
+            }
+        }
+        else
+        {
+            errorCode = INSUFFICIENT_BALANCE_CODE;
+        }
     }
-    return success;
+    else
+    {
+        errorCode = ACCOUNT_NOT_FOUND_CODE;
+    }
+    return errorCode;
 }
 
 double Bank::getAccountBalance(long accountNumber, int customerId)
@@ -261,7 +289,7 @@ int Bank::getAccountTransactionsCount(long accountNumber, int customerId)
     return accountTransactionsCount;
 }
 
-bool Bank::addAccountRequest(int customerId, double balance, std::string accountType)
+bool Bank::addAccountRequest(int customerId, double balance, const std::string &accountType)
 {
     bool success = false;
     if (requestsCount < MAX_REQUESTS)

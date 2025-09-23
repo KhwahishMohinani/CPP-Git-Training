@@ -14,8 +14,8 @@ public:
     virtual std::string getAccountType() const = 0;
     virtual int getCustomerId() const = 0;
     virtual int getTransactionsCount() const = 0;
-    virtual void addBalance(double amount) = 0;
-    virtual void subtractBalance(double amount) = 0;
+    virtual bool addBalance(double amount) = 0;
+    virtual bool subtractBalance(double amount) = 0;
     virtual Transaction **getTransactions() = 0;
     virtual ~IAccount() {};
 };

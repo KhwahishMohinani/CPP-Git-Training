@@ -4,6 +4,7 @@
 #include <string>
 #include "User.h"
 
+struct RequestResult;
 class IBank;
 class IAccount;
 class Customer;
@@ -13,7 +14,7 @@ class Admin : public User
     IBank &bank;
 
 public:
-    Admin(std::string name, int userId, std::string password, std::string type, IBank &bank);
+    Admin(const std::string &name, int userId, const std::string &password, const std::string &type, IBank &bank);
     Customer **fetchAllCustomers();
     int fetchCustomersCount();
     IAccount **fetchAllAccounts();
@@ -21,8 +22,8 @@ public:
     Customer *searchCustomerById(int id);
     void deleteCustomer(int customerId);
     bool deleteAccount(long accountNumber, int customerId);
-    int createAccount(Customer &customer, double balance, std::string &accountType);
-    int handleRequests();
+    int createAccount(Customer &customer, double balance, const std::string &accountType);
+    RequestResult handleRequests();
 };
 
 #endif

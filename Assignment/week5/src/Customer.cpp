@@ -2,7 +2,7 @@
 #include "Customer.h"
 #include "InputHandler.h"
 
-Customer::Customer(std::string name, int userId, std::string password, std::string userType)
+Customer::Customer(const std::string &name, int userId, const std::string &password, const std::string &userType)
     : User(name, userId, password, userType)
 {
 }

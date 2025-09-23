@@ -1,6 +1,6 @@
 #include "Transaction.h"
 
-Transaction::Transaction(int transactionId, long accountNumber, std::string type, double amount)
+Transaction::Transaction(int transactionId, long accountNumber, const std::string &type, double amount)
     : transactionId(transactionId), accountNumber(accountNumber), type(type), amount(amount)
 {
 }

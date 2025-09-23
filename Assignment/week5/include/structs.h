@@ -9,7 +9,7 @@ struct AccountRequest
     int customerId;
     std::string accountType;
 
-    AccountRequest(int id, double balance, std::string type)
+    AccountRequest(int id, double balance, const std::string &type)
         : customerId(id), initialBalance(balance), accountType(type)
     {
     }
@@ -19,6 +19,13 @@ struct DefaultAdmin
 {
     std::string name;
     std::string password;
+};
+
+struct RequestResult
+{
+    int processedCount;
+    int createdCount;
+    int failedCount;
 };
 
 #endif
