@@ -3,7 +3,6 @@
 #include "InputHandler.h"
 #include "Customer.h"
 #include "IAccount.h"
-#include "structs.h"
 #include "IBank.h"
 
 Admin::Admin(const std::string &name, int userId, const std::string &password, const std::string &type, IBank &bank)
@@ -52,9 +51,9 @@ void Admin::deleteCustomer(int customerId)
     bank.removeCustomerById(customerId);
 }
 
-RequestResult Admin::handleRequests()
+bool Admin::handleRequests()
 {
-    RequestResult result{0, 0, 0};
+    lastRequestResult = {0, 0, 0};
 
     AccountRequest **requests = bank.getAllRequests();
     int totalRequests = bank.getRequestCount();
@@ -64,30 +63,35 @@ RequestResult Admin::handleRequests()
         AccountRequest *request = requests[i];
         if (!request)
         {
-            result.failedCount++;
+            lastRequestResult.failedCount++;
             continue;
         }
 
-        result.processedCount++;
+        lastRequestResult.processedCount++;
 
         Customer *customer = bank.getCustomerById(request->customerId);
         if (!customer)
         {
-            result.failedCount++;
+            lastRequestResult.failedCount++;
             continue;
         }
 
         IAccount *account = bank.addAccount(*customer, request->initialBalance, request->accountType);
         if (account)
         {
-            result.createdCount++;
+            lastRequestResult.createdCount++;
         }
         else
         {
-            result.failedCount++;
+            lastRequestResult.failedCount++;
         }
     }
 
     bank.clearRequests();
-    return result;
+    return (lastRequestResult.createdCount > 0);
+}
+
+RequestResult Admin::getLastResult() const
+{
+    return lastRequestResult;
 }

@@ -12,7 +12,7 @@ int main()
     int choice;
     do
     {
-        choice = getValidInt(USER_MENU, inputHandler);
+        choice = getValidInt(USER_MENU);
         switch (choice)
         {
         case 1:
@@ -22,7 +22,7 @@ int main()
         }
         case 2:
         {
-            loginMenu(*bank, inputHandler);
+            loginMenu(*bank);
             break;
         }
         case 3:

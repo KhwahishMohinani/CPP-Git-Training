@@ -3,14 +3,15 @@
 
 #include <string>
 #include "User.h"
+#include "structs.h"
 
-struct RequestResult;
 class IBank;
 class IAccount;
 class Customer;
 
 class Admin : public User
 {
+    RequestResult lastRequestResult;
     IBank &bank;
 
 public:
@@ -23,7 +24,8 @@ public:
     void deleteCustomer(int customerId);
     bool deleteAccount(long accountNumber, int customerId);
     int createAccount(Customer &customer, double balance, const std::string &accountType);
-    RequestResult handleRequests();
+    bool handleRequests();
+    RequestResult getLastResult() const;
 };
 
 #endif
