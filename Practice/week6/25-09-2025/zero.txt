@@ -1,0 +1,4 @@
+Original array
+1 2 6 3 8 
+Reverse array
+8 3 6 2 1 

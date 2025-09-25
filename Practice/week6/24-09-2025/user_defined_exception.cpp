@@ -13,6 +13,7 @@ public:
     }
     const char *what() const throw() // The base class std::exception::what() has this exact signature: virtual const char* what() const noexcept;
     {
+        // throw 1; //In exception class what function is noexcept which means we can't throw in this function. If we still throw it will call std::terminate which will abort
         return err_msg;
     }
 };
@@ -35,6 +36,10 @@ int main()
     catch (std::exception &e)
     {
         std::cout << e.what();
+    }
+    catch (...)
+    {
+        std::cout << "Hello\n";
     }
     return 0;
 }
