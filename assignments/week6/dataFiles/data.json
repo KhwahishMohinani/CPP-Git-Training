@@ -1,0 +1,32 @@
+{
+    "catalog": [
+        {
+            "id": 1,
+            "title": "Harry Potter",
+            "author": "J K Rowling",
+            "year": 1997,
+            "price": 29.99
+        },
+        {
+            "id": 2,
+            "title": "The Hobbit",
+            "author": "J R R Tolkein",
+            "year": 1937,
+            "price": 39.35
+        },
+        {
+            "id": 3,
+            "title": "Wizard of OZ",
+            "author": "George M. Hill",
+            "year": 1952,
+            "price": 24.50
+        },
+        {
+            "id": 4,
+            "title": "A Wrinkle in time",
+            "author": "Madeleine L Engle",
+            "year": 1962,
+            "price": 34.00
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+<catalog>
+    <book id="1">
+        <title>Harry Potter</title>
+        <author>J K Rowling</author>
+        <year>1997</year>
+        <price>29.99</price>
+    </book>
+    <book id="2">
+        <title>The Hobbit</title>
+        <author>J R R Tolkein</author>
+        <year>1937</year>
+        <price>39.95</price>
+    </book>
+    <book id="3">
+        <title>Wizard of OZ</title>
+        <author>George M. Hill</author>
+        <year>1952</year>
+        <price>24.50</price>
+    </book>
+    <book id="4">
+        <title>A Wrinkle in time</title>
+        <author>Madeleine L Engle</author>
+        <year>1962</year>
+        <price>34.00</price>
+    </book>
+</catalog>
