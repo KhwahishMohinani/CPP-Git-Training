@@ -56,6 +56,9 @@ const char FILE_PATH_LABEL[] = "filepath";
 const int NO_SONGS_IN_PLAYLIST_CODE = 1;
 const int PLAY_SONG_SUCCESS_CODE = 0;
 const int AUDIO_FILE_NOT_AVAILABLE_CODE = 2;
+const std::string INVALID_INT = "123";
+const int VALID_INT = 123;
+const std::string VALID_INT_STRING = "123";
 
 const char TEST_SONG_FILE_PATH[] = "song.mp3";
 const char TEST_PLAYLIST_JSON_FILE_PATH[] = "test_playlists.json";

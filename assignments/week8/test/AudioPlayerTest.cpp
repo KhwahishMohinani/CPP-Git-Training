@@ -21,7 +21,7 @@ protected:
     }
 };
 
-TEST_F(AudioPlayerTest, LoadSuccess)
+TEST_F(AudioPlayerTest, WhenLoadCalledWithValidFilePath_ThenReturnsTrue)
 {
     EXPECT_CALL(*mockMusic, openFromFile(TEST_SONG_FILE_PATH))
         .WillOnce(testing::Return(true));
@@ -30,7 +30,7 @@ TEST_F(AudioPlayerTest, LoadSuccess)
     EXPECT_TRUE(result);
 }
 
-TEST_F(AudioPlayerTest, LoadFailure)
+TEST_F(AudioPlayerTest, WhenLoadCalledWithInvalidFilePath_ThenReturnsFalse)
 {
     EXPECT_CALL(*mockMusic, openFromFile(TEST_SONG_FILE_PATH))
         .WillOnce(testing::Return(false));

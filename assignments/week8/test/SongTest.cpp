@@ -18,17 +18,17 @@ protected:
     }
 };
 
-TEST_F(SongTest, GetNameReturnsCorrectValue)
+TEST_F(SongTest, WhenGetNameCalled_ThenReturnsCorrectValue)
 {
     EXPECT_EQ(song->getName(), TEST_SONG_NAME);
 }
 
-TEST_F(SongTest, GetArtistNameReturnsCorrectValue)
+TEST_F(SongTest, WhenGetArtistNameCalled_ThenReturnsCorrectValue)
 {
     EXPECT_EQ(song->getArtistName(), TEST_ARTIST_NAME);
 }
 
-TEST_F(SongTest, GetFilePathReturnsCorrectValue)
+TEST_F(SongTest, WhenGetFilePathCalled_ThenReturnsCorrectValue)
 {
     EXPECT_EQ(song->getFilePath(), TEST_SONG_PATH);
 }

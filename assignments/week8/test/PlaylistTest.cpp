@@ -27,20 +27,20 @@ protected:
     }
 };
 
-TEST_F(PlaylistTest, AddSongSuccess)
+TEST_F(PlaylistTest, WhenAddSongCalledWithNewSong_ThenReturnsTrueAndAddsSong)
 {
     EXPECT_TRUE(playlist->addSong(song1));
     EXPECT_EQ(playlist->getSongs().size(), 1);
 }
 
-TEST_F(PlaylistTest, AddSongDuplicateFails)
+TEST_F(PlaylistTest, WhenAddSongCalledWithDuplicateSong_ThenReturnsFalseAndDoesNotAdd)
 {
     playlist->addSong(song1);
     EXPECT_FALSE(playlist->addSong(song1));
     EXPECT_EQ(playlist->getSongs().size(), 1);
 }
 
-TEST_F(PlaylistTest, RemoveSongValidIndex)
+TEST_F(PlaylistTest, WhenRemoveSongCalledWithValidIndex_ThenRemovesAndReturnsSong)
 {
     playlist->addSong(song1);
     playlist->addSong(song2);
@@ -50,7 +50,7 @@ TEST_F(PlaylistTest, RemoveSongValidIndex)
     EXPECT_EQ(playlist->getSongs().size(), 1);
 }
 
-TEST_F(PlaylistTest, RemoveSongInvalidIndex)
+TEST_F(PlaylistTest, WhenRemoveSongCalledWithInvalidIndex_ThenReturnsNullAndDoesNotRemove)
 {
     playlist->addSong(song1);
     Song *removed = playlist->removeSong(5);
@@ -58,18 +58,18 @@ TEST_F(PlaylistTest, RemoveSongInvalidIndex)
     EXPECT_EQ(playlist->getSongs().size(), 1);
 }
 
-TEST_F(PlaylistTest, GetCurrentSongEmptyPlaylist)
+TEST_F(PlaylistTest, WhenGetCurrentSongCalledOnEmptyPlaylist_ThenReturnsNull)
 {
     EXPECT_EQ(playlist->getCurrentSong(), nullptr);
 }
 
-TEST_F(PlaylistTest, GetCurrentSongNonEmptyPlaylist)
+TEST_F(PlaylistTest, WhenGetCurrentSongCalledOnNonEmptyPlaylist_ThenReturnsFirstSong)
 {
     playlist->addSong(song1);
     EXPECT_EQ(playlist->getCurrentSong(), song1);
 }
 
-TEST_F(PlaylistTest, PlayCurrentSongSuccess)
+TEST_F(PlaylistTest, WhenPlayCurrentSongCalledWithSongs_ThenPlaysSongAndReturnsSuccessCode)
 {
     playlist->addSong(song1);
 
@@ -80,18 +80,18 @@ TEST_F(PlaylistTest, PlayCurrentSongSuccess)
     EXPECT_EQ(result, PLAY_SONG_SUCCESS_CODE);
 }
 
-TEST_F(PlaylistTest, PlayCurrentSongNoSongs)
+TEST_F(PlaylistTest, WhenPlayCurrentSongCalledWithNoSongs_ThenReturnsNoSongsCode)
 {
     int result = playlist->playCurrentSong();
     EXPECT_EQ(result, NO_SONGS_IN_PLAYLIST_CODE);
 }
 
-TEST_F(PlaylistTest, PlayPreviousSongEmptyPlaylistReturnsFalse)
+TEST_F(PlaylistTest, WhenPlayPreviousSongCalledOnEmptyPlaylist_ThenReturnsFalse)
 {
     EXPECT_FALSE(playlist->playPreviousSong());
 }
 
-TEST_F(PlaylistTest, PlayPreviousSongCurrentAtBegin_WrapsToLast)
+TEST_F(PlaylistTest, WhenPlayPreviousSongCalledAtFirstSong_ThenWrapsToLastAndReturnsTrue)
 {
     playlist->addSong(song1);
     playlist->addSong(song2);
@@ -108,18 +108,18 @@ TEST_F(PlaylistTest, PlayPreviousSongCurrentAtBegin_WrapsToLast)
     EXPECT_EQ(playlist->getCurrentSong(), song2);
 }
 
-TEST_F(PlaylistTest, PauseCallsAudioPlayerPause)
+TEST_F(PlaylistTest, WhenPauseCalled_ThenCallsAudioPlayerPause)
 {
     EXPECT_CALL(mockPlayer, pause()).Times(1);
     playlist->pause();
 }
 
-TEST_F(PlaylistTest, PlayNextSongEmptyPlaylistReturnsFalse)
+TEST_F(PlaylistTest, WhenPlayNextSongCalledOnEmptyPlaylist_ThenReturnsFalse)
 {
     EXPECT_FALSE(playlist->playNextSong());
 }
 
-TEST_F(PlaylistTest, PlayNextSongCurrentAtEnd_WrapsToBegin)
+TEST_F(PlaylistTest, WhenPlayNextSongCalledAtLastSong_ThenWrapsToBeginAndReturnsTrue)
 {
     playlist->addSong(song1);
     playlist->addSong(song2);
@@ -133,13 +133,13 @@ TEST_F(PlaylistTest, PlayNextSongCurrentAtEnd_WrapsToBegin)
     EXPECT_EQ(playlist->getCurrentSong(), song1);
 }
 
-TEST_F(PlaylistTest, StopCallsAudioPlayerStop)
+TEST_F(PlaylistTest, WhenStopCalled_ThenCallsAudioPlayerStop)
 {
     EXPECT_CALL(mockPlayer, stop()).Times(1);
     playlist->stop();
 }
 
-TEST_F(PlaylistTest, MoveSongValid)
+TEST_F(PlaylistTest, WhenMoveSongCalledWithValidIndices_ThenMovesSongAndReturnsTrue)
 {
     playlist->addSong(song1);
     playlist->addSong(song2);
@@ -153,7 +153,7 @@ TEST_F(PlaylistTest, MoveSongValid)
     EXPECT_EQ(*iterator, song1);
 }
 
-TEST_F(PlaylistTest, MoveSongInvalid)
+TEST_F(PlaylistTest, WhenMoveSongCalledWithInvalidIndices_ThenReturnsFalse)
 {
     playlist->addSong(song1);
     EXPECT_FALSE(playlist->moveSong(0, 5));

@@ -34,12 +34,12 @@ protected:
     }
 };
 
-TEST_F(FileHandlerTest, FileExistsReturnsFalseIfFileMissing)
+TEST_F(FileHandlerTest, WhenFileDoesNotExist_ThenFileExistsReturnsFalse)
 {
     EXPECT_FALSE(fileHandler->fileExists());
 }
 
-TEST_F(FileHandlerTest, FileExistsReturnsTrueIfFileExists)
+TEST_F(FileHandlerTest, WhenFileExists_ThenFileExistsReturnsTrue)
 {
     std::ofstream file(playlistsFile);
     file << "{}";
@@ -48,7 +48,7 @@ TEST_F(FileHandlerTest, FileExistsReturnsTrueIfFileExists)
     EXPECT_TRUE(fileHandler->fileExists());
 }
 
-TEST_F(FileHandlerTest, SavePlaylistsWritesFile)
+TEST_F(FileHandlerTest, WhenSavePlaylistsCalled_ThenWritesFileAndIncludesPlaylistAndSongData)
 {
     Playlist playlist(TEST_PLAYLIST_NAME, &mockPlayer);
     Song song(TEST_SONG_NAME, TEST_ARTIST_NAME, TEST_SONG_PATH);
@@ -66,7 +66,7 @@ TEST_F(FileHandlerTest, SavePlaylistsWritesFile)
     EXPECT_NE(content.find(TEST_SONG_NAME), std::string::npos);
 }
 
-TEST_F(FileHandlerTest, LoadPlaylistsEmptyFileReturnsEmptyMap)
+TEST_F(FileHandlerTest, WhenLoadPlaylistsCalledOnEmptyFile_ThenReturnsEmptyMap)
 {
     std::ofstream file(playlistsFile);
     file.close();
@@ -75,7 +75,7 @@ TEST_F(FileHandlerTest, LoadPlaylistsEmptyFileReturnsEmptyMap)
     EXPECT_TRUE(playlists.empty());
 }
 
-TEST_F(FileHandlerTest, LoadPlaylistsReadsSavedData)
+TEST_F(FileHandlerTest, WhenLoadPlaylistsCalledAfterSave_ThenReturnsSavedPlaylistsWithSongs)
 {
     Playlist playlist(TEST_PLAYLIST_NAME, &mockPlayer);
     Song song(TEST_SONG_NAME, TEST_ARTIST_NAME, TEST_SONG_PATH);
@@ -93,7 +93,7 @@ TEST_F(FileHandlerTest, LoadPlaylistsReadsSavedData)
     EXPECT_EQ(songs.front()->getName(), TEST_SONG_NAME);
 }
 
-TEST_F(FileHandlerTest, LoadAllAvailableSongsEmptyFileReturnsEmptyVector)
+TEST_F(FileHandlerTest, WhenLoadAllAvailableSongsCalledOnEmptyFile_ThenReturnsEmptyVector)
 {
     std::ofstream file(songsFile);
     file.close();
@@ -102,7 +102,7 @@ TEST_F(FileHandlerTest, LoadAllAvailableSongsEmptyFileReturnsEmptyVector)
     EXPECT_TRUE(allSongs.empty());
 }
 
-TEST_F(FileHandlerTest, LoadAllAvailableSongsReadsData)
+TEST_F(FileHandlerTest, WhenLoadAllAvailableSongsCalled_ThenReturnsAllSavedSongs)
 {
     nlohmann::json jsonSongs = {
         {SONGS_LABEL, {{{NAME_LABEL, TEST_SONG_NAME}, {ARTIST_LABEL, TEST_ARTIST_NAME}, {FILE_PATH_LABEL, TEST_SONG_PATH}}, {{NAME_LABEL, TEST_SONG2_NAME}, {ARTIST_LABEL, TEST_ARTIST2_NAME}, {FILE_PATH_LABEL, TEST_SONG2_PATH}}}}};

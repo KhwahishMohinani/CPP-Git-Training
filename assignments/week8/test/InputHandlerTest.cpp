@@ -1,19 +1,20 @@
 #include "InputHandler.h"
+#include "constants.h"
 #include <gtest/gtest.h>
 
-TEST(InputHandlerTest, ValidInt)
+TEST(InputHandlerTest, WhenValidIntStringPassed_ThenReturnsTrueAndSetsValue)
 {
     InputHandler inputHandler;
     int value;
-    bool success = inputHandler.isValidInt("123", value);
+    bool success = inputHandler.isValidInt(VALID_INT_STRING, value);
     EXPECT_TRUE(success);
-    EXPECT_EQ(value, 123);
+    EXPECT_EQ(value, VALID_INT);
 }
 
-TEST(InputHandlerTest, InvalidInt)
+TEST(InputHandlerTest, WhenInvalidIntStringPassed_ThenReturnsFalse)
 {
     InputHandler inputHandler;
     int value;
-    bool success = inputHandler.isValidInt("abc", value);
+    bool success = inputHandler.isValidInt(INVALID_INT, value);
     EXPECT_FALSE(success);
 }

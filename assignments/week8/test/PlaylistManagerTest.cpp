@@ -35,26 +35,26 @@ protected:
     }
 };
 
-TEST_F(PlaylistManagerTest, AddPlaylistSuccess)
+TEST_F(PlaylistManagerTest, WhenAddPlaylistCalledWithNewPlaylist_ThenReturnsTrueAndAddsPlaylist)
 {
     EXPECT_TRUE(manager->addPlaylist(playlist1));
     EXPECT_EQ(manager->getAllPlaylists().size(), 1);
 }
 
-TEST_F(PlaylistManagerTest, AddPlaylistDuplicateFails)
+TEST_F(PlaylistManagerTest, WhenAddPlaylistCalledWithDuplicatePlaylist_ThenReturnsFalse)
 {
     manager->addPlaylist(playlist1);
     EXPECT_FALSE(manager->addPlaylist(playlist1));
 }
 
-TEST_F(PlaylistManagerTest, RemoveExistingPlaylistSuccess)
+TEST_F(PlaylistManagerTest, WhenRemoveExistingPlaylistCalledWithExistingName_ThenReturnsPlaylist)
 {
     manager->addPlaylist(playlist1);
     IPlaylist *removed = manager->removeExistingPlaylist(TEST_PLAYLIST_NAME);
     EXPECT_EQ(removed, playlist1);
 }
 
-TEST_F(PlaylistManagerTest, GetPlaylistExists)
+TEST_F(PlaylistManagerTest, WhenGetPlaylistCalledWithExistingName_ThenReturnsPlaylist)
 {
     manager->addPlaylist(playlist1);
     IPlaylist *p = manager->getPlaylist(TEST_PLAYLIST_NAME);
