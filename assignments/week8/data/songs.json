@@ -1,0 +1,54 @@
+{
+    "songs": [
+        {
+            "name": "Believer",
+            "artist": "Imagine Dragons",
+            "filepath": "/home/khwahishm/Downloads/songs_folder/Believer.ogg"
+        },
+        {
+            "name": "Memories",
+            "artist": "Maroon",
+            "filepath": "/home/khwahishm/Downloads/songs_folder/Memories.ogg"
+        },
+        {
+            "name": "Beautiful",
+            "artist": "Christina Aguilera",
+            "filepath": "/home/khwahishm/Downloads/songs_folder/Beautiful.ogg"
+        },
+        {
+            "name": "Sapphire",
+            "artist": "Ed Sheeran",
+            "filepath": "/home/khwahishm/Downloads/songs_folder/Sapphire.ogg"
+        },
+        {
+            "name": "Blinding Lights",
+            "artist": "The Weekend",
+            "filepath": "/home/khwahishm/Downloads/songs_folder/Blinding_Lights.ogg"
+        },
+        {
+            "name": "Radioactive",
+            "artist": "Imagine Dragons",
+            "filepath": "/home/khwahishm/Downloads/songs_folder/Radioactive.ogg"
+        },
+        {
+            "name": "Dance Monkey",
+            "artist": "Tones and I",
+            "filepath": "/home/khwahishm/Downloads/songs_folder/Dance_Monkey.ogg"
+        },
+        {
+            "name": "Better when I am Dancing",
+            "artist": "Meghan Trainor",
+            "filepath": "/home/khwahishm/Downloads/songs_folder/Better_when_I_am_Dancing.ogg"
+        },
+        {
+            "name": "Golden",
+            "artist": "EJAE",
+            "filepath": "/home/khwahishm/Downloads/songs_folder/Golden.ogg"
+        },
+        {
+            "name": "Clouds",
+            "artist": "Joakim Karud",
+            "filepath": "/home/khwahishm/Downloads/songs_folder/Clouds.ogg"
+        }
+    ]
+}
