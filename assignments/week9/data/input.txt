@@ -1,0 +1,7 @@
+Car1,North,Left
+Car2,South,Straight
+Car3,East,Right
+Car4,West,Left
+Car5,South,Right
+Car6,North,Straight
+Car7,West,Right
