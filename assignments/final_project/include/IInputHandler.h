@@ -6,7 +6,7 @@
 class IInputHandler
 {
 public:
-    virtual bool isValidInt(const std::string &input, int &value) = 0;
+    bool isValidInt(const std::string &input, int &value);
 };
 
 #endif
