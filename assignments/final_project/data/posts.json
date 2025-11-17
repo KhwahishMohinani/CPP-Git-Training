@@ -1,0 +1,28 @@
+[
+    {
+        "content": "Happiness can be found, even in the darkest of times, if one only remembers to turn on the light",
+        "likers": [],
+        "postId": 4,
+        "timestamp": "2025-11-17 15:08:13",
+        "username": "albus"
+    },
+    {
+        "content": "It's Wingardium LeviOsa, not LeviosAr",
+        "likers": [
+            "albus"
+        ],
+        "postId": 3,
+        "timestamp": "2025-11-17 15:06:37",
+        "username": "hermoine"
+    },
+    {
+        "content": "Now if you two don't mind, I'm going to bed before either of you come up with another clever idea to get us killed - or worse, expelled",
+        "likers": [
+            "albus",
+            "hermoine"
+        ],
+        "postId": 1,
+        "timestamp": "2025-11-17 15:03:00",
+        "username": "hermoine"
+    }
+]
